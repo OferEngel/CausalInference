@@ -1,6 +1,6 @@
 name: "Causal Inf"
 creative_commons: CC BY-NC
-exclude: ["*.Rmd", "*.csv", "*.xlsx", "*.rmdx" ,"./backup/*"]
+exclude: ["*.Rmd", "*.csv", "*.xlsx", "*.rmdx", "*.R" ,"./backup/*"]
 output_dir: "docs"
 navbar:
   title: "Causal Inference"

@@ -16,6 +16,7 @@ output: html_document
   text-align: right;
   padding-left: 10px;
 }
+
 .column-full{
   float: none;
   width: 100%;
@@ -44,17 +45,27 @@ knitr::opts_chunk$set(echo = F)
 library(knitr)
 ```
 
-<div class="column-left">
-Recent years have seen the emergence of new methods designed to probe into causal inference, at the intersection of three academic traditions: In the computer sciences, Judea Pearl won the Alan Turing prize in 2011 for fundamental contributions to artificial intelligence through the development of a Bayesian probabilistic framework for causal reasoning. In the social and economic sciences, Joshua Angrist and Guido Imbens were awarded the 2021 Nobel prize for their methodological contributions to the analysis of causal relationships, their insights spreading to a wide range of fields and were said to “revolutionise” empirical research3. In the philosophy of sciences, Nancy Cartwright and James Woodward have grounded these achievements within normative and epistemological foundations, prompting the rise of manipulability theories of causation.4 Drawing on ideas in artificial intelligence, the social sciences and philosophy, this course will introduce you to emerging ways of seeing the world around us.
-
-</div>
-
 
 <div class="column-right">
+
 ```{r course-structure, fig.width=4}
 include_graphics("images/causalethno.png")
 ```
+
 </div>
+
+
+<div class="column-left">
+Recent years have seen the emergence of new methods designed to probe into causal inference, at the intersection of three academic traditions: In the computer sciences, Judea Pearl won the Alan Turing prize in 2011 for fundamental contributions to artificial intelligence through the development of a Bayesian probabilistic framework for causal reasoning. In the social and economic sciences, Joshua Angrist and Guido Imbens were awarded the 2021 Nobel prize for their methodological contributions to the analysis of causal relationships, their insights spreading to a wide range of fields and were said to “revolutionise” empirical research. 
+
+</div>
+
+
+
+<div class="column-full">
+
+In the philosophy of sciences, Nancy Cartwright and James Woodward have grounded these achievements within normative and epistemological foundations, prompting the rise of manipulability theories of causation. Drawing on ideas in artificial intelligence, the social sciences and philosophy, this course will introduce you to emerging ways of seeing the world around us.
+
 
 ### Aim: 
 
@@ -71,6 +82,7 @@ Upon the successful completion of this course, I hope you will be able to achiev
 
 The course is designed to follow the flipped-classroom approach. Readings and videos of the lectures are available before the course begins. You will be expected to read the relevant chapters in the textbook, watch the videos, and comment on them in Perusall PRIOR to attending the course. 
 During the course itself, you will work on quizzes and lab assignments, which you may then submit at the end of each day. 
+</div>
 
 
 <div class="column-left">
