@@ -1,0 +1,58 @@
+---
+title: "GRL - Statistics II: HW 1"
+author: "Your Name"
+date: "The Date"
+output: pdf_document
+fontsize: 12pt
+---
+
+```{r setup, message=F,include=F}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r libraries, message=F, include=F}
+library(tidyverse) 
+library(datasauRus)
+# Include any additional packages you used in the homework
+```
+
+
+## Question 1: The `datasaurus_dozen` collection of datasets
+PLEASE 
+
+
+```{r r-chunk1}
+
+# This is the code-chunk, where you write your code 
+
+```
+
+
+
+## Question 2: `dino`: visualization and summary statistics
+
+
+<!-- Replace this you can write the text that goes into your report -->
+
+```{r r-chunk2}
+
+# This is the code-chunk, where you write your code 
+
+```
+
+
+
+## Question 3: Other datasets: visualization and summarizing additional datasets
+
+
+<!-- Replace this you can write the text that goes into your report -->
+
+```{r r-chunk3}
+
+# This is the code-chunk, where you write your code 
+
+```
+
+
+
+

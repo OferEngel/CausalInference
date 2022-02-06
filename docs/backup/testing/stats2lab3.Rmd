@@ -1,0 +1,217 @@
+---
+title: "HW 02 - Counting jelly beans"
+subtitle: "Individual assignment"
+date: "Due: Sep 17 at 23:59"
+output: 
+  tufte::tufte_html:
+    tufte_variant: "envisioned"
+    highlight: pygments
+    css: hw_small.css
+---
+
+<div style= "float:right;position: relative; margin-left: 20px">
+```{r jellybeans, echo=FALSE, fig.align="right", out.width=500}
+knitr::include_graphics("images/shinyThings.png")
+```
+</div>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(kableExtra)
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE      # for regression output
+  )
+```
+
+
+# Introduction
+
+The main goal of this assignment is to collect YOUR OWN data, sample it many times. At the end of the lab, you will discover: 
+
+* How can you influence the sampling distribution?
+* Why you would want to do so?
+
+
+# Getting started
+
+If you have technical difficulties with your R and RStudio, please use the University's [remote desktop](https://uwp.rug.nl/) to run RStudio. If you are working on your own desktop, make sure you download your R and RStudio and make a copy of the project for this assignment: `hw-02-solution.Rmd`
+
+
+To knit a pdf, you will need to run the following in your console-window. First, you need to install the package tinytex. You do that by first installing the `tinytex` package and then running the `tinytex::install_tinytex()` command, as you can see in the figure on the right hand side. You should now be able to knit your RMarkdown into a pdf file. Hooray!!! 
+
+You may need to load the following libraries: Make sure they are loaded in the first code-chunk. If you need additional libraries, please load them there, too. 
+
+```{r tex, eval = FALSE}
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+```
+
+```{marginfigure}
+As usual, make sure that you install all the libraries you need in the console of RStudio. Please do *not* install any packages in your RMarkdown file. However, you will need to load the required packages using the `library(<package name>)` command. 
+```
+
+
+
+
+# Get a bag of goodies
+
+For this exercise you need a bag of goodies. You can choose colourful candies, or a bag of beads of different sizes and colours, or you can choose a bag with different sea-shells or an assortment of nuts or whatever. The only requirements are as following: 
+
+* The items fit in a bag that you can weigh with a kitchen scale (not too light, not too heavy) 
+* The items come in 2-5 different types, 
+* Each type of item is different from the others in its weight
+* You will have at least 10 items of each type
+
+```{marginfigure}
+
+For example, you could have a bag with 30 almonds and 20 pecans and 10 cashew nuts. Keep it simple, do not over-think it.
+
+```
+
+
+1. Describe your bag of goodies - what's in it? Where did you buy it? How did you choose it? Does it come with a story? Now weigh your items and take the picture of the items on the scale and the scale showing the weight of the items. 
+You will need one picture for each type of item and one picture for all the items together. Include the pictures in your report. Create a table in your report, with each of its rows depicting the type of item (e.g., almonds, cashew, pecan). The columns of the table should show the name of the type of item, the number of items for each type, the total weight and the average weight of items for each type. Add a last row for the total amounts and weights. Finally, calculate summary statistics of your data (e.g., mean and standard deviation) from the table. Does the sum weight of each type of item add up to the sum of all items put together? Please explain.
+
+
+```{marginfigure}
+In the previous example, your almonds could weigh a total of 33 grams, and your pecans could weigh a total of 63 grams. You would then create the following table. Your table may have more types of items
+```
+
+
+```{r item-table-show, eval=FALSE}
+
+tribble(
+  ~"", ~`# of items`, ~`total wgt (g)`, ~`mean wgt (g)`,
+  "almond", 30,33,1.1, 
+  "pecan",  30,63,2.1, 
+  "Total",  60,96,1.6
+) %>% kable(align="c") 
+
+```
+
+
+```{r item-table-calculate, echo=FALSE}
+
+tribble(
+  ~"", ~`# of items`, ~`total wgt (g)`, ~`mean wgt (g)`,
+  "almond", 30,33,1.1, 
+  "pecan",  30,63,2.1, 
+  "Total",  60,96,1.6
+) %>% kbl(align="c") %>%
+  kable_classic(full_width = FALSE,position="left") %>%
+  row_spec(3, bold = T)
+
+```
+
+In the next step, you are going to sample the same total number of items of both types. For example, in the table above you are going to sample 60 nuts, some of them almonds and the rest pecans. Your code should look something like the following: 
+
+```{r sampling-show, eval=FALSE}
+
+# Please change the following code, according to the items in your goodie bag!
+almond.mean.wgt <- _____ 
+pecan.mean.wgt  <- _____
+item.wgts <- c(almond.mean.wgt, pecan.mean.wgt) 
+
+wgt.of.one.bag <- function(num.of.items){
+  sample(item.wgts, size = _____, replace = _____) %>% sum()
+}
+
+num.of.items.in.bag <- _____
+num.of.bags <- 10000
+wgt.of.many.bags <- replicate(num.of.bags, wgt.of.one.bag(num.of.items.in.bag))
+
+```
+
+
+
+```{r sampling-calculate, echo=FALSE}
+# The following lines are not shown, but are meant to calculate
+almond.wgt <- 1.1 
+pecan.wgt  <- 2.1
+item.wgts <- c(almond.wgt, pecan.wgt) 
+
+wgt.of.one.bag <- function(num.of.items){
+  bag.of.nuts <- sample(item.wgts, size=num.of.items, replace=TRUE) %>% sum()
+}
+
+num.of.items.in.bag <- 60
+num.of.bags <- 100000
+wgt.of.many.bags <- replicate(num.of.bags, wgt.of.one.bag(num.of.items.in.bag))
+
+```
+
+
+2. The variable `wgt.of.many.bags` is a vector containing many values. Explain what the variable represents, and how many values it contains. Create a new variable `mean.item.wgt`, representing the mean item weight in each bag. For this variable, create a histogram of values, and calculate its summary statistics (e.g., mean and standard deviation). On top of the histogram, superimpose a normal distribution with the same mean and standard deviation. The result should look something like the graph below.  Finally, compare the summary statistics of your sample mean to the summary statistics you calculated in the previous question. What did you find?
+
+
+```{r histogram-show, eval=FALSE}
+
+mean.item.wgt <- wgt.of.many.bags/num.of.items.in.bag
+ggplot() + geom_histogram(aes(x=______, y=..density..), 
+                          binwidth = ______ , fill="red", alpha=0.5) + 
+  geom_function(fun=dnorm, 
+                args=list(mean=mean(______), sd=sd(______)), size=1,color="red")
+
+```
+
+
+```{r histogram-calculate, echo=FALSE, fig.align='right', fig.height=4, fig.width=4}
+mean.item.wgt <- wgt.of.many.bags/num.of.items.in.bag
+ggplot() + 
+  geom_histogram(aes(x=mean.item.wgt, y=..density..), 
+                          binwidth = .017, fill="red", alpha=0.5) + 
+  geom_function(fun=dnorm, 
+                args=list(mean=mean(mean.item.wgt), sd=sd(mean.item.wgt)), 
+                size=1,color="red") +
+  scale_x_continuous(name="Sample mean weight distribution", breaks=seq(1.3,1.9,0.1))
+
+```
+
+
+3. Create a new variable, `wgt.of.many.large.bags`, which you will construct exactly like the original variable `wgt.of.many.bags`, only this time it has *twice* the number of items (for example, instead of the original 60 items, this time you will have 120 items in each bag.). Once again, create a histogram of values, calculate its summary statistics, and compare with the summary statistics in the previous question.
+
+```{r large-bag-calculate, echo=FALSE, fig.align='right', fig.height=4, fig.width=4}
+
+num.of.items.in.large.bag <- 120
+wgt.of.many.large.bags <- replicate(num.of.bags, wgt.of.one.bag(num.of.items.in.large.bag))
+
+mean.item.wgt.large.bag <- wgt.of.many.large.bags/num.of.items.in.large.bag
+
+ggplot() + 
+  geom_histogram(aes(x=mean.item.wgt.large.bag, y=..density..), 
+                          binwidth = .017, fill="blue", alpha=0.5) + 
+  geom_function(fun=dnorm, 
+                args=list(mean=mean(mean.item.wgt.large.bag), sd=sd(mean.item.wgt.large.bag)), size=1, color="blue") +
+  scale_x_continuous(name="Sample mean weight distribution in large bag", breaks=seq(1.3,1.9,0.1))
+
+
+```
+
+
+
+
+4. Finally, superimpose the histogram of the weights of the original bags on top of the histogram of the weights of the large bags. You should get a diagram like the one below. Now try to explain the result. Now answer the two questions at the top of the lab report: (i) How can you influence the sampling distribution? (ii) Why you would want to do so?
+
+
+```{r large-small-bags, echo=FALSE, fig.align='right', fig.height=4, fig.width=4}
+
+
+ggplot() + geom_histogram(aes(x=mean.item.wgt, y=..density..), 
+                          binwidth = .017, fill="red", alpha=0.5) + 
+  geom_function(fun=dnorm, 
+                args=list(mean=mean(mean.item.wgt), sd=sd(mean.item.wgt)), 
+                size=1,color="red", alpha=0.8) + 
+  geom_histogram(aes(x=mean.item.wgt.large.bag, y=..density..), 
+                          binwidth = .017, fill="blue", alpha=0.5) + 
+  geom_function(fun=dnorm, 
+                args=list(mean=mean(mean.item.wgt.large.bag), sd=sd(mean.item.wgt.large.bag)), 
+                size=1,color="blue", alpha=0.8) +
+  labs(x="Original vs. large bag: two sample mean distributions")
+
+```
+
+
+5. Bonus question: How would you need to change your code if the number of items would vary from one type to the other? For example, imagine your bag consisted of  30% almonds, 20% pecans and 50% peanuts. Plot your sample mean distribution and explain the changes you had to make. 

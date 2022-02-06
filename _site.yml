@@ -1,0 +1,26 @@
+name: "Causal Inf"
+creative_commons: CC BY-NC
+exclude: ["*.Rmd", "*.csv", "*.xlsx", "*.rmdx" ,"./backup/*"]
+output_dir: "docs"
+navbar:
+  title: "Causal Inference"
+  left:
+    - text: "Overview"
+      icon: fa-home
+      href: index.html
+    - text: "Labs"
+      icon: fa-flask
+      menu:
+        - text: "Lab 1"
+          href: Lab01.html
+        - text: "To be continued..."
+        #   href: Lab02.html
+        # - text: "Lab 3"
+        #   href: Lab03.html
+        # - text: "Lab 4"
+        #   href: Lab04.html
+output:
+  html_document:
+    theme: flatly
+    # css: style.css
+    highlight: tango

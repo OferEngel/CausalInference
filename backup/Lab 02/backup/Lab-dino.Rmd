@@ -1,0 +1,198 @@
+---
+title: "Lab 02 - Distributions and dinosaurs"
+subtitle: Individual assignment
+date: 'Due: November 29 at 23:59'
+output: 
+  tufte::tufte_html:
+    tufte_variant: "envisioned"
+    highlight: pygments
+    css: ./hw.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE,
+                      message=FALSE,
+                      warning=FALSE)
+library(tidyverse)
+library(kableExtra)
+library(datasauRus)
+
+
+```
+
+
+The practical part of research usually involves collecting data and analysing it, trying to figure what patterns we can find and what these patterns mean about the real world. By the time we get our data, we are in fact [in media
+res](https://en.wikipedia.org/wiki/In_medias_res): the data has already been generated and we only have already played their rolw: the real story we are interested in is behind us. We look into the data, searching for the footprints of those processes that generated it. our goal is to reverse engineer the mechanisms that were operating behind the scenes, the mechanisms that have produced the data we are witnessing.
+
+
+
+
+### Interlude: The pipe operator
+
+![](images/pipe-operator.png){width=150}
+
+The **pipe operator**, which **is percent greater than percent**, tells `R` to
+pass the object that comes before it into the first argument of the function
+that comes after it. Mathematically, **x pipe f(y)** becomes *f(x, y)*, since x
+is piped into the first argument of the function f().
+
+![](images/pipe-operator2.png){width=200}
+
+For example, one way of adding numbers in R is using the `sum()` function. The 
+`sum()` function has as many arguments as there are numbers you wish to add, 
+where each number is separated with a comma. For example, to add 3 and 4, we 
+would use the following code. Notice, 3 and 4 are separated by a comma, 
+indicating that these are the two numbers we wish for the `sum()` function to 
+add. 
+
+```{r sumdata1, echo=TRUE}
+# Sum of 3 and 4, without pipe
+sum(3, 4)
+```
+
+If we wanted to do the same operation with a pipe, we would instead use the
+code below. The pipe operator inserts 3 as the first argument into the `sum()`
+function, which looks like `sum(3, 4)`. 
+
+```{r sumdata2, echo=TRUE}
+# Sum of 3 and 4, with pipe
+3 %>% sum(4)
+```
+
+Piping the number  $3$ into the function `sum()`  may seem a bit silly, especially since it's 
+not much easier than typing `sum(3,4)`. However, as we progress through these 
+tutorials you will see that the piping operator will allow us to sequentially
+link together data wrangling operations. This can save us a great deal of 
+headache later on, as the format of operations that use the pipe are far simpler 
+to read! We'll start with short pipes and throughout the tutorial build up to
+longer pipes that perform multiple operations.
+
+
+## Exercise 1: Same stats - different graphs
+
+
+In this Exercise, we are going to explore different data-sets. The datasets appear very different in scatter-plots, but they have a lot in common as well. They all have three  
+
+<div style= "float:right;position: relative; margin-left: 20px">
+```{r dino, echo=FALSE, fig.align="right", out.width=300}
+knitr::include_graphics("images/dinosaur.png")
+```
+</div>
+
+If it is the first time you are using these packages, you  will need to install the packages in your console using `install.packages("name-of-package")`. Then you need to load them in a code-chunk within
+your R Markdown (Rmd) document and see the results.
+If you’d like to run parts of your code in the Console, you’ll also need to load
+the packages there. To do so, run the following in the console:
+
+```{r eval = FALSE, echo=TRUE}
+library(tidyverse) 
+library(datasauRus)
+```
+
+Note that the packages are also loaded with the same commands in the R Markdown template `hw-02-solution.Rmd`.
+
+
+::: {.infobox .caution data-latex="{caution}"}
+**Background**
+
+This famous dataset was created by Matejka, Justin, and George Fitzmaurice. "Same stats, different graphs: Generating datasets with varied appearance and identical statistics through simulated annealing." *Proceedings of the 2017 CHI Conference on Human Factors in Computing Systems*. ACM, 2017.
+If it's confusing that the data frame is called `datasaurus_dozen` when it contains 13 datasets, you're not alone! Have you heard of a [baker's dozen](https://en.wikipedia.org/wiki/Dozen#Baker's_dozen)?
+:::
+
+
+
+The data frame we will be working with today is called `datasaurus_dozen` and it is in the `datasauRus` package. Actually, this single data frame contains 13 datasets, designed to show us  why data visualisation is important and how summary statistics alone can be misleading. The different datasets are labelled in the `dataset` variable.
+
+To find out more about the `datasaurus_dozen`, type the following in your Console: `?datasaurus_dozen`. A question mark before the name of an object will always bring up its help file. This command must be ran in the Console.
+
+1. Based on the help file, how many rows and how many columns does the `datasaurus_dozen` file have? What are the variables included in the data frame? Now observe various summary statistics of each data-set (see explanation below). What do you notice? Add your responses to your lab report.
+
+
+
+
+Let's take a look at various summary statistics of these datasets. To do so, we can make a list of statistics and evaluate them for each of the datasets separately:
+
+
+```{r datasets_statistics, eval=FALSE}
+datasaurus_dozen %>%
+  group_by(dataset) %>% 
+  summarise(N=n(), 
+    mean.x=mean(x), mean.y=mean(y))
+
+#In your lab report, you may choose additional statistics. 
+```
+
+```{marginfigure}
+Matejka, Justin, and George Fitzmaurice. "Same stats, different graphs: Generating datasets with varied appearance and identical statistics through simulated annealing." Proceedings of the 2017 CHI Conference on Human Factors in Computing Systems. ACM, 2017.
+```
+
+The original Datasaurus (`dino`) was created by Alberto Cairo in [this great blog post](http://www.thefunctionalart.com/2016/08/download-datasaurus-never-trust-summary.html). The other Dozen were generated using simulated annealing and the process is described in the paper *Same Stats, Different Graphs: Generating Datasets with Varied Appearance and Identical Statistics* through Simulated Annealing by Justin Matejka and George Fitzmaurice. In the paper, the authors simulate a variety of datasets that share the same summary statistics with the Datasaurus (correlations, means etc...) but have very different distributions.
+
+## `dino`: visualization and summary statistics
+
+2. From the original `datasaurus_dozen` dataset, filter out only the data associated with the dinosaur. Assign the filtered dataset into a variable `dino_data` and answer the following: (i) How many rows and columns does the new variable have? Compare your answer with the your answer to the  `datasaurus_dozen` dataset. (ii) Plot the `y` vs. `x` for the data in `dino_data`(iii) Finally, calculate the correlation coefficient between `x` and `y` for this dataset.
+
+Below is the code you will need to complete this exercise. Basically, the answer is already given, but you need to include relevant bits in your Rmd document and successfully knit it to view the results.
+
+Start with the `datasaurus_dozen` and pipe it into the `filter` function to filter for observations where `dataset == "dino"`. Store the resulting filtered data frame as a new data frame called `dino_data`.
+
+```{r}
+datasaurus_dozen %>%
+  filter(dataset == "dino") -> dino_data
+```
+
+
+Notice the pipe operator: `%>%`, takes what comes before it and sends it as the first argument to what comes after it. So here, we're saying `filter` the `datasaurus_dozen` data frame for observations where `dataset == "dino"`.
+
+Second, the assignment operator: `->`, assigns the filtered data frame to the variable we call `dino_data`. The assignment proceeds from left to right, so that the filtered data (on the left hand side of the arrow sign) is assigned to our new variable. 
+
+Finally, we need to visualize these data. We will use the `ggplot` function for this. Its first argument is the data you're visualizing. Next we define the `aes`thetic mappings. In other words, the columns of the data that get mapped to certain aesthetic features of the plot, e.g. the `x` axis will represent the variable called `x` and the `y` axis will represent the variable called `y`. Then, we add another layer to this plot where we define which `geom`etric shapes we want to use to represent each observation in the data. In this case we want these to be points,m hence `geom_point`.
+
+```{r fig.fullwidth=TRUE, eval=FALSE}
+ggplot(data = dino_data, mapping = aes(x = x, y = y)) +
+  geom_point()
+```
+
+For the next part of this exercises, we need to calculate a summary statistic: the correlation coefficient. Correlation coefficient, often referred to as `r` in statistics, measures the linear association between two variables. If `r` is positive we expect a positive correlation between the two variables. 
+
+When  will see that some of the pairs of variables we plot do not have a linear relationship between them. This is exactly why we want to visualize first: visualize to assess the form of the relationship, and calculate `r` only if relevant. In this case, calculating a correlation coefficient really doesn't make sense since the relationship between `x` and `y` is definitely not linear -- it's dinosaurial!
+
+But, for illustrative purposes, let's calculate correlation coefficient between `x` and `y`.
+
+```{marginfigure}
+Start with `dino_data` and calculate a summary statistic that we will call `r` as the `cor`relation between `x` and `y`. 
+
+```
+
+
+```{r}
+with(dino_data, cor(x, y)) -> r.dino_data
+```
+
+We have now assigned the correlation coefficient into the variable `r.dino_data` and can now calculate it on the fly and declare that our coefficient is
+        `r round(r.dino_data,digits=4)`
+
+
+## Other datasets: visualization and summarizing additional datasets
+
+```{marginfigure}
+Facet by the dataset variable, placing the plots in a 3 column grid, and don't add a legend.
+```
+
+3. Try plotting `y` vs. `x` for some of the other datasets. You may  reuse code we introduced above, just replace the dataset name with the desired name such as  `star` or  `circle` etc... Then do the following: (i) Calculate the correlation coefficient between `x` and `y` for those datasets. How do those value compare to the `r` of `dino`? (ii) Plot all datasets at once. In order to do this we will make use of `facetting` (see below). (iii) Optional: use the [DrawMyData tool](http://robertgrantstats.co.uk/drawmydata.html), to create your own drawing. From this drawing you can extract the dataset. Plot the dataset using `ggplot` and calculate the correlation as before.   
+
+```{r all-viz, eval=FALSE, fig.fullwidth=TRUE}
+ggplot(datasaurus_dozen, aes(x = x, y = y, color = dataset))+
+  geom_point()+
+  facet_wrap(~ dataset, ncol = 3) +
+  theme(legend.position = "none")
+```
+
+And we can use the `group_by` function to generate all the summary correlation coefficients.
+
+```{r all-r, eval=FALSE}
+datasaurus_dozen %>%
+  group_by(dataset) %>%
+  summarize(r = cor(x, y)) 
+```
+

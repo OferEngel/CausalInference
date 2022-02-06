@@ -1,0 +1,208 @@
+---
+title: "Lab 01 - Introduction"
+subtitle: Individual assignment
+date: 'Due: November 22 at 23:59'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE,
+                      message=FALSE,
+                      warning=FALSE)
+library(tidyverse)
+library(kableExtra)
+
+```
+
+
+Welcome to your first lab report specifications! 
+
+
+<div style= "float:right;position: relative; margin-left: 10px">
+<!-- </div> -->
+```{r fig.margin = TRUE, fig.cap = "Video Guide on Perusall", fig.align="right", out.width=250}
+knitr::include_graphics("images/Video-guide.png")
+```
+</div>
+
+* A step by step video with instructions on how to do this lab is available on [Perusall](https://app.perusall.com/courses/se-1b-organization/orgs-lab-1a-377619530?assignmentId=mhsekSRqQ5j9JGzEg&part=1).
+* Please submit your lab using [this link](https://bit.ly/3oqEUMu)  
+* If you have questions, please [book a slot](https://bit.ly/OferMeet) during Ofer's office hours!
+
+This document defines  the specifications you need in order to write your report. You will create a project in RStudio, which will consist of a folder with your various resources: write your report in `rmarkdown`, and zip the entire folder by the deadline. The output format and other meta-information can be  specified in the YAML, at the beginning of your R Markdown document, as follows:
+
+```yaml
+---
+title: "Report for lab 1"
+author: "Groucho Marx"
+date: "Submitted 15-November-2021"
+output:
+  html_document
+---
+```
+
+## Exercise 1: Introduce yourself  using RMarkdown
+
+Take a picture of yourself, your cat or something else that is personal to you.
+Then Write a little introduction about your relationship with statistics and
+sustainable organisations. Do you have any background in statistics? How would
+learning statistics benefit you in the future?
+
+<div style= "float:right;position: relative; margin-left: 10px">
+<!-- </div> -->
+```{r fig.margin = TRUE, fig.cap = "Ofer with nieces in the mountains of Jerusalem", fig.align="right", out.width=300}
+knitr::include_graphics("images/Ofers nieces.jpeg")
+```
+</div>
+
+
+Do you reckon that you will remember anything from the course in a year's time?
+How about two years time? Or more? You can use this introduction in order to
+show-off the skills that you've learned. For example, you could experiment
+with:
+
+* The use of [nested
+lists](https://commonmark.org/help/tutorial/10-nestedLists.html)
+* [A link](https://www.youtube.com/watch?v=DNS7i2m4sB0) to web-pages about
+anything you feel could be relevant
+* Doing cool stuff with fonts, such as
+  - Using *italic font* to emphasize really important ideas!
+  - Using  **bold** fonts. 
+  - If you are especially bold, try adding a little image of yourselves (doing
+  something silly, like singing in the mountains.)
+
+## Exercise 2: Manually presenting tables with data
+
+<div style= "float:right;position: relative; margin-left: 10px">
+```{r fig.margin = TRUE, fig.cap = "Variable types",  out.width=300}
+knitr::include_graphics("images/Variables.png")
+```
+</div>
+
+
+In this exercise, you are going to find **your own dataset**, and copy it manually, into your report. Try to find an interesting dataset, and mention where you found it (source). 
+It is important that the variables are numerical, and that
+they are associated with one another somehow. Once you identify a dataset that you like,
+you will format it in a way that markdown would render as a table.
+
+```{r food-short, echo=TRUE}
+
+# Create a variable for your data
+# The first line creates the variable 'food.data' 
+# The second defines the names of the columns
+# The rest are entries in the dataset - one row per observation.
+
+food.data <- tribble(
+    ~item,         ~grams, ~calories, ~carbs, 
+    "Apricots",     250,     220,       57,
+    "Grapefruit",   250,     170,       44,
+    "skimmed milk", 250,     128,       13,
+    "Orange Juice", 250,     112,       25
+)
+  
+
+```
+
+And, after adding a couple of rows, you can see the result below. Notice that in this particular table, every row (food item) is an object of observation (or unit of analysis), whereas the columns designate variables (aka covariate, feature or property of the object). 
+
+```{r hidden-food,include=FALSE}
+food.data <- tibble(
+  item=c("Apricots","Grapefruit","skimmed milk","Orange juice",
+  "chicken soup","Tapioca pudding","Spanish rice","Grape juice",
+  "Apple juice","Grapefruit juice","Spaghetti with sauce"), 
+  grams=rep(250,11), 
+  calories=c(220,170,128,112,75,335,217,160,125,100,285), 
+  carbs=c(57,44,13,25,10,42,40,42,34,24,35))
+
+```
+
+
+
+```{r table2, echo=TRUE, fig.cap="Nutrients", fig.width=350}
+
+kable_classic(kbl(food.data), full_width = FALSE,position="left")
+
+```
+
+
+Finally, we can create a scatter plot as follows:
+
+```{r scatter, echo=TRUE, fig.height=3, fig.width=5}
+qplot(x=carbs, y=calories, data=food.data)
+
+```
+
+Now you can analyse what you found in a couple of sentences. For example, from the scatterplot above you can see that the calories are roughly proportional to the carbs in the food. All the items of food have a mass of 250g, so they are comparable in that sense. However, they may vary in the amount of fat they contain or in their protein. That's why we see certain items that have a lower rate of carb despite having much calories. An example is the  "Tapioca pudding" which clearly has just above 40g of carbs and yet tops the charts when it comes to calories... 
+
+## Exercise 3: using mathematical notation in RMarkdown
+
+In this exercise we will want to use [mathematical
+notation](https://rpruim.github.io/s341/S19/from-class/MathinRmd.html) in
+RMarkdown. You will choose a mathematical sequence, and see if you can calculate whether
+the sum of the series really matches what the formula says it would. For
+example, you could try one of [these
+series](https://en.wikipedia.org/wiki/List_of_mathematical_series), say - let's
+take the following:
+
+$$\sum_{k=1}^{m}k^2=\frac{m^3}{3}+ \frac{m^2}{2}+\frac{m}{6}$$
+$$\sum_{k=1}^{10}k^2=\frac{10^3}{3}+ \frac{10^2}{2}+\frac{10}{6} $$
+$$\sum_{k=1}^{10}k^2=1^2+2^2+3^2+...+10^2 $$
+
+So now we need to take a vector of numbers, square each one of them and add them up together. 
+Here are different ways of doing this. For example we could just say
+
+```{r summation, echo=TRUE}
+
+# This first line creates a vector of numbers from 1, 2, 3... 10
+series <- 1:10  
+
+# This second line squares the numbers, so that we get 1, 4, 9... 100
+series.squared <- series^2  
+
+# Finally, we add all the squares and assign it to the variable 'sum.series.squared'
+sum.series.squared <- sum(series.squared)
+
+```
+
+So now we get that the `sum.series.squared=` `r sum.series.squared`. On the other hand, if we look at the formula above and assign the variable `m=10`, we get 
+
+```{r formula, echo=TRUE}
+m <- 10
+result <- m^3/3+m^2/2+m/6
+
+```
+
+And we find that the `result=` `r result`. So we have confirmed this result. 
+Feel free to experiment with something more challenging, like using the [Fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_number) to arrive at the golden ratio, or finda series that converges to some interesting value such as the Leibniz formula for $\pi$.
+
+# What should your report contain? 
+
+Your report should contain the following: 
+
+* For exercise 1, you need a text introducing yourself and making use of some of the features of `RMarkdown`
+* For exercise 2, you need to describe the data set you found, and its source/origin. You will need to create a table with the data and some kind a plot. 
+* For exercise 3, you need to identify an sequence that has a formula. You will then calculate the sum of the sequence in two different ways: first directly, by adding up the numbers and second by calculating the formula. Finally, you will compare both calculations and show that you reached the same result.
+
+
+
+<div style= "float:right;position: relative; margin-left: 10px">
+<!-- </div> -->
+```{r fig.margin = TRUE, fig.cap = "DO's and DONT'S in lab reports", fig.align="right", out.width=450}
+knitr::include_graphics("images/FinalLabSpecs.jpg")
+```
+</div>
+## `r emo::ji("heavy_check_mark")` DO
+* Make sure your submission consists of a self-contained zip-file with a
+RMarkdown file and all necessary resources to knit it smoothly
+* Include a knitted pdf or an html file with your report
+* Present a report that looks professional, neat and tidy
+* Upload a zip file with *your* name on it (first and last name)
+* All the R- Code is contained within code-chunks
+
+
+## `r emo:: ji("cross_mark")` DO NOT
+* DO NOT show irrelevant code, data, messages or warnings in your report
+* Where possible, avoid hard coding numbers into your
+text. Instead, calculations are made 'on the fly'
+
+
+

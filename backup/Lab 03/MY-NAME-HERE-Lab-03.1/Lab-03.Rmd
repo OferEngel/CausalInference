@@ -1,0 +1,188 @@
+---
+title: "Organisations Lab 3"
+author: "Your Name"
+date: "The Date"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=F}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse) 
+library(knitr)
+library(kableExtra)
+set.seed(123)
+
+# Load any additional packages you used in the homework
+# Never install packages in your RMarkdown file!
+# If you copy a chunk don't forget to change its name, otherwise it won't run
+# Knit, knit and knit again, every time you make big changes, knit!
+
+```
+
+
+
+1. Describe your bag of goodies - what's in it? Where did you get it? How did you choose it? What's the story behind it story? Now weigh your items and take the picture of the items on the scale and the scale showing the weight of the items. Make a table of the items and the average weights, as described in the specifications.  
+
+ANSWER: YOUR ANSWER HERE PLEASE!
+
+
+
+```{r item-weight-table}
+
+# Create `items` variable with information about my goodie bag
+# items <- tribble(
+#   ~"", ~`# of items`, ~`total wgt (g)`, ~`mean wgt (g)`,
+#    
+#   add stuff here...
+#    
+# ) 
+
+
+
+# add total row, ~`# of items`, ~`total wgt (g)`, ~`mean wgt (g)`
+# items %>% add_row(`item type`="total", 
+#                   `# of items` = __, 
+#                   `total wgt (g)` = __, 
+#                   `mean wgt (g)` = ____)
+
+
+```
+
+
+
+## An imaginary population of goodies
+
+
+2. Show the distribution of weights in your bag and in the population and compare between them. Calculate the summary statistics of the weights of your items in the population (mean, median, standard deviation, IQR etc...). Compare these values to the  summary statistics of your goodie-bag.
+
+
+```{r create-population}
+
+
+# Step 1: Create one variable that contains our bag of goodies (weights). 
+
+
+
+
+
+
+# Step 2: Create a second variable that contains the (imaginary) population (weights).  
+
+
+
+# Print out summary statistics of the population
+# Normally - we don't have this information!
+
+
+
+# Draw the distribution of weights in the bag and in the population
+
+
+
+
+```
+
+
+
+ANSWER: HERE COMPARE POP STATS WITH THE STATS OF YOUR GOODIE BAG
+
+
+## Sampling our distribution 
+
+
+3. From this population we will take many small samples and store the means of those samples as an observation. The means are now a new random variable (=bunch of numbers), and we will look at its distribution its summary statistics. According to the [Central Limit Theorem](https://www.youtube.com/watch?v=YAlJCEDH2uY). Show that the sample means have the following two properties: 
+ 
+* They are normally distributed
+* Their mean approaches the mean of our population
+* Their standard deviation approaches $\frac{\sigma}{n}$
+
+
+
+```{r sampling}
+
+
+# Define number of samples and sample size
+# Define number of samples and sample size
+# n.samples   <- _____
+# sample.size <- ___
+
+# Take samples from the population
+# For each sample, calculate its mean
+
+
+
+# let's plot the distribution of the sample means
+
+
+# # Let's compare the summary statistics of the population with the sample-means
+# tribble(
+#   ~statistic,  ~population, ~`sample means`,
+#   "mean",    mean(______),   mean(______),
+#   "median",  median(______), median(______),
+#   "sd",      sd(______),     sd(______)
+# ) 
+
+
+
+
+```
+
+
+Confirm  all three conditions of the Central Limit Theorem.
+
+* Is the distribution of the sample means approaching a normal distribution? YOUR ANSWER HERE: 
+* Compare the mean of the sample means and the mean of the population. YOUR ANSWER HERE: 
+* Compare the standard deviation of the sample mean and $\frac{\sigma}{\sqrt{n}}$. YOUR ANSWER HERE: 
+
+
+## Taking larger samples 
+
+4. Repeat this exercise above but this time with a larger sample. Then compare the two distributions of the two sample means. 
+
+
+```{r larger-samples}
+
+# Define number of samples and sample size
+# n.samples   <- ______
+# large.sample.size <- ___
+
+# Take samples from the population
+# For each sample, calculate its mean
+
+
+
+
+# Plot the distribution of  both sample means 
+
+
+
+
+# Let's compare the summary statistics of the population with the sample-means
+
+
+
+```
+
+
+
+## Conclusion
+
+5. Using simple language, answer the following questions: 
+
+* What is a sampling distribution?
+* How can you influence the sampling distribution?
+* Why would you want to do so?
+
+
+
+
+
+
+
+
+
+
+
+

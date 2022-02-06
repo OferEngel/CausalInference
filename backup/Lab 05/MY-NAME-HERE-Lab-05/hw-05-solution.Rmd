@@ -1,0 +1,169 @@
+---
+title: "Organisations Lab 5"
+author: "Your Name"
+date: "The Date"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, message=F,include=F}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse) 
+library(knitr)
+library(kableExtra)
+library(modelsummary)
+
+# Include any additional packages you used in the homework
+# Never install packages in your RMarkdown file!
+
+```
+
+
+1. Can you remember the last time you gave your teachers feedback about their courses in a questionnaire (= course evaluation)? What do you think these questionnaires are measuring? Do you think they are helpful? Do you think that teacher’s physical appearance influences people's feedback? Would appearance have the when the teacher is male or female? Feel free to share any thoughts and feelings about this topic.
+
+*Answer:* SAY SOMETHING CLEVER HERE
+
+
+
+
+# Part 1: Data Manipulation and exploratory analysis
+
+In your RMarkdown file, you can load the data-set as follows: 
+
+
+```{r load-data}
+# Please read the dataset here
+
+
+# Add the variable `bty_avg` to your `evals` data frame.
+
+
+
+```
+
+
+2.  Visualize the distribution of `score` and `bty_avg`. Are the distribution skewed? What does that tell you about how students rate courses? Is this what you expected to see? Why, or why not? Include references to summary statistics and visualizations in your response, and make sure to describe and explain *each and every* figure you use. 
+
+
+```{r score_distrib}
+# Write here code that will produce a straight line
+# The line's slope and intercept should have been defined above. 
+
+
+
+```
+
+
+*Answer:* EXPLAIN THE GRAPHS HERE. 
+
+3.  Visualize the relationship between `score` and the new variable you created, `bty_avg`, adding a linear trend line. Then, re-plot the scatter-plot, but this time use `geom_jitter()`. What does `jitter` mean? What was misleading about the initial scatter-plot and how did jittering the data help?
+
+
+```{r score-vs-beauty}
+# Create a scatter-plot here
+
+
+```
+
+DISCUSS YOUR ANSWERS HERE.
+
+# Part 2: Linear regression models (Inference)
+
+
+4.  *Bivariate regression model:* Fit a linear model called `m_bty` to predict average professor evaluation `score` by average beauty rating (`bty_avg`).  
+
+**(a)** Based on the regression output, write the linear regression model.
+
+      
+```{r bivariate-regression}
+# Please run a bi-variate regression and present the results.
+
+
+```
+
+
+
+**(b)** Interpret the slope of the linear model in context of the data.  
+
+*Answer:* SAY SOMETHING HERE 
+
+
+
+**(c)** Determine the $R^2$ of the model and interpret it in context of the data.
+
+*Answer:* SAY SOMETHING HERE 
+
+
+
+5.  *Multivariate regression model:* Fit a linear model,`m_bty_gen`, to predict the average professor evaluation `score` based on average beauty rating (`bty_avg`) and `gender`. 
+
+    
+      
+```{r multivariate-score-bty-gen}
+# Please run a multivariate regression and present the results.
+
+
+```
+
+**(a)** Write the linear model, and take note of the $R^2$ and the adjusted $R^2$. 
+
+*Answer:* SAY SOMETHING HERE 
+
+
+
+**(b)** What is the linear equation associated with the female professors? What is the one associated with the male professors?  
+
+*Answer:* SAY SOMETHING HERE 
+
+
+
+**(c)** For two professors who received the same beauty rating, which
+gender tends to have the higher course evaluation score? 
+
+*Answer:* SAY SOMETHING HERE 
+
+
+**(d)** Compare this model to the bivariate model in the previous question. Specifically, compare the slopes and the adjusted $R^2$. What does this tell us about how useful `gender` is in explaining the variability in evaluation scores when we already have information on the beauty score of the professor. 
+
+*Answer:* SAY SOMETHING HERE 
+
+
+    
+    
+6. Does the perceived beauty of a professor have a different effect for male and for female professors? Fit a model with an interaction term, and write the equation.
+ 
+      
+```{r multivariate-score-bty-gen-interaction}
+# Please run a multivariate regression and present the results.
+
+
+
+```
+
+
+*Answer:* SAY SOMETHING HERE 
+
+
+**(a)** Now write the linear model for female professors and the linear model for male professors separately. Interpret the results.
+
+*Answer:* SAY SOMETHING HERE 
+
+
+**(b)** Compare the different models and explain which is the best and why.
+
+*Answer:* SAY SOMETHING HERE 
+
+
+
+**(c)** Show that the slope for male professors is different from the slope for female professors using a graph (see code below). 
+
+      
+```{r different-slopes}
+
+
+
+```
+  
+*Answer:* SAY SOMETHING HERE 
+

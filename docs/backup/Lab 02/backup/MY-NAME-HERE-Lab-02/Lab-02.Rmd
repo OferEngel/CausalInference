@@ -1,0 +1,90 @@
+---
+title: 'Organisations Lab 2'
+author: "Your Name"
+date: "The Date"
+output:
+  html_document:
+    df_print: paged
+fontsize: 12pt
+---
+
+```{r setup, include=F}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse) 
+library(knitr)
+library(kableExtra)
+library(datasauRus)
+
+# Load any additional packages you used in the homework
+# Never install packages in your RMarkdown file!
+
+```
+
+
+
+
+## Exercise 1: Using HELP
+
+Based on the help file, how many rows and how many columns does the datasaurus_dozen file have? What are the variables included in the data frame? Now observe various summary statistics of each data-set (see explanation below). What do you notice? Add your responses to your lab report.
+
+ANSWER: YOUR ANSWER HERE (NO NEED TO CODE)
+
+
+
+## Exercise 2: Plots
+
+Choose four different datasets from datasaurus_dozen, and create a plot for each of the four datasets.
+
+ANSWER: YOUR ANSWER HERE 
+
+
+```{r plots}
+
+# This is the code-chunk, where you write your code 
+
+```
+
+
+
+## Exercise 3: Summary statistics
+
+Create a table with summary statistics for each of the four datasets. You will have a row for each dataset, and a column for each summary statistics, consisting of the means of x and y, the standard deviations of x and y, the correlation between x and y and the sample size. To create the table - you can use the code below and adapt it!
+
+
+
+```{r summary-stats}
+
+# This is the code-chunk, where you write your code 
+
+```
+
+
+
+
+## Exercise 4: Using facets
+
+Now we will plot the y vs. x for all the datasets contained in `datasaurus_dozen` using facets. Facet iterates through the dataset variable, placing the plots in a 3 column grid. Make sure to configure the size of the diagram by adding options in your code-chunk using the cog-wheel.
+
+
+
+```{r using-facets}
+
+# This is the code-chunk, where you write your code 
+
+```
+
+
+
+## Exercise 5: Draw my data
+
+Finally: use the [DrawMyData](http://robertgrantstats.co.uk/drawmydata.html) tool, to create your own drawing. From this drawing you can extract the dataset. Plot the dataset using ggplot and calculate the correlation as before.
+
+
+
+```{r draw-data}
+
+# This is the code-chunk, where you write your code 
+
+
+```
+

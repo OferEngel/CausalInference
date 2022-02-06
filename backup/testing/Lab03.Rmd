@@ -1,0 +1,270 @@
+---
+title: "Lab 02 - Distributions and dinosaurs"
+subtitle: Individual assignment
+date: 'Due: November 29 at 23:59'
+---
+
+<div style= "float:right;position: relative; margin-left: 20px">
+```{r jellybeans, echo=FALSE, fig.align="right", out.width=400}
+knitr::include_graphics("images/shinyThings.png")
+```
+</div>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(kableExtra)
+
+```
+
+
+
+The main goal of this assignment is to collect YOUR OWN data, and sample it numerous times. At the end of the lab, you will discover the answer to the following questions: 
+
+* What is a sampling distribution?
+* How can you influence the sampling distribution?
+* Why you would want to do so?
+
+
+You may need to load the following libraries: Make sure they are loaded in the first code-chunk. If you need additional libraries, please load them there, too. 
+
+```{r tex, eval = FALSE}
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+```
+
+
+# Get a bag of goodies
+
+For this exercise you need a bag of goodies. You can choose colourful candies, or a bag of beads of different sizes and colours, or you can choose a bag with different sea-shells or an assortment of nuts or whatever. The only requirements are as following: 
+
+* The items fit in a bag that you can weigh with a kitchen scale (not too light, not too heavy) 
+* The items come in 4-10 different types, 
+* Each type of item is different from the others in its weight
+* You will have at least 10 items of each type
+
+
+For example, you could have a bag with 30 almonds and 20 pecans and 10 cashew nuts. Keep it simple, do not over-think it.
+
+
+1. Describe your bag of goodies - what's in it? Where did you get it? How did you choose it? What's the story behind it story? Now weigh your items and take the picture of the items on the scale and the scale showing the weight of the items. 
+
+
+You will need one picture *for each type of item* and one picture for *all the items* together. Include the pictures in your report. Create a table in your report, with each of its rows depicting the type of item (e.g., almonds, cashew, pecan). The columns of the table should show the name of the type of item, the number of items for each type, the total weight and the average weight of items for each type. Add a last row for the total amounts and weights. Finally, calculate summary statistics of your data (e.g., mean and standard deviation) from the table. Does the sum weight of each type of item add up to the sum of all items put together? Please explain.
+
+For example, if your almonds  weighed a total of 33 grams, and your pecans could weigh a total of 63 grams. You would then create the following table. Your table may have more types of items and different values. 
+
+
+```{r item-table-show, eval=FALSE}
+
+tribble(
+  ~"", ~`# of items`, ~`total wgt (g)`, ~`mean wgt (g)`,
+  "almond", 30,33,1.1, 
+  "pecan",  30,63,2.1, 
+  "Total",  60,96,1.6
+) %>% kable(align="c") 
+
+```
+
+
+```{r item-table-calculate, echo=FALSE}
+
+tribble(
+  ~"", ~`# of items`, ~`total wgt (g)`, ~`mean wgt (g)`,
+  "almond", 25, 27.5, 1.1, 
+  "pecan",  35, 73.5, 2.1, 
+  "Total",  60, 101,  1.68
+) %>% kbl(align="c") %>%
+  kable_classic(full_width = FALSE,position="left") %>%
+  row_spec(3, bold = T)
+
+```
+
+
+Now we are going to follow the steps shown below: 
+* First, we will duplicate the contents of the bag many times, to create an imaginary population of goodies. 
+* We will look at the weight distribution of our imaginary population, and  calculate its population mean and standard deviation. Those are the population parameters that we usually don't know. 
+* From this population we are then going to take many small samples and store the means of those samples. The means of the samples is also a random variable (=bunch of numbers), and we will look at the distribution of the sample mean and its summary statistics
+* Finally, we are going to repeat this exercise, but this time with a larger sample. We are then going to compare the distribution of the two sample means. 
+
+
+
+# An imaginary population of goodies
+
+We first need to create one variable that will contain our the weights of items for our bag of goodies. Then we create a second variable that will contain the weights of our (imaginary) population.  
+
+```{r population-show, eval=FALSE}
+
+# Please change the following code, according to the items in your goodie bag!
+first.item.mean.wgt   <- _____ 
+second.item.mean.wgt  <- _____
+# If you have more than two types of items, please add more
+
+bag.of.goodies <- c(rep(first.item.mean.wgt,  25), 
+                    rep(second.item.mean.wgt, 35))
+
+population.of.goodies <- rep(my.bag.of.goodies, 1000)
+
+# Let's draw the distribution of the sample means
+data.frame(item.weight = c(bag.of.goodies, population.of.goodies), 
+           item.type   = c(rep("bag", ____), rep("population", ______))) %>%
+    ggplot(aes(x=item.weight, fill=item.type)) + 
+    geom_histogram(position="dodge") 
+    
+```
+
+2. Calculate the mean and standard deviation of items in your bag and in the population, and compare between those summary statistics, explaining similarities or differences. Now show the distribution of weights in your bag and in the population and compare between them. 
+
+
+```{r pop-hide, echo=FALSE, fig.pos="center", fig.height=3, fig.width=4, message=FALSE, warning=FALSE}
+
+# Please change the following code, according to the items in your goodie bag!
+one.almond.mean.wgt <- 1.1 
+one.pecan.mean.wgt  <- 2.1
+
+bag.of.goodies <- c( rep(one.almond.mean.wgt, 25), 
+                     rep(one.pecan.mean.wgt,  35))
+
+population.of.goodies <- rep(bag.of.goodies, 1000)
+
+
+data.frame(item.weight=c(bag.of.goodies, population.of.goodies), 
+           item.type = c(rep("bag",60), rep("population", 60000))) %>%
+    ggplot(aes(x=item.weight, fill=item.type, y=..density..)) + 
+    geom_histogram(position="dodge", binwidth=.1) + 
+    scale_x_continuous(breaks=seq(1,2.2,by=0.1))
+
+```
+
+
+# Sampling our distribution 
+
+3. From this population we will take many small samples and store the means of those samples as an observation. The means are now a new random variable (=bunch of numbers), and we will look at its distribution its summary statistics. According to the [Central Limit Theorem](https://www.youtube.com/watch?v=YAlJCEDH2uY). Show that the sample means have the following two properties: 
+ 
+* They are normally distributed
+* Their mean approaches the mean of our population
+* Their standard deviation approaches $\frac{\sigma}{n}$
+
+
+```{r sampling-show, eval=FALSE}
+
+# Define number of samples and sample size
+n.samples   <- 1000
+sample.size <- 60
+
+# Take samples from the population
+# For each sample, calculate its mean
+sample.means <- rep(NA, n.samples)
+for(i in 1:n.samples)
+  sample.means[i] <- mean( sample(population.of.goodies, sample.size) )
+
+
+# let's plot the distribution of the sample means
+data.frame(means=sample.means, 
+           type="sample means") %>% ggplot() + 
+  geom_histogram(aes(x=sample.means, y=..density..), binwidth=.1) + 
+  geom_function(fun=dnorm, args=list(mean=_____, sd=______))
+
+
+# Let's compare the distribution of the sample means to the population
+tribble(
+  ~variable,~mean, ~sd, 
+  "population",   mean(population.of.goodies), sd(population.of.goodies), 
+  "sample means", mean(my.samples.means),      sd(my.samples.means))  
+
+```
+
+```{r sampling-hide, echo=FALSE}
+
+# Define number of samples and sample size
+n.samples   <- 1000
+sample.size <- 60
+
+# Take samples from the population
+# For each sample, calculate its mean
+sample.means <- rep(NA, n.samples)
+for(i in 1:n.samples)
+  sample.means[i] <- mean( sample(population.of.goodies, sample.size) )
+
+data.frame(means=sample.means, type="sample means") %>%
+ggplot() +  
+  geom_histogram(aes(x=means, y=..density..), binwidth=.1) + 
+  geom_function(fun=dnorm, 
+      args=list(mean=mean(sample.means), sd=sd(sample.means)))
+
+# Let's compare the distribution of the sample means to the population
+tribble(
+  ~variable,~mean, ~sd, 
+  "population",   mean(population.of.goodies), sd(population.of.goodies), 
+  "sample means", mean(sample.means),      sd(sample.means)) %>%    
+  kbl(align="c", digits=2) %>%
+  kable_classic(full_width = FALSE,position="left") 
+
+
+```
+
+Use the code above to confirm  all three conditions of the Central Limit Theorem. 
+
+
+# Taking bigger samples 
+
+4. Repeat this exercise above but this time with a larger sample. Then compare the two distributions of the two sample means. 
+
+
+```{r sampling-large-show, eval=FALSE, echo=FALSE}
+
+# Define number of samples and sample size
+
+
+
+# Take samples from the population
+# For each sample, calculate its mean
+
+
+# let's plot the distribution of the sample means
+
+
+
+# Let's compare the distribution of the sample means to the population
+
+
+```
+
+
+
+
+```{r sampling-large-hide, echo=TRUE, eval=TRUE}
+
+# Define number of samples and sample size
+n.samples   <- 1000
+large.sample.size <- 60
+
+# Take samples from the population
+# For each sample, calculate its mean
+large.sample.means <- rep(NA, n.samples)
+for(i in 1:n.samples)
+  large.sample.means[i] <- mean( sample(population.of.goodies, large.sample.size))
+
+
+data.frame(means=c(sample.means, large.sample.means),
+           type=c(rep("sample means",n.samples), rep("large samples",n.samples))) %>%
+ggplot() + 
+  geom_histogram(aes(x=means, y=..density.., fill=type), binwidth=.05, alpha=.4, 
+                 position="dodge") + 
+  geom_function(fun=dnorm, color="red", 
+      args=list(mean=mean(sample.means), sd=sd(sample.means))) + 
+  geom_function(fun=dnorm, color="blue", 
+      args=list(mean=mean(large.sample.means), sd=sd(large.sample.means)))
+
+# Let's compare the distribution of the sample means to the population
+tribble(
+  ~variable,~mean, ~sd, 
+  "population",   mean(population.of.goodies), sd(population.of.goodies), 
+  "sample means", mean(sample.means),      sd(sample.means), 
+  "large samples", mean(large.sample.means),      sd(large.sample.means)) %>%
+  kbl(digits=2)
+
+
+```
+

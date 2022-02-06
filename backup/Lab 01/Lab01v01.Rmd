@@ -1,0 +1,161 @@
+---
+title: "Lab 01 - Introduction"
+subtitle: Individual assignment
+date: 'Due: Oct 22 at 10:00'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE,
+                      message=FALSE,
+                      warning=FALSE)
+library(tidyverse)
+```
+
+
+Welcome to your first lab report specifications! 
+
+This document defines  the specifications you need in order to write your report. You will create a project in RStudio, which will consist of a folder with your various resources: write your report in `rmarkdown`, and zip the entire folder by the deadline. The output format and other meta-information can be  specified in the YAML, at the beginning of your R Markdown document, as follows:
+
+```yaml
+---
+title: "Report for lab 1"
+author: "Groucho Marx"
+date: "Submitted 15-November-2021"
+output:
+  html_document
+---
+```
+
+# Exercise 1: Introduce yourself  using RMarkdown
+
+Take a picture of yourself, your cat or something else that is personal to you. Then Write a little introduction about your relationship with statistics and sustainable organisations. Do you have any background in statistics? How would learning statistics benefit you in the future?  
+
+
+
+<div style= "float:right;position: relative; margin-left: 10px">
+```{r fig.margin = TRUE, fig.cap = "Figure 1. Ofer with his nieces, singing in the mountains of Jerusalem, December 2020", echo=FALSE,message=FALSE, fig.align="right", out.width=400}
+knitr::include_graphics("images/Ofers nieces.jpeg")
+```
+</div>
+
+
+Do you reckon that you will remember anything from the course in a year's time? How about two years time? Or more? You can use this introduction in order to show-off the skills that you've learned. For example, you could experiment  with: 
+
+* The use of [nested lists](https://commonmark.org/help/tutorial/10-nestedLists.html) 
+* [A link](https://www.youtube.com/watch?v=DNS7i2m4sB0) to web-pages about anything you feel could be relevant
+* Doing cool stuff with fonts, such as
+  - Using *italic font* to emphasize really important ideas!
+  - Using  **bold** fonts. 
+- If you are especially brave, try adding a little image of yourselves (doing something silly, like singing in the mountains.)
+- How about using footnotes?^[Can you figure how I did this one?]
+
+# Exercise 2: Manually presenting tables with data
+
+```{r fig.margin = TRUE, fig.cap = "Figure 2. Variables can be either numerical or categorical. Make sure you choose a dataset with numerical values", echo=FALSE,message=FALSE}
+knitr::include_graphics("images/Variables.png")
+```
+In this exercise, you are going to find **your own dataset**, and copy about 10  rows of data, manually, into your report. Try to find an interesting dataset. It is important that the variables are numerical, and that they are associated with one another. Once you identify a dataset that you like, you need to format it in a way that markdown would render as a table. Then you can search online for a markdown table generator, 
+
+```{r table1, echo=FALSE, message=FALSE, warnings=FALSE}
+
+ret.val <- 
+"
+| Food                   | Grams | Calories | Carbs |
+|------------------------|:-----:|:--------:|:-----:|
+| Apricots               |  250  |    220   |   57  |
+| Grapefruit section     |  250  |    170   |   44  |
+| skimmed milk           |  250  |    128   |   13  |
+| Orange juice           |  250  |    112   |   25  |"
+
+cat(ret.val)
+
+```
+
+And, after adding a couple of rows, you cans see the result below. Notice that in this particular table, every row (food item) is an object of investigation (or unit of analysis), whereas the columns designate a variable (aka covariate, feature or property of the object). 
+
+
+```{r table2, echo=FALSE, fig.cap="Nutrients", fig.width=350, message=FALSE, warning=FALSE, paged.print=TRUE, results='asis' }
+
+ret.val <- 
+"
+| Food items             | Grams | Calories | Carbs |
+|:-----------------------|:-----:|:--------:|:-----:|
+| Apricots               |  250  |    220   |   57  |
+| Grapefruit section     |  250  |    170   |   44  |
+| skimmed milk           |  250  |    128   |   13  |
+| Orange juice           |  250  |    112   |   25  |
+| chicken soup           |  250  |    75    |   10  |
+| Tapioca pudding        |  250  |    335   |   42  |
+| Spanish rice           |  250  |    217   |   40  |
+| Grape juice            |  250  |    160   |   42  |
+| Apple juice            |  250  |    125   |   34  |
+| Grapefruit juice       |  250  |    100   |   24  |
+| Spaghetti w meat sauce |  250  |    285   |   35  |"
+
+cat(ret.val)
+
+```
+
+Now you can make a vector for each of the rows. For example, you can make a vector out of the 
+
+`food <- c("Apricots", "Grapefruit", "milk", "juice")` <br/>
+`calories <- c(220,170,128,112)`<br/>
+`carbs <- c(57, 44, 13, 25)`
+
+```{r loadData, include=FALSE,echo=FALSE}
+calories <- c(220,170,128,112,75,335,217,160,125,100,285,210,147,120,100,245,190,140,115,80)
+carbs <- c(57,44,13,25,10,42,40,42,34,24,35,36,25,32,11,65,30,36,13,14)
+```
+
+
+
+And now you can simply create a scatter plot like the following^[make sure that you installed and loaded the library by writing `library(tidyverse)` before running this code!] 
+```{r scatter}
+qplot(x=carbs, y=calories)
+
+```
+Now you can try to analyse what you found, in a couple of sentences. For example, from the scatterplot above you can see that the calories are roughly proportional to the carbs in the food. All the items of food have a mass of 250g, so they are comparable in that sense. However, they may vary in the amount of fat they contain or in their protein. That's why we see certain items that have a lower rate of carb despite having much calories. An example is the  "Tapioca pudding" which clearly has just above 40g of carbs and yet tops the charts when it comes to calories... 
+
+# Exercise 3: using mathematical notation in RMarkdown
+In this exercise, you want to choose a famous series, and see if you can calculate whether the sum of the series really matches what the formula says it would. For example, you could try one of [these series](https://en.wikipedia.org/wiki/List_of_mathematical_series), say - let's take the following^[If you are uncomfortable with the $\sum{}$ notation, just search for a tutorial about the sigma notation.]: 
+
+$$\sum_{k=1}^{m}k^2=\frac{m^3}{3}+ \frac{m^2}{2}+\frac{m}{6}$$
+$$\sum_{k=1}^{10}k^2=\frac{10^3}{3}+ \frac{10^2}{2}+\frac{10}{6} $$
+$$\sum_{k=1}^{10}k^2=1^2+2^2+3^2+...+10^2 $$
+
+So now we need to take a vector of numbers, square each one of them and add them up together. 
+Here are different ways of doing this. For example we could just say
+
+```{r summation}
+
+series <- 1:10
+series.squared <- series^2 
+sum.series.squared <- sum(series.squared)
+
+```
+So now we get that the `sum.series.squared=` `r sum.series.squared`. On the other hand, if we look at the formula above and assign the variable `m=10`, we get 
+```{r formula}
+m <- 10
+result <- m^3/3+m^2/2+m/6
+
+```
+And we find that the `result=` `r result`. So we have confirmed this result. Feel free to experiment with something more challenging, like using the [Fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_number) to arrive at the golden ratio, or finda series that converges to some interesting value such as the Leibniz formula for $\pi$.
+
+
+
+# Exercise 4 (BONUS): Data generating processes
+
+Numbers do not come from nowhere. They come into being via certain processes. But how *exactly* have they been generated. There must have been some mysterious  process behind all of this, some underlying mechanism that is "pulling the strings". Thanks to this process we can confidently say that there are some numbers that are likely, and others that are unlikely. Even when they are completely at random, numbers have to obey some kind of rules. In this last exercise, we are going to look at two types of data generating processes (DGP). 
+
+1. For the first process, you will  (virtually) flip a coin ten times. You will then count how many heads have appeared. You will do this is by using the `sample()` function, just as described in your first Perusall assignment (it is like sampling a "die" with only two sides, say, $0$ for tails and $1$ for heads, and counting how many times you have $1$'s). You record the number of heads in each sample, and run this process again and again many times. 
+1. For the second process, you will sample a spinning wheel (again, virtually!). You record every attempt at spinning the wheel. This will be a number, distributed at a uniform probability between $0$ and $10$.
+
+You now create a distribution for each of these two processes, and compare between them. 
+
+1. what is the `mean()`, and the `median()` for each distribution? 
+1. Plot the two distributions. Do they appear symmetric or asymmetric?
+1. What is the `range()` for each distribution?
+1. How are the two distributions similar? How are they different? 
+1. Explain the difference between the two distributions?
+
+

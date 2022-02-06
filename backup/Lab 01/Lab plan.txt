@@ -1,0 +1,9 @@
+8  November wk1 - 
+22 November wk2- intro
+29 November wk3 - distributions and dinosaurs
+6  December wk4 - flights etc..
+13 December wk5 - bi-linear regressions
+20 December wk6 - multi-linear regression
+10 January wk7  - interactions etc...
+17 January wk8  - logistic regression
+24 January wk9  - Causality and instruments

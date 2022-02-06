@@ -1,0 +1,146 @@
+---
+title: "Organisations Lab 4"
+author: "Your Name"
+date: "The Date"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, message=F,include=F}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse) 
+library(knitr)
+library(kableExtra)
+
+# Include any additional packages you used in the homework
+# Never install packages in your RMarkdown file!
+
+```
+
+# Task 1: A dataset for a friend's birthday!
+
+1. Please choose two numbers as indicated above. Explain why you chose them and, using one of them as the slope and the other as an intercept, plot the linear equation in your report.
+
+*Answer:* SAY SOMETHING CLEVER HERE
+
+
+```{r linear-equation}
+# Write here code that will produce a straight line
+# The line's slope and intercept should have been defined above. 
+
+
+
+```
+
+
+2. Now copy the data you created into your RMarkdown and present it in a neat table, one column for your x variable and one for your y variable. 
+
+```{r neat-table}
+# Please create your table here!
+
+
+
+
+```
+
+
+Run the regression model and compare the results (the slope, intercept and the $R^2$) to the results shown in the [desmos platform](https://www.desmos.com/calculator). 
+
+
+```{r regression-model}
+# Please use the data you've created, to fit a regression model.
+# Then show the results of your model
+
+
+```
+
+
+Would you say that your slope and intercept are significantly different from zero? What does that mean? Please explain your answer. 
+
+*Answer:* SAY SOMETHING HERE
+
+
+
+Calculate the correlation between x and y, and compare the square of the correlation to $R^2$. Find the place in the book that describes the relationship between the correlation coefficient and $R^2$ in regression models that have only one independent variable (aka univariate regression model).
+
+*Answer:* SAY SOMETHING HERE
+
+3. Try now to create a dataset that can be fit with the exact same model (i.e, with the *same slope* and *intercept*), but this time try to choose the data in such a way that the $R^2$ would be dramatically different (e.g. 50% larger or 50% smaller, than the one you had in the previous model). Now present a neat table with the six data points and run the regression model in R. Confirm that your slope, intercept and $R^2$ are what you expected them to be.
+
+
+```{r Change-RSquared}
+# Please use this code chunk to create a new dataset with the same coefficients as before (slope and intercept) but a different R-Squared.
+
+
+```
+
+
+
+# Task 2: Penguins
+
+In the previous task we started with a model (slope and intercept), and created data to match. In this exercise, just like in real life, we do things the other way around. We start with the data. Between 2007 and 2009, researchers collected data on penguins in three islands in the Palmer Archipelago in Antarctica: Biscoe, Dream, and Torgersen. The `penguins` dataset has data for 342 penguins from 3 different species: Chinstrap, Gentoo, and Adélie. It includes the following variables:
+
+- `species`: The penguin's species (Chinstrap, Gentoo, and Adélie)
+- `island`: The island where the penguin lives (Biscoe, Dream, and Torgersen)
+- `bill_length_mm`: The length of the penguin's bill, in millimeters (distance from the penguin's face to the tip of the bill)
+- `bill_depth_mm`: The depth of the penguin's bill, in millimeters (height of the bill; distance from the bottom of the bill to the top of the bill)
+- `flipper_length_mm`: The length of the penguin's flippers, in millimeters
+- `body_mass_g`: The weight of the penguin, in grams
+- `sex`: The sex of the penguin
+- `year`: The year the observation was made
+
+
+
+```{r load-penguins}
+# Load penguins data
+
+
+```
+
+4. Make a scatter-plot that shows how the weight depends on the bill depth. Color each data-point by species. What can you tell about the relationship between bill depth and penguin weight? 
+
+```{r weight-vs-bill-depth-species}
+# Create a scatter-plot that shows the relationship b/w species, bill and weight
+
+
+
+```
+
+5. Now make a new graph that depicts the  the relationship between flipper length and body mass, such that `flipper_length_mm` on the x-axis, `body_mass_g` on the y-axis, and points coloured by `species`. Facet the plot by island (you can do that by adding another layer, namely `+ facet_grid(island~.)`). 
+
+
+```{r weight-vs-flipper-species-island}
+# Create a scatter-plot that shows the relationship b/w species, flipper and weight
+# Facet using islands
+
+
+```
+
+
+Tell a story about the relationship between flipper length and weight in these three penguin species, and the distribution of penguins across the three islands.
+
+*Answer:* SAY SOMETHING HERE
+
+
+## Models: Does bill depth predict penguin weight?
+
+6. Run a regression model and interpret the regression model. What is the sign of the slope in your regression, and what does this mean?  
+
+```{r model-depth-weight}
+
+
+
+```
+
+*Answer:* SAY SOMETHING HERE
+
+
+How  would your expectation of a penguin's weight change (on average), if you knew that the bill of a penguin is deeper by $1$ millimeter? Is the association statistically significant?
+
+*Answer:* SAY SOMETHING HERE
+
+
+How well does your model predict the body weight? (Hint: look at the $R^2$). What can be done to improve the model?
+
+*Answer:* SAY SOMETHING HERE
