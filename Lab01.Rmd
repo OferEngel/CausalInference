@@ -51,7 +51,7 @@ library(tidyverse)
 ```
 
 
-* A step by step video with instructions on how to do this lab will be available.
+* A step by step video with instructions on how to do this lab will be available on Perusall.
 * Please submit your lab using the link that will be available here.   
 * If you have questions, please [book a slot](https://bit.ly/OferMeet) during Ofer's office hours!
 
@@ -70,8 +70,10 @@ If you are using R, you would want to load the the `tidyverse` package by callin
 
 <div class="column-right">
 
-```{r course-structure, fig.width=4,fig.height=4, echo=FALSE, eval=TRUE}
-include_graphics("images/kusama.jpg")
+```{r pi, fig.width=4,fig.height=4, echo=FALSE, eval=TRUE}
+
+include_graphics("images/pi.gif")
+
 ```
 
 </div>
@@ -196,6 +198,21 @@ ggplot() +
   scale_x_continuous(breaks=b)
 
 ```
+
+
+
+
+
+<div class="column-right">
+
+
+```{r kusama, fig.width=4,fig.height=4, echo=FALSE, eval=TRUE}
+
+include_graphics("images/kusama.jpg")
+
+```
+
+</div>
 
 ### QUESTIONS:
 

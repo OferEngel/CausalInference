@@ -402,7 +402,7 @@ $(document).ready(function () {
 
 </style>
 <ul>
-<li>A step by step video with instructions on how to do this lab will be available.</li>
+<li>A step by step video with instructions on how to do this lab will be available on Perusall.</li>
 <li>Please submit your lab using the link that will be available here.<br />
 </li>
 <li>If you have questions, please <a href="https://bit.ly/OferMeet">book a slot</a> during Ofer’s office hours!</li>
@@ -416,7 +416,7 @@ $(document).ready(function () {
 <div id="i-am-pi" class="section level1">
 <h1>I am <span class="math inline">\(\pi\)</span></h1>
 <div class="column-right">
-<p><img src="images/kusama.jpg" width="308" /></p>
+<p><img src="images/pi.gif" /><!-- --></p>
 </div>
 <p>This exercise is designed to sample from the <a href="https://en.wikipedia.org/wiki/Binomial_distribution">binomial distribution</a> in order to obtain a numerical approximation for the number <span class="math inline">\(\pi\)</span>. To do this, you generate points uniformly distributed on a square. The proportion of points that fall within a quarter of a circle that is circumscribed within the square approaches <span class="math inline">\(\frac{\pi}{4}\)</span>.</p>
 <p>A famous artist took a a square piece of paper, and drew a quarter of a circle upon it, such that the edge of the square is the circle’s radius. She then decides to sprinkle small paint drops on the paper. All the paint drops inside the circle are of one colour and all the drops outside of the circle have a different colour. Other than that, the drops are positioned completely at random throughout the square.</p>
@@ -475,9 +475,12 @@ $(document).ready(function () {
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n.experiments, <span class="fu">successes.in.one.experiment</span>())</span></code></pre></div>
 <p>Now, create a histogram of the variable <span class="math inline">\(X\)</span>, which consists of a series of numbers, representing the number of “successes” in each of the experiments. To show this, you can use the <code>geom_histogram</code> function in R.</p>
 <p><img src="Lab01_files/figure-html/circle-histog%20-1.png" width="480" style="display: block; margin: auto;" /></p>
+<div class="column-right">
+<p><img src="images/kusama.jpg" width="308" /></p>
+</div>
 <div id="questions" class="section level3">
 <h3>QUESTIONS:</h3>
-<p>Try to adjust the variables <code>n.trials</code> and <code>n.paintings</code> in order to get a smoother histogram. Then address the following tasks:</p>
+<p>Try to adjust the variables <code>n.trials</code> and <code>n.experiments</code> in order to get a smoother histogram. Then address the following tasks:</p>
 <ol style="list-style-type: decimal">
 <li><p>What does this histogram show? What kind of distribution is this? Try to explain how your code works.</p></li>
 <li><p>Demonstrate that the average probability for success in each trial is approximately <span class="math inline">\(\pi/4\)</span>. Try to give a theoretical explanation for this.</p></li>
