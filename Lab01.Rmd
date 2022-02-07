@@ -83,7 +83,7 @@ This exercise is designed to sample from the [binomial distribution](https://en.
 
 A famous artist took a a square piece of paper, and drew a quarter of a circle upon it, such that the edge of the square is the circle's radius. She then decides to sprinkle small paint drops on the paper. All the paint drops inside the circle are of one colour and all  the drops outside of the circle have a different colour. Other than that, the drops are positioned completely at random throughout the square.  
 
-1. Try to recreate the artist's drawing. Remember that for a every point on the circle's edge, the $y$ coordinate can be established from the $x$ by using the following equation $y=\sqrt{1-x^2}$.  
+
 
 ```{r dots-and-circle, echo=TRUE, fig.align='center', fig.width=3.5, fig.height=3}
 
@@ -152,7 +152,7 @@ X <- replicate(n.experiments, successes.in.one.experiment())
 ```
 
 
-Now, create a histogram of the variable $X$, which consists of a series of numbers, representing the number of "successes" in each of the experiments. To show this, you can use the `geom_histogram` function in R. 
+Now, you can create a histogram of the variable $X$, which consists of a series of numbers, representing the number of "successes" in each of the experiments.
 
 ```{r circle-histog , echo=FALSE, fig.width=5, fig.height=3, eval=TRUE, include=TRUE, fig.align='center'}
 
@@ -216,7 +216,12 @@ include_graphics("images/kusama.jpg")
 
 ### QUESTIONS:
 
-Try to adjust the variables `n.trials` and `n.experiments` in order to get a smoother histogram. Then address the following tasks:
+
+1. Try to recreate the artist's drawing. Remember that for a every point on the circle's edge, the $y$ coordinate can be established from the $x$ by using the following equation $y=\sqrt{1-x^2}$.  
+
+1. Now, create a histogram of the variable $X$, which consists of a series of numbers, representing the number of "successes" in each of the experiments. To do this in R, you can use the `geom_histogram` function of `ggplot`. If you need a refresher on how to use visualizations in R, try [this playlist](https://bit.ly/3rrzzqV).
+
+    Try to adjust the variables `n.trials` and `n.experiments` in order to get a smoother histogram. Then address the following tasks:
 
 1. What does this histogram show? What kind of distribution is this? Try to explain how your code works.
     
@@ -224,5 +229,5 @@ Try to adjust the variables `n.trials` and `n.experiments` in order to get a smo
     
 1. Given that the probability for success in each trial is $p=\pi/4$, you can calculate the binomial distribution's  theoretical mean of $\mu=n\cdot p$ and its theoretical standard deviation of $\sigma=\sqrt{n\cdot p\cdot(1-p)}$. Calculate the theoretical mean and standard deviation, and compare with the actual mean and standard deviation from your simulations. 
 
-1. BONUS QUESTION: Now try to superimpose a normal distribution with the theoretical mean and standard deviation on top of your histogram. It should fit nicely - just like the figure above. 
+1. Now try to superimpose a normal distribution with the theoretical mean and standard deviation on top of your histogram. It should fit nicely - just like the figure above. 
 

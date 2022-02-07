@@ -347,6 +347,21 @@ $(document).ready(function () {
     <li class="dropdown-header">To be continued...</li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-question-circle"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://bit.ly/3B1BJAT">RA 1</a>
+    </li>
+    <li class="dropdown-header">To be continued...</li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -420,9 +435,6 @@ $(document).ready(function () {
 </div>
 <p>This exercise is designed to sample from the <a href="https://en.wikipedia.org/wiki/Binomial_distribution">binomial distribution</a> in order to obtain a numerical approximation for the number <span class="math inline">\(\pi\)</span>. To do this, you generate points uniformly distributed on a square. The proportion of points that fall within a quarter of a circle that is circumscribed within the square approaches <span class="math inline">\(\frac{\pi}{4}\)</span>.</p>
 <p>A famous artist took a a square piece of paper, and drew a quarter of a circle upon it, such that the edge of the square is the circle’s radius. She then decides to sprinkle small paint drops on the paper. All the paint drops inside the circle are of one colour and all the drops outside of the circle have a different colour. Other than that, the drops are positioned completely at random throughout the square.</p>
-<ol style="list-style-type: decimal">
-<li>Try to recreate the artist’s drawing. Remember that for a every point on the circle’s edge, the <span class="math inline">\(y\)</span> coordinate can be established from the <span class="math inline">\(x\)</span> by using the following equation <span class="math inline">\(y=\sqrt{1-x^2}\)</span>.</li>
-</ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setting the seed makes sure that each time </span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># we run the script, we get the same results. </span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
@@ -473,19 +485,21 @@ $(document).ready(function () {
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Each experiment counts the number of successes</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>n.experiments <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n.experiments, <span class="fu">successes.in.one.experiment</span>())</span></code></pre></div>
-<p>Now, create a histogram of the variable <span class="math inline">\(X\)</span>, which consists of a series of numbers, representing the number of “successes” in each of the experiments. To show this, you can use the <code>geom_histogram</code> function in R.</p>
+<p>Now, you can create a histogram of the variable <span class="math inline">\(X\)</span>, which consists of a series of numbers, representing the number of “successes” in each of the experiments.</p>
 <p><img src="Lab01_files/figure-html/circle-histog%20-1.png" width="480" style="display: block; margin: auto;" /></p>
 <div class="column-right">
 <p><img src="images/kusama.jpg" width="308" /></p>
 </div>
 <div id="questions" class="section level3">
 <h3>QUESTIONS:</h3>
-<p>Try to adjust the variables <code>n.trials</code> and <code>n.experiments</code> in order to get a smoother histogram. Then address the following tasks:</p>
 <ol style="list-style-type: decimal">
+<li><p>Try to recreate the artist’s drawing. Remember that for a every point on the circle’s edge, the <span class="math inline">\(y\)</span> coordinate can be established from the <span class="math inline">\(x\)</span> by using the following equation <span class="math inline">\(y=\sqrt{1-x^2}\)</span>.</p></li>
+<li><p>Now, create a histogram of the variable <span class="math inline">\(X\)</span>, which consists of a series of numbers, representing the number of “successes” in each of the experiments. To do this in R, you can use the <code>geom_histogram</code> function of <code>ggplot</code>. If you need a refresher on how to use visualizations in R, try <a href="https://bit.ly/3rrzzqV">this playlist</a>.</p>
+<p>Try to adjust the variables <code>n.trials</code> and <code>n.experiments</code> in order to get a smoother histogram. Then address the following tasks:</p></li>
 <li><p>What does this histogram show? What kind of distribution is this? Try to explain how your code works.</p></li>
 <li><p>Demonstrate that the average probability for success in each trial is approximately <span class="math inline">\(\pi/4\)</span>. Try to give a theoretical explanation for this.</p></li>
 <li><p>Given that the probability for success in each trial is <span class="math inline">\(p=\pi/4\)</span>, you can calculate the binomial distribution’s theoretical mean of <span class="math inline">\(\mu=n\cdot p\)</span> and its theoretical standard deviation of <span class="math inline">\(\sigma=\sqrt{n\cdot p\cdot(1-p)}\)</span>. Calculate the theoretical mean and standard deviation, and compare with the actual mean and standard deviation from your simulations.</p></li>
-<li><p>BONUS QUESTION: Now try to superimpose a normal distribution with the theoretical mean and standard deviation on top of your histogram. It should fit nicely - just like the figure above.</p></li>
+<li><p>Now try to superimpose a normal distribution with the theoretical mean and standard deviation on top of your histogram. It should fit nicely - just like the figure above.</p></li>
 </ol>
 </div>
 </div>
