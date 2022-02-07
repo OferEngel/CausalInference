@@ -111,7 +111,11 @@ include_graphics("images/Perusall.jpg")
 
 Online (Nestor, Perusall, github): lectures, presentations, data-sets and exercises and background literature
 
-To brush up on your R programming skills, there are a variety of free resources you can use, such as the [SICSS bootcamp](https://sicss.io/boot_camp/), Harvard’s famous [R Basics course](https://www.edx.org/course/data-science-r-basics), or Stanford’s [R Programming fundamentals](https://www.edx.org/course/r-programming-fundamentals). If you speak German, [this site](https://shiny.lmes.uni-potsdam.de/startR/) is quite nice.
+To brush up on your R programming skills, there are a variety of free resources you can use, such as the [SICSS bootcamp](https://sicss.io/boot_camp/), Harvard’s famous [R Basics course](https://www.edx.org/course/data-science-r-basics), or Stanford’s [R Programming fundamentals](https://www.edx.org/course/r-programming-fundamentals). If you speak German, [this site](https://shiny.lmes.uni-potsdam.de/startR/) is quite nice. 
+
+An introduction to visualization using `ggplot` is available in [this playlist](https://bit.ly/3rrzzqV).
+
+For RMarkdown, have a look at [piping hot data](https://www.pipinghotdata.com/posts/2020-09-07-introducing-the-rstudio-ide-and-r-markdown/)
 
 You may work and submit your assignments using any  statistical software including SPSS, STATA, Python, SCALA or Julia. However, as R is becoming the lingua franca of data science in many academic circles, this is going to be the default technology used in this course. 
 
@@ -119,7 +123,7 @@ You may work and submit your assignments using any  statistical software includi
 ```{r penguins, fig.width=4}
 
 # include_graphics("images/course-structure.jpg")
-include_graphics("images/index-penguins.jpg")
+include_graphics("images/causalbooks.jpg")
 
 ```
 
