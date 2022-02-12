@@ -13,6 +13,8 @@ navbar:
       menu:
         - text: "Lab 1"
           href: Lab01.html
+        - text: "Lab 2"
+          href: Lab02.html
         - text: "To be continued..."
         #   href: Lab02.html
         # - text: "Lab 3"
