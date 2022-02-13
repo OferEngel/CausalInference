@@ -223,21 +223,18 @@ s.lik*s.prior/s.marginal
 ### QUESTIONS:
 1. Notice that in our sample, the odds ratio of shy students in the math and business department is not exactly 75:15. What can you do in order to make the numbers appear closer to this theoretical ratio? Try to do this, and recalculate the number of students in the 2x2 contingency matrix. 
 
-1. From your sample, calculate the *likelihood* of Tom being in the maths department, if we observe that Tom is shy $P(B=0|S=1)$. 
+1. From your sample, calculate the *likelihood*. This would be the conditional probability of Tom being being shy, assuming that Tom is in the maths department $P(S=1|B=0)$. 
 
-1. Calculate the *Prior* of Tom being in the maths department $P(B=0)$, before even noticing whether Tom is shy or not. 
+1. From your sample, calculate the *Prior* of Tom being in the maths department $P(B=0)$, before even noticing whether Tom is shy or not. 
 
 
 1. From your sample, calculate the *marginal probability* of Tom being shy, $P(S=1)$.
 
+1. Now calculate the *posterior probability* of Tom being in the maths department, given that Tom is shy $P(B=0|S=1)$. Calculate this in two ways, and compare between your results: 
 
-
-1. Now calculate the *posterior probability* of Tom being in the maths department, given that Tom is shy $P(B=0|S=1)$. Calculate this in two ways: 
-
-    * First, remove all the students who are not shy from you dataset and find what proportion of those students are in the maths department. 
+    * First, filter out all the non-shy students from your sample. Among the remaining shy students, find what proportion is in the maths department. 
     
     * Second, calculate the posterior from Bayes law: multiply the likelihood by the prior, and divide the result by the marginal. 
-    
     
 1. Now show that the odds ratio of the posterior equals the likelihood odds ratio times the prior odds ratio. 
 $$
@@ -262,7 +259,7 @@ include_graphics("images/monty.jpg")
 
 
 
-## Solving the Monty Hall problem using Bayes
+## Solving the Monty Hall problem using Bayes theorem
 
 The Monty Hall problem is a probability puzzle with a paradoxical answer that can be explained by Bayesian inference.
 You are a guest on a television game show and have the opportunity to win a new car. The host shows you three doors. The car is behind one of the doors; behind the other doors are goats. You must choose which door to open.
