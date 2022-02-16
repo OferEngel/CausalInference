@@ -1,5 +1,5 @@
 ---
-title: "Lab 02 - Binomial distribution"
+title: "Lab 02 - Introduction to Bayes"
 subtitle: Individual assignment
 date: 'Due: February 20 at 23:59'
 ---
@@ -227,7 +227,6 @@ s.lik*s.prior/s.marginal
 
 1. From your sample, calculate the *Prior* of Tom being in the maths department $P(B=0)$, before even noticing whether Tom is shy or not. 
 
-
 1. From your sample, calculate the *marginal probability* of Tom being shy, $P(S=1)$.
 
 1. Now calculate the *posterior probability* of Tom being in the maths department, given that Tom is shy $P(B=0|S=1)$. Calculate this in two ways, and compare between your results: 
@@ -278,7 +277,7 @@ include_graphics("images/theory.jpg")
 ### QUESTIONS:
 1. Consider that the host *does not know* what is behind each door. The host opens a door at random. Now: 
 
-    * Write down the prior distribution on $\theta$. In other words, write the probability for each possible value of $\theta$: $P(\theta=0)$ and $P(\theta=1)$
+    * Write down the prior distribution on $\theta$. In other words, write a function that will take the $\theta$ as an input and will calculate the probability for that $\theta$. Call the function $P(\theta)$. This will be our prior.
     * Write down the likelihood $P(Y = 0| \theta)$
     * Use Bayes' theorem to calculate the posterior $P(\theta = 1| Y=0)$
     * To maximize your chance of opening a door with the car, should you stay with your original choice of door? 
