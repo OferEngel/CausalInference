@@ -21,12 +21,12 @@ navbar:
         #   href: Lab03.html
         # - text: "Lab 4"
         #   https://bit.ly/3B1BJAT
-    - text: "RA"
-      icon: fa-question-circle
-      menu:
-        - text: "RA 1"
-          href: https://bit.ly/3B1BJAT
-        - text: "To be continued..."
+    # - text: "RA"
+    #   icon: fa-question-circle
+    #   menu:
+    #     - text: "RA 1"
+    #       href: https://bit.ly/3B1BJAT
+    #     - text: "To be continued..."
 output:
   html_document:
     theme: flatly
