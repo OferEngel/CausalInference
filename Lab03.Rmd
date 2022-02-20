@@ -27,7 +27,13 @@ date: 'Due: February 27 at 23:59'
 .column-full{
   float: none;
   width: 100%;
-  text-align: left;
+  text-align: centre;
+}
+
+.center {
+  height: 200px;
+  border: 0px;
+  text-align: center;
 }
 
 
@@ -241,21 +247,28 @@ df %>%
 </div>
 
 
-# Bonus questions 
-
-You may choose to do one or more of the questions below for a chance to obtain an "E".
+# Globe tossing 
 
 
 <div class="column-right-small">
 
 
-```{r rethinking, out.width="500px", echo=FALSE, eval=TRUE}
+```{r chaplin, out.width="500px", echo=FALSE, eval=TRUE}
+include_graphics("images/chaplinglobe.gif")
+```
 
+Chaplin in the [globe scene](https://www.youtube.com/watch?v=-jj-PaqFrBc)
+
+<br/>
+<br/>
+
+```{r rethinking, out.width="500px", echo=FALSE, eval=TRUE}
 include_graphics("images/rethinking.png")
 
 ```
-The questions are taken audaciously from coursework made publicly available by Richard McElreath.  
+The questions are audaciously taken from coursework made publicly available by Richard McElreath.  
 </div>
+
 
 
 Before starting, consider reviewing the EASY problems at the end of Chapters 1, 2 and 3 in McElreath's [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) book
@@ -264,9 +277,9 @@ Before starting, consider reviewing the EASY problems at the end of Chapters 1, 
 
 2. Now suppose the data are 4 water and 2 land. Compute the posterior again, but this time use a prior that is zero below $p = 0.5$ and a constant above $p = 0.5$. This corresponds to prior information that a majority of the Earth’s surface is water.
 
-3. For the posterior distribution from 2, compute 89% percentile and HPDI intervals. Compare the widths of these intervals. Which is wider? Why? If you had only the information in the interval, what might you misunderstand about the shape of the posterior distribution?
+3. BONUS: For the posterior distribution from 2, compute 89% percentile and HPDI intervals. Compare the widths of these intervals. Which is wider? Why? If you had only the information in the interval, what might you misunderstand about the shape of the posterior distribution?
 
-4. Suppose there is bias in sampling so that Land is more likely than Water to be recorded. Specifically, assume that 1-in-5
+4. BONUS: Suppose there is bias in sampling so that Land is more likely than Water to be recorded. Specifically, assume that 1-in-5
 (20%) of Water samples are accidentally recorded instead as ”Land”. First, write a generative simulation of this sampling process. Assuming the true proportion of Water is 0.70, what proportion does your simulation tend to produce instead? Second, using a simulated sample of 20 tosses, compute the unbiased posterior distribution of the true proportion of water.
-
+<br/>
 
