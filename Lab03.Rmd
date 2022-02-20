@@ -1,0 +1,272 @@
+---
+title: "Lab 03 - Exploring Likelihoods"
+subtitle: Individual assignment
+date: 'Due: February 27 at 23:59'
+---
+
+<style>
+.column-left{
+  float: left;
+  width: 60%;
+  text-align: left;
+}
+.column-right-small{
+  float: right;
+  width: 20%;
+  text-align: right;
+  padding-left: 10px;
+}
+
+.column-right-large{
+  float: right;
+  width: 40%;
+  text-align: right;
+  padding-left: 10px;
+}
+
+.column-full{
+  float: none;
+  width: 100%;
+  text-align: left;
+}
+
+
+.RUsers {
+  padding: 1em;
+  background: aliceblue;
+  color: black;
+}
+
+
+.SPSS {
+  padding: 1em;
+  background: whitesmoke;
+  color: black;
+}
+
+</style>
+
+
+```{r global-options, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE, message = FALSE)
+library(magrittr)
+library(knitr)
+library(kableExtra)
+library(emo)
+library(gridExtra)
+library(tidyverse)
+library(janitor)
+```
+
+
+<div class="column-right-large">
+
+
+```{r pi, out.width="500px", echo=FALSE, eval=TRUE}
+
+include_graphics("images/herebedragons.jpg")
+
+```
+
+</div>
+
+
+* Please submit your lab using [this link](https://docs.google.com/forms/d/e/1FAIpQLSfXX-wXNueJqj85Dv-Y2but1v7ejVigK4V5nGH7l3yK2QDGSw/viewform).   
+* If you have questions, please [book a slot](https://bit.ly/OferMeet) during Ofer's office hours!
+
+
+In this lab we continue to explore the likelihood, the log-likelihood, and why on Earth we would like to maximize those monsters. If you find all of this a bit confusing, go ahead and watch [this 6min video](https://bit.ly/3LIobzf). 
+
+
+[This random variable](https://bit.ly/3uZsuQv), consists of 100 observations, randomly sampled from a normal distribution with two parameters: $\mu, \sigma$. Unfortunately, we don't know the distribution's parameters. We can never observe parameters directly, we can only observe statistics measured in from our samples. Like the Gods, parameters are invisible to the eyes of mortals, and statistics are Their messengers. 
+
+Had we known the parameters of the distribution  $\mu, \sigma$, we would know the probability of observing any specific value $x$ is:
+$$P(X=x|\mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^\frac{(x-\mu)^2}{2\sigma^2} $$ 
+The probability of observing multiple independent values  $x_1, x_2, ..., x_n$ is 
+
+$$P(X=x_1, x_2, ... x_n |\mu, \sigma) = \prod_{i=1..n}P(X=x_i|\mu, \sigma) \\
+= \prod_{i=1..n}\frac{1}{\sqrt{2\pi}\sigma}e^\frac{(x_i-\mu)^2}{2\sigma^2} $$ 
+
+```{r read-var, eval=TRUE, echo=FALSE, include=TRUE}
+# Read in your random variable in the following manner:
+
+sample.from.norm <- read.csv("https://bit.ly/3uZsuQv")
+
+
+```
+
+
+
+```{r hide-ex2, eval=TRUE, echo=FALSE, include=FALSE}
+library(tidyverse)
+library(metR) # <-- this library for the contour plot...
+
+# likelihood: given the parameters of a normal distribution, 
+# sigma and mu, what is the probability of observing 
+# a certain outcome, x
+# p(x|mu,sigma) = dnorm(x, mean=mu, sd=sigma )
+lik <- function(x, mu, sigma){
+  return(sum(log(dnorm(x, mean=mu, sd=sigma))))  
+}
+
+# Now we want to create a data frame with combinations of 
+# mu and sd
+df <- expand.grid(mu = seq(2,4, b=.02), 
+                  sigma = seq(4.5,6, b=.02))
+
+
+# Here we calculate the log-likelihood for each combination
+df$loglik <- rep(NA, nrow(df))
+for(i in 1:nrow(df)){
+  mu    <- df$mu[i]
+  sigma <- df$sigma[i]
+  df$loglik[i] <- lik(sample.from.norm$rVariable, mu, sigma)
+}
+
+# Finally, we plot a heat map and a contour map, 
+# a representation of a three dimensional space where the x-axis
+# represents the mu, the y-axis represents the standard deviation, 
+# and the colour or contour represents the log likelihood.
+# df %>%  
+#   ggplot(aes(x=mu, y=sigma, 
+#              fill=loglik)) +
+#   geom_tile()
+
+
+
+```
+
+ 
+<div class="column-right-large">
+
+```{r show-contour, eval=TRUE, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+# b <- c(308, 310, seq(-310.8,-308, by=0.2))
+# b <- c(round(log(seq(exp(-315), exp(-306.3258), length.out=9)),2))
+
+# 2.72  5.18
+
+# df %>%  
+#   ggplot(aes(x=mu, y=sigma, 
+#              z=loglik)) +
+#   geom_contour(breaks=b) + 
+#   geom_text_contour(breaks=b) + 
+#   geom_vline(xintercept = 2.72) + 
+#   geom_hline(yintercept = 5.18)
+bx <- c(2.72 +c(-1,1) %o% seq(0,2,by=.2))
+by <- c(5.18 + c(-1,1) %o% seq(0,2,by=.2))  
+
+b <- c(round(log(seq(exp(-315), exp(-306.3258), length.out=9)),2))
+
+df %>%  
+  ggplot(aes(x=mu, y=sigma, 
+             z=loglik)) +
+  geom_contour(breaks=b) + 
+  geom_text_contour(breaks=b) + 
+  geom_vline(xintercept = 2.72, color="grey", alpha=.8) + 
+  geom_hline(yintercept = 5.18, color="grey", alpha=.8) + 
+  scale_x_continuous(breaks=2.72 +c(-1,1)*seq(0,2,by=.2))+ 
+  scale_y_continuous(breaks=5.18 +c(-1,1)*seq(0,2,by=.2), 
+                     limits=c(4.5,6))
+
+# , 
+#                      limits=c(4.5,6)
+  
+```
+
+<br/>
+<br/>
+</div>
+
+<div class="column-left" >
+
+This probability is also known as the likelihood. It defines the probability of making a set of observations, assuming that we are drawing from a particular distribution. It is often mathematically more convenient to look at the log of the likelihood. The parameters that maximize the log-likelihood are also known as the log-likelihood estimates of our parameters. In what follows, we are going to calculate a number of combinations of parameters $\mu, \sigma$ and find which combination maximizes the log likelihood for the our observations. First, we create a function to calculate the log likelihood for our data and for a set of parameters. Then, we create a data-frame with combinations of parameters, where $\mu\in[2,4]$ and $\sigma\in[4,6]$. Notice that this range contains what we believe are the  real parameters. We hope that the log likelihood would be maximized for a combination of parameters in the vicinity of the real parameters. 
+</div><div class="column-full" >
+
+a. Remember that the log of a product equals the sum of the logs. This means that $\log(x_1\cdot x_2\cdot x_3...) = log(\prod_i x_i) = \sum_i \log( x_i)$. Using this equation, *write an expression* for the log-likelihood $\log\Big[P(X=x_1, x_2, ... x_n |\mu, \sigma)\Big]$. 
+
+b. Instead of maximizing the likelihood, it is common practice to maximize the log-likelihood. Can you explain why? 
+
+c. Create a graph showing the distribution of the log-likelihood generated from different combinations of parameters. In other words, you run through different combination of parameters $\mu, \sigma$, and for each one you calculate the probability of observing the random variable given those parameters (see the code below). Read the random data into R using `read.csv("https://bit.ly/3uZsuQv")`.
+
+d. What are the values of the parameters $\mu, \sigma$ that maximize the log-likelihood? What is the maximum log-likelihood for those values? How do these values compare to the mean and standard deviation of the sample observations?
+
+e. Create a heat-map or a contour map like the one shown on the right hands side. Add vertical and horizontal lines to show the the parameters that maximize the log likelihood. 
+
+```{r show-ex2, eval=FALSE, echo=TRUE, include=TRUE}
+
+library(tidyverse)
+library(metR) # <-- this library for the contour plot...
+
+# likelihood: given the parameters of a normal distribution, 
+# sigma and mu, what is the probability of observing 
+# a certain outcome, x
+# p(x|mu,sigma) = dnorm(x, mean=mu, sd=sigma )
+lik <- function(x, mu, sigma){
+  return(sum(log(dnorm(x, mean=mu, sd=sigma))))  
+}
+
+# Now we want to create a data frame with combinations of 
+# mu and sigma. You may want to decrease the range of parameters
+# or the number of combinations to improve your plot.
+df <- expand.grid(mu = seq(2,4, b=.02), 
+                  sigma = seq(4,6, b=.02))
+
+
+# Here we calculate the log-likelihood for each combination
+df$loglik <- rep(NA, nrow(df))
+for(i in 1:nrow(df)){
+  mu    <- df$mu[i]
+  sigma <- df$sigma[i]
+  df$loglik[i] <- lik(X,mu,sigma)
+}
+
+# Finally, we plot a heat map and a contour map, 
+# a representation of a three dimensional space where the x-axis
+# represents the mu, the y-axis represents the standard deviation, 
+# and the colour or contour represents the log likelihood.
+df %>%
+  ggplot(aes(x=mu, y=sigma,
+             fill=loglik)) +
+  geom_tile()
+
+
+df %>%  
+  ggplot(aes(x=mu, y=sigma, 
+             z=loglik)) +
+  geom_contour() + 
+  geom_text_contour() 
+
+```
+
+</div>
+
+
+# Bonus questions 
+
+You may choose to do one or more of the questions below for a chance to obtain an "E".
+
+
+<div class="column-right-small">
+
+
+```{r rethinking, out.width="500px", echo=FALSE, eval=TRUE}
+
+include_graphics("images/rethinking.png")
+
+```
+The questions are taken audaciously from coursework made publicly available by Richard McElreath.  
+</div>
+
+
+Before starting, consider reviewing the EASY problems at the end of Chapters 1, 2 and 3 in McElreath's [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) book
+
+1. Suppose the globe tossing data data (Chapter 2) had turned out to be 4 water and 11 land. Construct the posterior distribution, using grid approximation. Use the same flat prior as in the book.
+
+2. Now suppose the data are 4 water and 2 land. Compute the posterior again, but this time use a prior that is zero below $p = 0.5$ and a constant above $p = 0.5$. This corresponds to prior information that a majority of the Earth’s surface is water.
+
+3. For the posterior distribution from 2, compute 89% percentile and HPDI intervals. Compare the widths of these intervals. Which is wider? Why? If you had only the information in the interval, what might you misunderstand about the shape of the posterior distribution?
+
+4. Suppose there is bias in sampling so that Land is more likely than Water to be recorded. Specifically, assume that 1-in-5
+(20%) of Water samples are accidentally recorded instead as ”Land”. First, write a generative simulation of this sampling process. Assuming the true proportion of Water is 0.70, what proportion does your simulation tend to produce instead? Second, using a simulated sample of 20 tosses, compute the unbiased posterior distribution of the true proportion of water.
+
+

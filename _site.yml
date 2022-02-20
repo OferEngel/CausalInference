@@ -15,6 +15,8 @@ navbar:
           href: Lab01.html
         - text: "Lab 2"
           href: Lab02.html
+        - text: "Lab 3"
+          href: Lab03.html
         - text: "To be continued..."
         #   href: Lab02.html
         # - text: "Lab 3"
