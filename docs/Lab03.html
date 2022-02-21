@@ -429,9 +429,9 @@ $(document).ready(function () {
 </ul>
 <p>In this lab we continue to explore the likelihood, the log-likelihood, and why on Earth we would like to maximize those monsters. If you find all of this a bit confusing, go ahead and watch <a href="https://bit.ly/3LIobzf">this 6min video</a>.</p>
 <p><a href="https://bit.ly/3uZsuQv">This random variable</a>, consists of 100 observations, randomly sampled from a normal distribution with two parameters: <span class="math inline">\(\mu, \sigma\)</span>. Unfortunately, we don’t know the distribution’s parameters. We can never observe parameters directly, we can only observe statistics measured in from our samples. Like the Gods, parameters are invisible to the eyes of mortals, and statistics are Their messengers.</p>
-<p>Had we known the parameters of the distribution <span class="math inline">\(\mu, \sigma\)</span>, we would know the probability of observing any specific value <span class="math inline">\(x\)</span> is: <span class="math display">\[P(X=x|\mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^\frac{(x-\mu)^2}{2\sigma^2} \]</span> The probability of observing multiple independent values <span class="math inline">\(x_1, x_2, ..., x_n\)</span> is</p>
+<p>Had we known the parameters of the distribution <span class="math inline">\(\mu, \sigma\)</span>, we would know the probability of observing any specific value <span class="math inline">\(x\)</span> is: <span class="math display">\[P(X=x|\mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \]</span> The probability of observing multiple independent values <span class="math inline">\(x_1, x_2, ..., x_n\)</span> is</p>
 <p><span class="math display">\[P(X=x_1, x_2, ... x_n |\mu, \sigma) = \prod_{i=1..n}P(X=x_i|\mu, \sigma) \\
-= \prod_{i=1..n}\frac{1}{\sqrt{2\pi}\sigma}e^\frac{(x_i-\mu)^2}{2\sigma^2} \]</span></p>
+= \prod_{i=1..n}\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x_i-\mu)^2}{2\sigma^2}} \]</span></p>
 <div class="column-right-large">
 <p><img src="Lab03_files/figure-html/show-contour-1.png" width="672" /></p>
 <p><br/> <br/></p>

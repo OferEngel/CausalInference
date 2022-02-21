@@ -87,11 +87,11 @@ In this lab we continue to explore the likelihood, the log-likelihood, and why o
 [This random variable](https://bit.ly/3uZsuQv), consists of 100 observations, randomly sampled from a normal distribution with two parameters: $\mu, \sigma$. Unfortunately, we don't know the distribution's parameters. We can never observe parameters directly, we can only observe statistics measured in from our samples. Like the Gods, parameters are invisible to the eyes of mortals, and statistics are Their messengers. 
 
 Had we known the parameters of the distribution  $\mu, \sigma$, we would know the probability of observing any specific value $x$ is:
-$$P(X=x|\mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^\frac{(x-\mu)^2}{2\sigma^2} $$ 
+$$P(X=x|\mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}} $$ 
 The probability of observing multiple independent values  $x_1, x_2, ..., x_n$ is 
 
 $$P(X=x_1, x_2, ... x_n |\mu, \sigma) = \prod_{i=1..n}P(X=x_i|\mu, \sigma) \\
-= \prod_{i=1..n}\frac{1}{\sqrt{2\pi}\sigma}e^\frac{(x_i-\mu)^2}{2\sigma^2} $$ 
+= \prod_{i=1..n}\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x_i-\mu)^2}{2\sigma^2}} $$ 
 
 ```{r read-var, eval=TRUE, echo=FALSE, include=TRUE}
 # Read in your random variable in the following manner:
