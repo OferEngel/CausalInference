@@ -428,24 +428,29 @@ $(document).ready(function () {
 <li>If you have questions, please <a href="https://bit.ly/OferMeet">book a slot</a> during Ofer’s office hours!</li>
 </ul>
 <p>In this lab we continue to explore the likelihood, the log-likelihood, and why on Earth we would like to maximize those monsters. If you find all of this a bit confusing, go ahead and watch <a href="https://bit.ly/3LIobzf">this 6min video</a>.</p>
-<p><a href="https://bit.ly/3uZsuQv">This random variable</a>, consists of 100 observations, randomly sampled from a normal distribution with two parameters: <span class="math inline">\(\mu, \sigma\)</span>. Unfortunately, we don’t know the distribution’s parameters. We can never observe parameters directly, we can only observe statistics measured in from our samples. Like the Gods, parameters are invisible to the eyes of mortals, and statistics are Their messengers.</p>
-<p>Had we known the parameters of the distribution <span class="math inline">\(\mu, \sigma\)</span>, we would know the probability of observing any specific value <span class="math inline">\(x\)</span> is: <span class="math display">\[P(X=x|\mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \]</span> The probability of observing multiple independent values <span class="math inline">\(x_1, x_2, ..., x_n\)</span> is</p>
-<p><span class="math display">\[P(X=x_1, x_2, ... x_n |\mu, \sigma) = \prod_{i=1..n}P(X=x_i|\mu, \sigma) \\
+<p><a href="https://bit.ly/3uZsuQv">This random variable</a>, consists of 100 observations, randomly sampled from a normal distribution with two parameters: <span class="math inline">\(\mu, \sigma\)</span>. Unfortunately, we don’t know the distribution’s parameters. We can never observe parameters directly, we can only observe statistics measured in our samples. Like the Gods, parameters are invisible to the eyes of mortals, and statistics are Their messengers.</p>
+<p>Had we known the parameters of the distribution <span class="math inline">\(\mu, \sigma\)</span>, we would know the probability density of observing any specific value <span class="math inline">\(x\)</span> is: <span class="math display">\[f(X=x|\mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \]</span> The probability density of observing multiple independent values <span class="math inline">\(x_1, x_2, ..., x_n\)</span> is</p>
+<p><span class="math display">\[f(X=x_1, x_2, ... x_n |\mu, \sigma) = \prod_{i=1..n}f(X=x_i|\mu, \sigma) \\
 = \prod_{i=1..n}\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x_i-\mu)^2}{2\sigma^2}} \]</span></p>
 <div class="column-right-large">
 <p><img src="Lab03_files/figure-html/show-contour-1.png" width="672" /></p>
 <p><br/> <br/></p>
 </div>
 <div class="column-left">
-<p>This probability is also known as the likelihood. It defines the probability of making a set of observations, assuming that we are drawing from a particular distribution. It is often mathematically more convenient to look at the log of the likelihood. The parameters that maximize the log-likelihood are also known as the log-likelihood estimates of our parameters. In what follows, we are going to calculate a number of combinations of parameters <span class="math inline">\(\mu, \sigma\)</span> and find which combination maximizes the log likelihood for the our observations. First, we create a function to calculate the log likelihood for our data and for a set of parameters. Then, we create a data-frame with combinations of parameters, where <span class="math inline">\(\mu\in[2,4]\)</span> and <span class="math inline">\(\sigma\in[4,6]\)</span>. Notice that this range contains what we believe are the real parameters. We hope that the log likelihood would be maximized for a combination of parameters in the vicinity of the real parameters.</p>
+<p>This probability is also known as the likelihood. It defines the probability of making a set of observations, assuming that we are drawing from a particular distribution. But instead of looking at the probability density itself, it is often mathematically more convenient to look at the log of the likelihood. The parameters that maximize the log-likelihood are also known as the log-likelihood estimates of our parameters. In what follows, we are going to calculate a number of combinations of parameters <span class="math inline">\(\mu, \sigma\)</span> and find which combination maximizes the log likelihood for our observations. First, we create a function to calculate the log likelihood for our data, given a set of parameters. Then, we create a data-frame with combinations of parameters, where <span class="math inline">\(\mu\in[2,4]\)</span> and <span class="math inline">\(\sigma\in[4,6]\)</span>. Notice that this range contains what we believe are the real parameters. We hope that the log likelihood would be maximized for a combination of parameters in the vicinity of the real parameters.</p>
 </div>
 <div class="column-full">
 <ol style="list-style-type: lower-alpha">
-<li><p>Remember that the log of a product equals the sum of the logs. This means that <span class="math inline">\(\log(x_1\cdot x_2\cdot x_3...) = log(\prod_i x_i) = \sum_i \log( x_i)\)</span>. Using this equation, <em>write an expression</em> for the log-likelihood <span class="math inline">\(\log\Big[P(X=x_1, x_2, ... x_n |\mu, \sigma)\Big]\)</span>.</p></li>
+<li>Remember that the log of a product equals the sum of the logs. This means that <span class="math inline">\(\log(x_1\cdot x_2\cdot x_3...) = log(\prod_i x_i) = \sum_i \log( x_i)\)</span>. Using this equation, <em>write an expression</em> for the log-likelihood:</li>
+</ol>
+<p><span class="math display">\[
+\log\Big[f(X=x_1, x_2, ... x_n |\mu, \sigma)\Big]
+\]</span></p>
+<ol start="2" style="list-style-type: lower-alpha">
 <li><p>Instead of maximizing the likelihood, it is common practice to maximize the log-likelihood. Can you explain why?</p></li>
-<li><p>Create a graph showing the distribution of the log-likelihood generated from different combinations of parameters. In other words, you run through different combination of parameters <span class="math inline">\(\mu, \sigma\)</span>, and for each one you calculate the probability of observing the random variable given those parameters (see the code below). Read the random data into R using <code>read.csv("https://bit.ly/3uZsuQv")</code>.</p></li>
-<li><p>What are the values of the parameters <span class="math inline">\(\mu, \sigma\)</span> that maximize the log-likelihood? What is the maximum log-likelihood for those values? How do these values compare to the mean and standard deviation of the sample observations?</p></li>
-<li><p>Create a heat-map or a contour map like the one shown on the right hands side. Add vertical and horizontal lines to show the the parameters that maximize the log likelihood.</p></li>
+<li><p>Create a graph showing the distribution of the log-likelihood generated from different combinations of parameters. In other words, run through different combination of parameters <span class="math inline">\(\mu, \sigma\)</span>, and for each combination you calculate the probability density of observing the random variable given those parameters (see the code below). Read the random data into R using <code>read.csv("https://bit.ly/3uZsuQv")</code>.</p></li>
+<li><p>What are the values of the parameters <span class="math inline">\(\mu, \sigma\)</span> that maximize the log-likelihood? What is the maximum log-likelihood for those values? How do these values compare to the <em>mean</em> and <em>standard deviation</em> of the sample observations? Show that your results suggest that one of the maximum likelihood estimations is unbiased and that the other <a href="https://www.youtube.com/watch?v=u2liUsAC61k">is biased</a>. Is this bias an underestating or overestating the standard deviation? What does it mean to say that an estimate is biased?</p></li>
+<li><p>Create a heat-map or a contour map like the one shown above, on the right hands side. Add vertical and horizontal straight lines to illustrate the parameters that maximize the log likelihood.</p></li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(metR) <span class="co"># &lt;-- this library for the contour plot...</span></span>
@@ -459,35 +464,36 @@ $(document).ready(function () {
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we want to create a data frame with combinations of </span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># mu and sigma. You may want to decrease the range of parameters</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># or the number of combinations to improve your plot.</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mu =</span> <span class="fu">seq</span>(<span class="dv">2</span>,<span class="dv">4</span>, <span class="at">b=</span>.<span class="dv">02</span>), </span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sigma =</span> <span class="fu">seq</span>(<span class="dv">4</span>,<span class="dv">6</span>, <span class="at">b=</span>.<span class="dv">02</span>))</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># potential values for mu and sigma. You may want to </span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># decrease the range of parameters or the number of </span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># combinations to improve your plot.</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mu =</span> <span class="fu">seq</span>(<span class="dv">2</span>,<span class="dv">4</span>, <span class="at">b=</span>.<span class="dv">02</span>), </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sigma =</span> <span class="fu">seq</span>(<span class="dv">4</span>,<span class="dv">6</span>, <span class="at">b=</span>.<span class="dv">02</span>))</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we calculate the log-likelihood for each combination</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>loglik <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(df))</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df)){</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  mu    <span class="ot">&lt;-</span> df<span class="sc">$</span>mu[i]</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  sigma <span class="ot">&lt;-</span> df<span class="sc">$</span>sigma[i]</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>loglik[i] <span class="ot">&lt;-</span> <span class="fu">lik</span>(X,mu,sigma)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Finally, we plot a heat map and a contour map, </span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># a representation of a three dimensional space where the x-axis</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># represents the mu, the y-axis represents the standard deviation, </span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># and the colour or contour represents the log likelihood.</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>mu, <span class="at">y=</span>sigma,</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill=</span>loglik)) <span class="sc">+</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>()</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we calculate the log-likelihood for each combination</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>loglik <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(df))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df)){</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  mu    <span class="ot">&lt;-</span> df<span class="sc">$</span>mu[i]</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  sigma <span class="ot">&lt;-</span> df<span class="sc">$</span>sigma[i]</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>loglik[i] <span class="ot">&lt;-</span> <span class="fu">lik</span>(X,mu,sigma)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Finally, we plot a heat map and a contour map, </span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># a representation of a three dimensional space where the x-axis</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># represents the mu, the y-axis represents the standard deviation, </span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># and the colour or contour represents the log likelihood.</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>mu, <span class="at">y=</span>sigma,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill=</span>loglik)) <span class="sc">+</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>()</span>
 <span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>mu, <span class="at">y=</span>sigma, </span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>             <span class="at">z=</span>loglik)) <span class="sc">+</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>() <span class="sc">+</span> </span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_contour</span>() </span></code></pre></div>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>mu, <span class="at">y=</span>sigma, </span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>             <span class="at">z=</span>loglik)) <span class="sc">+</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>() <span class="sc">+</span> </span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_contour</span>() </span></code></pre></div>
 </div>
 <div id="globe-tossing" class="section level1">
 <h1>Globe tossing</h1>
