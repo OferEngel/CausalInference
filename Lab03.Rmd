@@ -15,6 +15,7 @@ date: 'Due: February 27 at 23:59'
   width: 20%;
   text-align: right;
   padding-left: 10px;
+  font-size:10px;
 }
 
 .column-right-large{
@@ -89,7 +90,7 @@ include_graphics("images/herebedragons.jpg")
 * If you have questions, please [book a slot](https://bit.ly/OferMeet) during Ofer's office hours!
 
 
-In this lab we continue to explore the likelihood, the log-likelihood, and why on Earth we would like to maximize those monsters. If you find all of this a bit confusing, go ahead and watch [this 6min video](https://bit.ly/3LIobzf). 
+In this lab we explore the likelihood, the log-likelihood, and why on Earth we would like to maximize those monsters. If you find all of this a bit confusing, go ahead and watch [this 6min video](https://bit.ly/3LIobzf). 
 
 
 Choose three numbers, and assume they are three observations, randomly sampled from a normal distribution with two parameters: $\mu, \sigma$. Unfortunately, we don't know the distribution's parameters. We can never observe parameters directly, we can only observe statistics measured in our samples. Like the Gods, parameters are invisible to the eyes of mortals, and statistics are Their messengers. 
@@ -146,7 +147,7 @@ for(i in 1:nrow(df)){
  
 
 
-This probability is also known as the likelihood. It defines the probability of making a set of observations, assuming that we are drawing from a particular distribution. 
+This probability is also known as the likelihood. It defines the probability of making a set of observations, assuming that we are drawing from a theoretical distribution. 
 
 </div>
 
@@ -154,19 +155,33 @@ This probability is also known as the likelihood. It defines the probability of 
 
 
 
-```{r phases, eval=TRUE, echo=FALSE, fig.height=2, fig.width=2}
+```{r phases, eval=TRUE, echo=FALSE, fig.height=3, fig.width=3}
 
-ggplot(expand.grid(mu = seq(-1,1, b=1), 
-                  sigma = seq(.5,1.5, b=.5))) + geom_point(aes(x=mu, y=sigma))
+params <- expand.grid(mu = seq(-.25,.25, b=.25), 
+                  sigma = seq(.5,1, b=.25))
+for(i in 1:nrow(params)){
+  params$lik[i] <- prod(dnorm(c(-1,0,1), 
+                            params$mu[i], 
+                            params$sigma[i]))   
+}
+
+params$r.lik <- rank(params$lik)
+
+
+ggplot(params) + 
+  geom_point(aes(x=mu, y=sigma, color=r.lik), size=3) +   
+  scale_color_binned(type = "viridis")  + 
+  theme(legend.position = "bottom")
+
 ```
 
-
+The figure above suggests that the region of highest likelihood is in the vicinity where $\mu=0$ and $\sigma \in [^3/_4, 1]$
 
 </div>
 
 
 <div class="column-full-left" >
-Suppose I chose the three numbers $-1, 0, 1$. For these numbers, we can imagine that the mean of the real probability distribution from which they were drawn was in the vicinity of $\mu \in [-1,1]$ and the standard deviation is in the vicinity of $\sigma \in [\frac{1}{2},\frac{3}{2}]$. So we want to check the probability of making these observations using combinations of possible $\mu, \sigma$. 
+Suppose I chose the three numbers $-1, 0, 1$. For these numbers, we can imagine that the mean of the theoretical probability distribution from which they were drawn is in the vicinity of $\mu \in [-\frac{1}{4},\frac{1}{4}]$ and the standard deviation is in the vicinity of $\sigma \in [\frac{1}{2},1]$. So we want to check the probability of making these observations using combinations of possible $\mu, \sigma$. 
 
 
 a. [BONUS] Choose three numbers (numbers different than the ones I chose above), and then choose the boundaries of the parameter space, $\mu, \sigma$  which you want to explore. Choose three values for each of those parameters and then calculate the likelihood for each of the nine combinations. Which combination in the parameter space yields the highest likelihood? 
@@ -179,7 +194,7 @@ b. [BONUS] Try choosing a narrower parameter space around the point that maximiz
 ```{r show-contour, eval=TRUE, echo=FALSE, fig.height=4, fig.width=4, message=FALSE, warning=FALSE, include=TRUE}
 
 bx <- round(c(2.712872 + c(-1,1) %o% seq(0,2,by=.2)),2)
-by <- round(c(5.151525 + c(-1,1) %o% seq(0,2,by=.2)),2) 
+by <- round(c(5.177477 + c(-1,1) %o% seq(0,2,by=.2)),2) 
 
 b <- c(round(log(seq(exp(-315), exp(-306.3258), length.out=9)),2))
 
@@ -189,7 +204,7 @@ df %>%
   geom_contour(breaks=b) + 
   geom_text_contour(breaks=b) + 
   geom_vline(xintercept = 2.712872, color="grey", alpha=.8) + 
-  geom_hline(yintercept = 5.151525, color="grey", alpha=.8) + 
+  geom_hline(yintercept = 5.177477, color="grey", alpha=.8) + 
   scale_x_continuous(breaks=bx)+ 
   scale_y_continuous(breaks=by, limits=c(4.5,6))
 
@@ -250,19 +265,23 @@ for(i in 1:nrow(df)){
   df$loglik[i] <- lik(X$rVariable,mu,sigma)
 }
 
+# The following creates a ranking of the log likelihood, 
+# which makes it easier to see the graphs
+df$r.loglik <- rank(df$loglik)
+
 # Finally, we plot a heat map and a contour map, 
 # a representation of a three dimensional space where the x-axis
 # represents the mu, the y-axis represents the standard deviation, 
 # and the colour or contour represents the log likelihood.
 df %>%
   ggplot(aes(x=mu, y=sigma,
-             fill=exp(loglik))) +
-  geom_tile()
+             fill=r.loglik)) +
+  geom_tile() + scale_fill_binned(type = "viridis")  
 
 
 df %>%  
   ggplot(aes(x=mu, y=sigma, 
-             z=loglik)) +
+             z=r.loglik)) +
   geom_contour() + 
   geom_text_contour() 
 

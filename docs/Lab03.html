@@ -383,6 +383,7 @@ $(document).ready(function () {
   width: 20%;
   text-align: right;
   padding-left: 10px;
+  font-size:10px;
 }
 
 .column-right-large{
@@ -435,20 +436,21 @@ $(document).ready(function () {
 </li>
 <li>If you have questions, please <a href="https://bit.ly/OferMeet">book a slot</a> during Ofer’s office hours!</li>
 </ul>
-<p>In this lab we continue to explore the likelihood, the log-likelihood, and why on Earth we would like to maximize those monsters. If you find all of this a bit confusing, go ahead and watch <a href="https://bit.ly/3LIobzf">this 6min video</a>.</p>
+<p>In this lab we explore the likelihood, the log-likelihood, and why on Earth we would like to maximize those monsters. If you find all of this a bit confusing, go ahead and watch <a href="https://bit.ly/3LIobzf">this 6min video</a>.</p>
 <p>Choose three numbers, and assume they are three observations, randomly sampled from a normal distribution with two parameters: <span class="math inline">\(\mu, \sigma\)</span>. Unfortunately, we don’t know the distribution’s parameters. We can never observe parameters directly, we can only observe statistics measured in our samples. Like the Gods, parameters are invisible to the eyes of mortals, and statistics are Their messengers.</p>
 </div>
 <div class="column-full-left">
 <p>Had we known the parameters of the distribution <span class="math inline">\(\mu, \sigma\)</span>, we would know the probability density of observing any specific value <span class="math inline">\(x\)</span> is: <span class="math display">\[f(X=x|\mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \]</span> The probability density of observing multiple independent values <span class="math inline">\(x_1, x_2, ..., x_n\)</span> is</p>
 <p><span class="math display">\[f(X=x_1, x_2, ... x_n |\mu, \sigma) = \prod_{i=1..n}f(X=x_i|\mu, \sigma) \\
 = \prod_{i=1..n}\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x_i-\mu)^2}{2\sigma^2}} \]</span></p>
-<p>This probability is also known as the likelihood. It defines the probability of making a set of observations, assuming that we are drawing from a particular distribution.</p>
+<p>This probability is also known as the likelihood. It defines the probability of making a set of observations, assuming that we are drawing from a theoretical distribution.</p>
 </div>
 <div class="column-right-small">
-<p><img src="Lab03_files/figure-html/phases-1.png" width="192" /></p>
+<p><img src="Lab03_files/figure-html/phases-1.png" width="288" /></p>
+<p>The figure above suggests that the region of highest likelihood is in the vicinity where <span class="math inline">\(\mu=0\)</span> and <span class="math inline">\(\sigma \in [^3/_4, 1]\)</span></p>
 </div>
 <div class="column-full-left">
-<p>Suppose I chose the three numbers <span class="math inline">\(-1, 0, 1\)</span>. For these numbers, we can imagine that the mean of the real probability distribution from which they were drawn was in the vicinity of <span class="math inline">\(\mu \in [-1,1]\)</span> and the standard deviation is in the vicinity of <span class="math inline">\(\sigma \in [\frac{1}{2},\frac{3}{2}]\)</span>. So we want to check the probability of making these observations using combinations of possible <span class="math inline">\(\mu, \sigma\)</span>.</p>
+<p>Suppose I chose the three numbers <span class="math inline">\(-1, 0, 1\)</span>. For these numbers, we can imagine that the mean of the theoretical probability distribution from which they were drawn is in the vicinity of <span class="math inline">\(\mu \in [-\frac{1}{4},\frac{1}{4}]\)</span> and the standard deviation is in the vicinity of <span class="math inline">\(\sigma \in [\frac{1}{2},1]\)</span>. So we want to check the probability of making these observations using combinations of possible <span class="math inline">\(\mu, \sigma\)</span>.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>[BONUS] Choose three numbers (numbers different than the ones I chose above), and then choose the boundaries of the parameter space, <span class="math inline">\(\mu, \sigma\)</span> which you want to explore. Choose three values for each of those parameters and then calculate the likelihood for each of the nine combinations. Which combination in the parameter space yields the highest likelihood?</p></li>
 <li><p>[BONUS] Try choosing a narrower parameter space around the point that maximizes the likelihood, and repeat this exercise. Your objective is to locate the parameters that maximize the likelihood with greater precision.</p></li>
@@ -501,21 +503,25 @@ $(document).ready(function () {
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>loglik[i] <span class="ot">&lt;-</span> <span class="fu">lik</span>(X<span class="sc">$</span>rVariable,mu,sigma)</span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Finally, we plot a heat map and a contour map, </span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># a representation of a three dimensional space where the x-axis</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># represents the mu, the y-axis represents the standard deviation, </span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># and the colour or contour represents the log likelihood.</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>mu, <span class="at">y=</span>sigma,</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill=</span><span class="fu">exp</span>(loglik))) <span class="sc">+</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>()</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>mu, <span class="at">y=</span>sigma, </span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>             <span class="at">z=</span>loglik)) <span class="sc">+</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>() <span class="sc">+</span> </span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_contour</span>() </span></code></pre></div>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># The following creates a ranking of the log likelihood, </span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># which makes it easier to see the graphs</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>r.loglik <span class="ot">&lt;-</span> <span class="fu">rank</span>(df<span class="sc">$</span>loglik)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Finally, we plot a heat map and a contour map, </span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># a representation of a three dimensional space where the x-axis</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co"># represents the mu, the y-axis represents the standard deviation, </span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># and the colour or contour represents the log likelihood.</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>mu, <span class="at">y=</span>sigma,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill=</span>r.loglik)) <span class="sc">+</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span> <span class="fu">scale_fill_binned</span>(<span class="at">type =</span> <span class="st">&quot;viridis&quot;</span>)  </span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>mu, <span class="at">y=</span>sigma, </span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>             <span class="at">z=</span>r.loglik)) <span class="sc">+</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>() <span class="sc">+</span> </span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_contour</span>() </span></code></pre></div>
 </div>
 <div id="globe-tossing" class="section level1">
 <h1>Globe tossing</h1>

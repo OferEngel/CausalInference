@@ -105,7 +105,7 @@ for(i in 1:nrow(df)){
 df %>%
   ggplot(aes(x=mu, y=sigma,
              fill=exp(loglik))) +
-  geom_tile()
+  geom_tile() +  scale_fill_binned(type = "viridis")  
 
 
 df %>%  
@@ -113,5 +113,42 @@ df %>%
              z=loglik)) +
   geom_contour() + 
   geom_text_contour() 
+
+
+var(c(0,1,-1))*2/3
+sqrt(2/3)
+
+
+
+# Here we calculate the log-likelihood for each combination
+df$loglik <- rep(NA, nrow(df))
+for(i in 1:nrow(df)){
+  mu    <- df$mu[i]
+  sigma <- df$sigma[i]
+  df$loglik[i] <- lik(X$rVariable,mu,sigma)
+}
+
+df$col <- rank(loglik)/100
+
+# Finally, we plot a heat map and a contour map, 
+# a representation of a three dimensional space where the x-axis
+# represents the mu, the y-axis represents the standard deviation, 
+# and the colour or contour represents the log likelihood.
+df %>%
+  ggplot(aes(x=mu, y=sigma,
+             fill=col)) +
+  geom_tile() + scale_fill_binned(type = "viridis")  
+
+
+
+
+
+
+
+
+
+
+
+
 
 
