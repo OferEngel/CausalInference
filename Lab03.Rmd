@@ -83,6 +83,7 @@ include_graphics("images/herebedragons.jpg")
 
 </div>
 
+<div class="column-left" >
 
 * Please submit your lab using [this link](https://docs.google.com/forms/d/e/1FAIpQLSfXX-wXNueJqj85Dv-Y2but1v7ejVigK4V5nGH7l3yK2QDGSw/viewform).   
 * If you have questions, please [book a slot](https://bit.ly/OferMeet) during Ofer's office hours!
@@ -92,7 +93,10 @@ In this lab we continue to explore the likelihood, the log-likelihood, and why o
 
 
 Choose three numbers, and assume they are three observations, randomly sampled from a normal distribution with two parameters: $\mu, \sigma$. Unfortunately, we don't know the distribution's parameters. We can never observe parameters directly, we can only observe statistics measured in our samples. Like the Gods, parameters are invisible to the eyes of mortals, and statistics are Their messengers. 
+</div>
 
+
+<div class="column-full-left" >
 Had we known the parameters of the distribution  $\mu, \sigma$, we would know the probability density of observing any specific value $x$ is:
 $$f(X=x|\mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}} $$ 
 The probability density of observing multiple independent values  $x_1, x_2, ..., x_n$ is 
@@ -140,6 +144,36 @@ for(i in 1:nrow(df)){
 ```
 
  
+
+
+This probability is also known as the likelihood. It defines the probability of making a set of observations, assuming that we are drawing from a particular distribution. 
+
+</div>
+
+<div class="column-right-small" >
+
+
+
+```{r phases, eval=TRUE, echo=FALSE, fig.height=2, fig.width=2}
+
+ggplot(expand.grid(mu = seq(-1,1, b=1), 
+                  sigma = seq(.5,1.5, b=.5))) + geom_point(aes(x=mu, y=sigma))
+```
+
+
+
+</div>
+
+
+<div class="column-full-left" >
+Suppose I chose the three numbers $-1, 0, 1$. For these numbers, we can imagine that the mean of the real probability distribution from which they were drawn was in the vicinity of $\mu \in [-1,1]$ and the standard deviation is in the vicinity of $\sigma \in [\frac{1}{2},\frac{3}{2}]$. So we want to check the probability of making these observations using combinations of possible $\mu, \sigma$. 
+
+
+a. [BONUS] Choose three numbers (numbers different than the ones I chose above), and then choose the boundaries of the parameter space, $\mu, \sigma$  which you want to explore. Choose three values for each of those parameters and then calculate the likelihood for each of the nine combinations. Which combination in the parameter space yields the highest likelihood? 
+
+b. [BONUS] Try choosing a narrower parameter space around the point that maximizes the likelihood, and repeat this exercise. Your objective is to locate the parameters that maximize the likelihood with greater precision.   
+
+</div>
 <div class="column-right-large">
 
 ```{r show-contour, eval=TRUE, echo=FALSE, fig.height=4, fig.width=4, message=FALSE, warning=FALSE, include=TRUE}
@@ -165,35 +199,7 @@ df %>%
 <br/>
 </div>
 
-<div class="column-left" >
-
-This probability is also known as the likelihood. It defines the probability of making a set of observations, assuming that we are drawing from a particular distribution. 
-
-Suppose I chose the three numbers $-1, 0, 1$. For these numbers, we can imagine that the mean of the real probability distribution from which they were drawn was in the vicinity of $\mu \in [-1,1]$ and the standard deviation is in the vicinity of $\sigma \in [\frac{1}{2},\frac{3}{2}]$. So we want to check the probability of making these observations using combinations of possible $\mu, \sigma$. 
-
-</div>
-
-<div class="column-left" >
-
-
-
-```{r phases, eval=TRUE, echo=FALSE, fig.height=2, fig.width=2}
-
-ggplot(expand.grid(mu = seq(-1,1, b=1), 
-                  sigma = seq(.5,1.5, b=.5))) + geom_point(aes(x=mu, y=sigma))
-```
-
-
-
-</div>
-
-
 <div class="column-full-left" >
-a. [BONUS] Choose three numbers (numbers different than the ones I chose above), and then choose the boundaries of the parameter space, $\mu, \sigma$  which you want to explore. Choose three values for each of those parameters and then calculate the likelihood for each of the nine combinations. Which combination in the parameter space yields the highest likelihood? 
-
-b. [BONUS] Try choosing a narrower parameter space around the point that maximizes the likelihood, and repeat this exercise. Your objective is to locate the parameters that maximize the likelihood with greater precision.   
-
-
 From a simple example of only three observations, we now move to an example of 100 observations. You will find the data for these observations [here](https://bit.ly/3uZsuQv).
 
 When we have larger datasets, it is often mathematically more convenient to look at the log of the likelihood, and not just the likelihood. The parameters that maximize the log-likelihood are also known as the log-likelihood estimates of our parameters. In what follows, we are going to calculate a number of combinations of parameters $\mu, \sigma$ and find which combination maximizes the log likelihood for our observations. 

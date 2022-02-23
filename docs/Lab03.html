@@ -429,6 +429,7 @@ $(document).ready(function () {
 <div class="column-right-large">
 <p><img src="images/herebedragons.jpg" width="500px" /></p>
 </div>
+<div class="column-left">
 <ul>
 <li>Please submit your lab using <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXX-wXNueJqj85Dv-Y2but1v7ejVigK4V5nGH7l3yK2QDGSw/viewform">this link</a>.<br />
 </li>
@@ -436,25 +437,28 @@ $(document).ready(function () {
 </ul>
 <p>In this lab we continue to explore the likelihood, the log-likelihood, and why on Earth we would like to maximize those monsters. If you find all of this a bit confusing, go ahead and watch <a href="https://bit.ly/3LIobzf">this 6min video</a>.</p>
 <p>Choose three numbers, and assume they are three observations, randomly sampled from a normal distribution with two parameters: <span class="math inline">\(\mu, \sigma\)</span>. Unfortunately, we don’t know the distribution’s parameters. We can never observe parameters directly, we can only observe statistics measured in our samples. Like the Gods, parameters are invisible to the eyes of mortals, and statistics are Their messengers.</p>
+</div>
+<div class="column-full-left">
 <p>Had we known the parameters of the distribution <span class="math inline">\(\mu, \sigma\)</span>, we would know the probability density of observing any specific value <span class="math inline">\(x\)</span> is: <span class="math display">\[f(X=x|\mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \]</span> The probability density of observing multiple independent values <span class="math inline">\(x_1, x_2, ..., x_n\)</span> is</p>
 <p><span class="math display">\[f(X=x_1, x_2, ... x_n |\mu, \sigma) = \prod_{i=1..n}f(X=x_i|\mu, \sigma) \\
 = \prod_{i=1..n}\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x_i-\mu)^2}{2\sigma^2}} \]</span></p>
-<div class="column-right-large">
-<p><img src="Lab03_files/figure-html/show-contour-1.png" width="384" /></p>
-<p><br/></p>
-</div>
-<div class="column-left">
 <p>This probability is also known as the likelihood. It defines the probability of making a set of observations, assuming that we are drawing from a particular distribution.</p>
-<p>Suppose I chose the three numbers <span class="math inline">\(-1, 0, 1\)</span>. For these numbers, we can imagine that the mean of the real probability distribution from which they were drawn was in the vicinity of <span class="math inline">\(\mu \in [-1,1]\)</span> and the standard deviation is in the vicinity of <span class="math inline">\(\sigma \in [\frac{1}{2},\frac{3}{2}]\)</span>. So we want to check the probability of making these observations using combinations of possible <span class="math inline">\(\mu, \sigma\)</span>.</p>
 </div>
-<div class="column-left">
+<div class="column-right-small">
 <p><img src="Lab03_files/figure-html/phases-1.png" width="192" /></p>
 </div>
 <div class="column-full-left">
+<p>Suppose I chose the three numbers <span class="math inline">\(-1, 0, 1\)</span>. For these numbers, we can imagine that the mean of the real probability distribution from which they were drawn was in the vicinity of <span class="math inline">\(\mu \in [-1,1]\)</span> and the standard deviation is in the vicinity of <span class="math inline">\(\sigma \in [\frac{1}{2},\frac{3}{2}]\)</span>. So we want to check the probability of making these observations using combinations of possible <span class="math inline">\(\mu, \sigma\)</span>.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>[BONUS] Choose three numbers (numbers different than the ones I chose above), and then choose the boundaries of the parameter space, <span class="math inline">\(\mu, \sigma\)</span> which you want to explore. Choose three values for each of those parameters and then calculate the likelihood for each of the nine combinations. Which combination in the parameter space yields the highest likelihood?</p></li>
 <li><p>[BONUS] Try choosing a narrower parameter space around the point that maximizes the likelihood, and repeat this exercise. Your objective is to locate the parameters that maximize the likelihood with greater precision.</p></li>
 </ol>
+</div>
+<div class="column-right-large">
+<p><img src="Lab03_files/figure-html/show-contour-1.png" width="384" /></p>
+<p><br/></p>
+</div>
+<div class="column-full-left">
 <p>From a simple example of only three observations, we now move to an example of 100 observations. You will find the data for these observations <a href="https://bit.ly/3uZsuQv">here</a>.</p>
 <p>When we have larger datasets, it is often mathematically more convenient to look at the log of the likelihood, and not just the likelihood. The parameters that maximize the log-likelihood are also known as the log-likelihood estimates of our parameters. In what follows, we are going to calculate a number of combinations of parameters <span class="math inline">\(\mu, \sigma\)</span> and find which combination maximizes the log likelihood for our observations.</p>
 <p>First, we create a function to calculate the log likelihood for our data, given a set of parameters. Then, we create a data-frame with combinations of parameters, where <span class="math inline">\(\mu\in[2,4]\)</span> and <span class="math inline">\(\sigma\in[4,6]\)</span>. Notice that this range contains what we believe are the real parameters. We hope that the log likelihood would be maximized for a combination of parameters in the vicinity of the real parameters.</p>
