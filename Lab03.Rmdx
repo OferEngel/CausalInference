@@ -30,13 +30,6 @@ date: 'Due: February 27 at 23:59'
   text-align: centre;
 }
 
-
-.column-full-left{
-  float: none;
-  width: 100%;
-  text-align: left;
-}
-
 .center {
   height: 200px;
   border: 0px;
@@ -91,7 +84,7 @@ include_graphics("images/herebedragons.jpg")
 In this lab we continue to explore the likelihood, the log-likelihood, and why on Earth we would like to maximize those monsters. If you find all of this a bit confusing, go ahead and watch [this 6min video](https://bit.ly/3LIobzf). 
 
 
-Choose three numbers, and assume they are three observations, randomly sampled from a normal distribution with two parameters: $\mu, \sigma$. Unfortunately, we don't know the distribution's parameters. We can never observe parameters directly, we can only observe statistics measured in our samples. Like the Gods, parameters are invisible to the eyes of mortals, and statistics are Their messengers. 
+[This random variable](https://bit.ly/3uZsuQv), consists of 100 observations, randomly sampled from a normal distribution with two parameters: $\mu, \sigma$. Unfortunately, we don't know the distribution's parameters. We can never observe parameters directly, we can only observe statistics measured in our samples. Like the Gods, parameters are invisible to the eyes of mortals, and statistics are Their messengers. 
 
 Had we known the parameters of the distribution  $\mu, \sigma$, we would know the probability density of observing any specific value $x$ is:
 $$f(X=x|\mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}} $$ 
@@ -142,7 +135,7 @@ for(i in 1:nrow(df)){
  
 <div class="column-right-large">
 
-```{r show-contour, eval=TRUE, echo=FALSE, fig.height=4, fig.width=4, message=FALSE, warning=FALSE, include=TRUE}
+```{r show-contour, eval=TRUE, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 
 bx <- round(c(2.712872 + c(-1,1) %o% seq(0,2,by=.2)),2)
 by <- round(c(5.151525 + c(-1,1) %o% seq(0,2,by=.2)),2) 
@@ -163,57 +156,28 @@ df %>%
 ```
 
 <br/>
+<br/>
 </div>
 
 <div class="column-left" >
 
-This probability is also known as the likelihood. It defines the probability of making a set of observations, assuming that we are drawing from a particular distribution. 
+This probability is also known as the likelihood. It defines the probability of making a set of observations, assuming that we are drawing from a particular distribution. But instead of looking at the probability density itself, it is often mathematically more convenient to look at the log of the likelihood. The parameters that maximize the log-likelihood are also known as the log-likelihood estimates of our parameters. In what follows, we are going to calculate a number of combinations of parameters $\mu, \sigma$ and find which combination maximizes the log likelihood for our observations. First, we create a function to calculate the log likelihood for our data, given a set of parameters. Then, we create a data-frame with combinations of parameters, where $\mu\in[2,4]$ and $\sigma\in[4,6]$. Notice that this range contains what we believe are the  real parameters. We hope that the log likelihood would be maximized for a combination of parameters in the vicinity of the real parameters. 
 
-Suppose I chose the three numbers $-1, 0, 1$. For these numbers, we can imagine that the mean of the real probability distribution from which they were drawn was in the vicinity of $\mu \in [-1,1]$ and the standard deviation is in the vicinity of $\sigma \in [\frac{1}{2},\frac{3}{2}]$. So we want to check the probability of making these observations using combinations of possible $\mu, \sigma$. 
+</div><div class="column-full" >
 
-</div>
-
-<div class="column-left" >
-
-
-
-```{r phases, eval=TRUE, echo=FALSE, fig.height=2, fig.width=2}
-
-ggplot(expand.grid(mu = seq(-1,1, b=1), 
-                  sigma = seq(.5,1.5, b=.5))) + geom_point(aes(x=mu, y=sigma))
-```
-
-
-
-</div>
-
-
-<div class="column-full-left" >
-a. [BONUS] Choose three numbers (numbers different than the ones I chose above), and then choose the boundaries of the parameter space, $\mu, \sigma$  which you want to explore. Choose three values for each of those parameters and then calculate the likelihood for each of the nine combinations. Which combination in the parameter space yields the highest likelihood? 
-
-b. [BONUS] Try choosing a narrower parameter space around the point that maximizes the likelihood, and repeat this exercise. Your objective is to locate the parameters that maximize the likelihood with greater precision.   
-
-
-From a simple example of only three observations, we now move to an example of 100 observations. You will find the data for these observations [here](https://bit.ly/3uZsuQv).
-
-When we have larger datasets, it is often mathematically more convenient to look at the log of the likelihood, and not just the likelihood. The parameters that maximize the log-likelihood are also known as the log-likelihood estimates of our parameters. In what follows, we are going to calculate a number of combinations of parameters $\mu, \sigma$ and find which combination maximizes the log likelihood for our observations. 
-
-First, we  create a function to calculate the log likelihood for our data, given a set of parameters. Then, we create a data-frame with combinations of parameters, where $\mu\in[2,4]$ and $\sigma\in[4,6]$. Notice that this range contains what we believe are the  real parameters. We hope that the log likelihood would be maximized for a combination of parameters in the vicinity of the real parameters. 
-
-
-c. Remember that the log of a product equals the sum of the logs. This means that $\log(x_1\cdot x_2\cdot x_3...) = log(\prod_i x_i) = \sum_i \log( x_i)$. Using this equation, *write an expression* for the log-likelihood: 
+a. Remember that the log of a product equals the sum of the logs. This means that $\log(x_1\cdot x_2\cdot x_3...) = log(\prod_i x_i) = \sum_i \log( x_i)$. Using this equation, *write an expression* for the log-likelihood: 
 
 $$
 \log\Big[f(X=x_1, x_2, ... x_n |\mu, \sigma)\Big]
 $$ 
 
-d. Instead of maximizing the likelihood, it is common practice to maximize the log-likelihood. Can you explain why? 
+b. Instead of maximizing the likelihood, it is common practice to maximize the log-likelihood. Can you explain why? 
 
-e. Create a graph showing the distribution of the log-likelihood generated from different combinations of parameters. In other words, run through different combination of parameters $\mu, \sigma$, and for each combination you calculate the probability density of observing the random variable given those parameters (see the code below). Read the random data into R using `read.csv("https://bit.ly/3uZsuQv")`.
+c. Create a graph showing the distribution of the log-likelihood generated from different combinations of parameters. In other words, run through different combination of parameters $\mu, \sigma$, and for each combination you calculate the probability density of observing the random variable given those parameters (see the code below). Read the random data into R using `read.csv("https://bit.ly/3uZsuQv")`.
 
-f. What are the values of the parameters $\mu, \sigma$ that maximize the log-likelihood? What is the maximum log-likelihood for those values? How do these values compare to the *mean* and *standard deviation* of the sample observations? Show that your results suggest that one of the maximum likelihood estimations  is unbiased and that the other [is biased](https://www.youtube.com/watch?v=u2liUsAC61k). Is this bias an underestating or overestating the standard deviation? What does it mean to say that an estimate is biased?  
+d. What are the values of the parameters $\mu, \sigma$ that maximize the log-likelihood? What is the maximum log-likelihood for those values? How do these values compare to the *mean* and *standard deviation* of the sample observations? Show that your results suggest that one of the maximum likelihood estimations  is unbiased and that the other [is biased](https://www.youtube.com/watch?v=u2liUsAC61k). Is this bias an underestating or overestating the standard deviation? What does it mean to say that an estimate is biased?  
 
-g. Create a heat-map or a contour map like the one shown above, on the right hands side. Add vertical and horizontal straight lines to illustrate the parameters that maximize the log likelihood. 
+e. Create a heat-map or a contour map like the one shown above, on the right hands side. Add vertical and horizontal straight lines to illustrate the parameters that maximize the log likelihood. 
 
 ```{r show-ex2, eval=FALSE, echo=TRUE, include=TRUE}
 
@@ -241,7 +205,7 @@ df$loglik <- rep(NA, nrow(df))
 for(i in 1:nrow(df)){
   mu    <- df$mu[i]
   sigma <- df$sigma[i]
-  df$loglik[i] <- lik(X$rVariable,mu,sigma)
+  df$loglik[i] <- lik(X,mu,sigma)
 }
 
 # Finally, we plot a heat map and a contour map, 
@@ -250,7 +214,7 @@ for(i in 1:nrow(df)){
 # and the colour or contour represents the log likelihood.
 df %>%
   ggplot(aes(x=mu, y=sigma,
-             fill=exp(loglik))) +
+             fill=loglik)) +
   geom_tile()
 
 
