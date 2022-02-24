@@ -215,9 +215,9 @@ df %>%
 </div>
 
 <div class="column-full-left" >
-From a simple example of only three observations, we now move to an example of 100 observations. You will find the data for these observations [here](https://bit.ly/3uZsuQv).
+From a simple example of only three observations, we now move to an example of 100 observations. You will find the data for these observations as the second variable `rVariable` in [this dataset](https://bit.ly/3uZsuQv).
 
-When we have larger datasets, it is often mathematically more convenient to look at the log of the likelihood, and not just the likelihood. The parameters that maximize the log-likelihood are also known as the log-likelihood estimates of our parameters. In what follows, we are going to calculate a number of combinations of parameters $\mu, \sigma$ and find which combination maximizes the log likelihood for our observations. 
+When we have larger datasets, it is often mathematically more convenient to look at the log of the likelihood, and not the likelihood. The parameters that maximize the log-likelihood are also known as the log-likelihood estimates of our parameters. In what follows, we are going to calculate a number of combinations of parameters $\mu, \sigma$ and find which combination maximizes the log likelihood for our observations. 
 
 First, we  create a function to calculate the log likelihood for our data, given a set of parameters. Then, we create a data-frame with combinations of parameters, where $\mu\in[2,4]$ and $\sigma\in[4,6]$. Notice that this range contains what we believe are the  real parameters. We hope that the log likelihood would be maximized for a combination of parameters in the vicinity of the real parameters. 
 
@@ -230,11 +230,11 @@ $$
 
 d. Instead of maximizing the likelihood, it is common practice to maximize the log-likelihood. Can you explain why? 
 
-e. Create a graph showing the distribution of the log-likelihood generated from different combinations of parameters. In other words, run through different combination of parameters $\mu, \sigma$, and for each combination you calculate the probability density of observing the random variable given those parameters (see the code below). Read the random data into R using `read.csv("https://bit.ly/3uZsuQv")`.
+e. Create a heat-map or a contour map showing the distribution of the log-likelihood, depending on the parameters  $\mu, \sigma$. Add vertical and horizontal straight lines to illustrate the parameters that maximize the log likelihood (see the code below). Read the random data into R using `read.csv("https://bit.ly/3uZsuQv")`.
 
 f. What are the values of the parameters $\mu, \sigma$ that maximize the log-likelihood? What is the maximum log-likelihood for those values? How do these values compare to the *mean* and *standard deviation* of the sample observations? Show that your results suggest that one of the maximum likelihood estimations  is unbiased and that the other [is biased](https://www.youtube.com/watch?v=u2liUsAC61k). Is this bias an underestating or overestating the standard deviation? What does it mean to say that an estimate is biased?  
 
-g. Create a heat-map or a contour map like the one shown above, on the right hands side. Add vertical and horizontal straight lines to illustrate the parameters that maximize the log likelihood. 
+ 
 
 ```{r show-ex2, eval=FALSE, echo=TRUE, include=TRUE}
 

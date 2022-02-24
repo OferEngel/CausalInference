@@ -13,8 +13,8 @@
 
 <title>Lab 03 - Exploring Likelihoods</title>
 
-<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -461,8 +461,8 @@ $(document).ready(function () {
 <p><br/></p>
 </div>
 <div class="column-full-left">
-<p>From a simple example of only three observations, we now move to an example of 100 observations. You will find the data for these observations <a href="https://bit.ly/3uZsuQv">here</a>.</p>
-<p>When we have larger datasets, it is often mathematically more convenient to look at the log of the likelihood, and not just the likelihood. The parameters that maximize the log-likelihood are also known as the log-likelihood estimates of our parameters. In what follows, we are going to calculate a number of combinations of parameters <span class="math inline">\(\mu, \sigma\)</span> and find which combination maximizes the log likelihood for our observations.</p>
+<p>From a simple example of only three observations, we now move to an example of 100 observations. You will find the data for these observations as the second variable <code>rVariable</code> in <a href="https://bit.ly/3uZsuQv">this dataset</a>.</p>
+<p>When we have larger datasets, it is often mathematically more convenient to look at the log of the likelihood, and not the likelihood. The parameters that maximize the log-likelihood are also known as the log-likelihood estimates of our parameters. In what follows, we are going to calculate a number of combinations of parameters <span class="math inline">\(\mu, \sigma\)</span> and find which combination maximizes the log likelihood for our observations.</p>
 <p>First, we create a function to calculate the log likelihood for our data, given a set of parameters. Then, we create a data-frame with combinations of parameters, where <span class="math inline">\(\mu\in[2,4]\)</span> and <span class="math inline">\(\sigma\in[4,6]\)</span>. Notice that this range contains what we believe are the real parameters. We hope that the log likelihood would be maximized for a combination of parameters in the vicinity of the real parameters.</p>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Remember that the log of a product equals the sum of the logs. This means that <span class="math inline">\(\log(x_1\cdot x_2\cdot x_3...) = log(\prod_i x_i) = \sum_i \log( x_i)\)</span>. Using this equation, <em>write an expression</em> for the log-likelihood:</li>
@@ -472,9 +472,8 @@ $(document).ready(function () {
 \]</span></p>
 <ol start="4" style="list-style-type: lower-alpha">
 <li><p>Instead of maximizing the likelihood, it is common practice to maximize the log-likelihood. Can you explain why?</p></li>
-<li><p>Create a graph showing the distribution of the log-likelihood generated from different combinations of parameters. In other words, run through different combination of parameters <span class="math inline">\(\mu, \sigma\)</span>, and for each combination you calculate the probability density of observing the random variable given those parameters (see the code below). Read the random data into R using <code>read.csv("https://bit.ly/3uZsuQv")</code>.</p></li>
+<li><p>Create a heat-map or a contour map showing the distribution of the log-likelihood, depending on the parameters <span class="math inline">\(\mu, \sigma\)</span>. Add vertical and horizontal straight lines to illustrate the parameters that maximize the log likelihood (see the code below). Read the random data into R using <code>read.csv("https://bit.ly/3uZsuQv")</code>.</p></li>
 <li><p>What are the values of the parameters <span class="math inline">\(\mu, \sigma\)</span> that maximize the log-likelihood? What is the maximum log-likelihood for those values? How do these values compare to the <em>mean</em> and <em>standard deviation</em> of the sample observations? Show that your results suggest that one of the maximum likelihood estimations is unbiased and that the other <a href="https://www.youtube.com/watch?v=u2liUsAC61k">is biased</a>. Is this bias an underestating or overestating the standard deviation? What does it mean to say that an estimate is biased?</p></li>
-<li><p>Create a heat-map or a contour map like the one shown above, on the right hands side. Add vertical and horizontal straight lines to illustrate the parameters that maximize the log likelihood.</p></li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(metR) <span class="co"># &lt;-- this library for the contour plot...</span></span>
