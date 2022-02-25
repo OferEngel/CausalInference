@@ -93,6 +93,12 @@ include_graphics("images/herebedragons.jpg")
 In this lab we explore the likelihood, the log-likelihood, and why on Earth we would like to maximize those monsters. If you find all of this a bit confusing, go ahead and watch [this 6min video](https://bit.ly/3LIobzf). 
 
 
+## Submit *THREE* of the questions below for a pass
+
+You may choose any three of the ten problems 1.a to 1.f, 2.a to 2.d. Solve them in your lab report for a pass. 
+
+
+
 Choose three numbers, and assume they are three observations, randomly sampled from a normal distribution with two parameters: $\mu, \sigma$. Unfortunately, we don't know the distribution's parameters. We can never observe parameters directly, we can only observe statistics measured in our samples. Like the Gods, parameters are invisible to the eyes of mortals, and statistics are Their messengers. 
 </div>
 
@@ -184,27 +190,31 @@ The figure above suggests that the region of highest likelihood is in the vicini
 Suppose I chose the three numbers $-1, 0, 1$. For these numbers, we can imagine that the mean of the theoretical probability distribution from which they were drawn is in the vicinity of $\mu \in [-\frac{1}{4},\frac{1}{4}]$ and the standard deviation is in the vicinity of $\sigma \in [\frac{1}{2},1]$. So we want to check the probability of making these observations using combinations of possible $\mu, \sigma$. 
 
 
-a. [BONUS] Choose three numbers (numbers different than the ones I chose above), and then choose the boundaries of the parameter space, $\mu, \sigma$  which you want to explore. Choose three values for each of those parameters and then calculate the likelihood for each of the nine combinations. Which combination in the parameter space yields the highest likelihood? 
+1.a. Choose three numbers (numbers different than the ones I chose above), and then choose the boundaries of the parameter space, $\mu, \sigma$  which you want to explore. Choose three values for each of those parameters and then calculate the likelihood for each of the nine combinations. Which combination in the parameter space yields the highest likelihood? 
 
-b. [BONUS] Try choosing a narrower parameter space around the point that maximizes the likelihood, and repeat this exercise. Your objective is to locate the parameters that maximize the likelihood with greater precision.   
+1.b. Try choosing a narrower parameter space around the point that maximizes the likelihood, and repeat this exercise. Your objective is to locate the parameters that maximize the likelihood with greater precision.   
 
 </div>
 <div class="column-right-large">
 
 ```{r show-contour, eval=TRUE, echo=FALSE, fig.height=4, fig.width=4, message=FALSE, warning=FALSE, include=TRUE}
 
-bx <- round(c(2.712872 + c(-1,1) %o% seq(0,2,by=.2)),2)
-by <- round(c(5.177477 + c(-1,1) %o% seq(0,2,by=.2)),2) 
+mu_mle <- mean(sample.from.norm$rVariable)
+sd_mle <- sqrt(var(sample.from.norm$rVariable)*99/100)
+
+
+bx <- round(c(mu_mle + c(-1,1) %o% seq(0,2,by=.2)),2)
+by <- round(c(sd_mle + c(-1,1) %o% seq(0,2,by=.2)),2) 
 
 b <- c(round(log(seq(exp(-315), exp(-306.3258), length.out=9)),2))
 
 df %>%  
   ggplot(aes(x=mu, y=sigma, 
              z=loglik)) +
-  geom_contour(breaks=b) + 
-  geom_text_contour(breaks=b) + 
-  geom_vline(xintercept = 2.712872, color="grey", alpha=.8) + 
-  geom_hline(yintercept = 5.177477, color="grey", alpha=.8) + 
+  geom_contour() + 
+  geom_text_contour() + 
+  geom_vline(xintercept = mu_mle, color="grey", alpha=.8) + 
+  geom_hline(yintercept = sd_mle, color="grey", alpha=.8) + 
   scale_x_continuous(breaks=bx)+ 
   scale_y_continuous(breaks=by, limits=c(4.5,6))
 
@@ -222,17 +232,17 @@ When we have larger datasets, it is often mathematically more convenient to look
 First, we  create a function to calculate the log likelihood for our data, given a set of parameters. Then, we create a data-frame with combinations of parameters, where $\mu\in[2,4]$ and $\sigma\in[4,6]$. Notice that this range contains what we believe are the  real parameters. We hope that the log likelihood would be maximized for a combination of parameters in the vicinity of the real parameters. 
 
 
-c. Remember that the log of a product equals the sum of the logs. This means that $\log(x_1\cdot x_2\cdot x_3...) = log(\prod_i x_i) = \sum_i \log( x_i)$. Using this equation, *write an expression* for the log-likelihood: 
+1.c. Remember that the log of a product equals the sum of the logs. This means that $\log(x_1\cdot x_2\cdot x_3...) = log(\prod_i x_i) = \sum_i \log( x_i)$. Using this equation, *write an expression* for the log-likelihood: 
 
 $$
 \log\Big[f(X=x_1, x_2, ... x_n |\mu, \sigma)\Big]
 $$ 
 
-d. Instead of maximizing the likelihood, it is common practice to maximize the log-likelihood. Can you explain why? 
+1.d. Instead of maximizing the likelihood, it is common practice to maximize the log-likelihood. Can you explain why? 
 
-e. Create a heat-map or a contour map showing the distribution of the log-likelihood, depending on the parameters  $\mu, \sigma$. Add vertical and horizontal straight lines to illustrate the parameters that maximize the log likelihood (see the code below). Read the random data into R using `read.csv("https://bit.ly/3uZsuQv")`.
+1.e. Create a heat-map or a contour map showing the distribution of the log-likelihood, depending on the parameters  $\mu, \sigma$. Add vertical and horizontal straight lines to illustrate the parameters that maximize the log likelihood (see the code below). Read the random data into R using `read.csv("https://bit.ly/3uZsuQv")`.
 
-f. What are the values of the parameters $\mu, \sigma$ that maximize the log-likelihood? What is the maximum log-likelihood for those values? How do these values compare to the *mean* and *standard deviation* of the sample observations? Show that your results suggest that one of the maximum likelihood estimations  is unbiased and that the other [is biased](https://www.youtube.com/watch?v=u2liUsAC61k). Is this bias an underestating or overestating the standard deviation? What does it mean to say that an estimate is biased?  
+1.f. What are the values of the parameters $\mu, \sigma$ that maximize the log-likelihood? What is the maximum log-likelihood for those values? How do these values compare to the *mean* and *standard deviation* of the sample observations? Show that your results suggest that one of the maximum likelihood estimations  is unbiased and that the other [is biased](https://www.youtube.com/watch?v=u2liUsAC61k). Is this bias an underestating or overestating the standard deviation? What does it mean to say that an estimate is biased?  
 
  
 
@@ -316,13 +326,13 @@ The questions are audaciously taken from coursework made publicly available by R
 
 Before starting, consider reviewing the EASY problems at the end of Chapters 1, 2 and 3 in McElreath's [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) book
 
-1. Suppose the globe tossing data data (Chapter 2) had turned out to be 4 water and 11 land. Construct the posterior distribution, using grid approximation. Use the same flat prior as in the book.
+2.a Suppose the globe tossing data data (Chapter 2) had turned out to be 4 water and 11 land. Construct the posterior distribution, using grid approximation. Use the same flat prior as in the book.
 
-2. Now suppose the data are 4 water and 2 land. Compute the posterior again, but this time use a prior that is zero below $p = 0.5$ and a constant above $p = 0.5$. This corresponds to prior information that a majority of the Earth’s surface is water.
+2.b Now suppose the data are 4 water and 2 land. Compute the posterior again, but this time use a prior that is zero below $p = 0.5$ and a constant above $p = 0.5$. This corresponds to prior information that a majority of the Earth’s surface is water.
 
-3. BONUS: For the posterior distribution from 2, compute 89% percentile and HPDI intervals. Compare the widths of these intervals. Which is wider? Why? If you had only the information in the interval, what might you misunderstand about the shape of the posterior distribution?
+2.c For the posterior distribution from 2, compute 89% percentile and HPDI intervals. Compare the widths of these intervals. Which is wider? Why? If you had only the information in the interval, what might you misunderstand about the shape of the posterior distribution?
 
-4. BONUS: Suppose there is bias in sampling so that Land is more likely than Water to be recorded. Specifically, assume that 1-in-5
+2.d Suppose there is bias in sampling so that Land is more likely than Water to be recorded. Specifically, assume that 1-in-5
 (20%) of Water samples are accidentally recorded instead as ”Land”. First, write a generative simulation of this sampling process. Assuming the true proportion of Water is 0.70, what proportion does your simulation tend to produce instead? Second, using a simulated sample of 20 tosses, compute the unbiased posterior distribution of the true proportion of water.
 <br/>
 

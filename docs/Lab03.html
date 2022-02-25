@@ -437,7 +437,11 @@ $(document).ready(function () {
 <li>If you have questions, please <a href="https://bit.ly/OferMeet">book a slot</a> during Ofer’s office hours!</li>
 </ul>
 <p>In this lab we explore the likelihood, the log-likelihood, and why on Earth we would like to maximize those monsters. If you find all of this a bit confusing, go ahead and watch <a href="https://bit.ly/3LIobzf">this 6min video</a>.</p>
+<div id="submit-three-of-the-questions-below-for-a-pass" class="section level2">
+<h2>Submit <em>THREE</em> of the questions below for a pass</h2>
+<p>You may choose any three of the ten problems 1.a to 1.f, 2.a to 2.d. Solve them in your lab report for a pass.</p>
 <p>Choose three numbers, and assume they are three observations, randomly sampled from a normal distribution with two parameters: <span class="math inline">\(\mu, \sigma\)</span>. Unfortunately, we don’t know the distribution’s parameters. We can never observe parameters directly, we can only observe statistics measured in our samples. Like the Gods, parameters are invisible to the eyes of mortals, and statistics are Their messengers.</p>
+</div>
 </div>
 <div class="column-full-left">
 <p>Had we known the parameters of the distribution <span class="math inline">\(\mu, \sigma\)</span>, we would know the probability density of observing any specific value <span class="math inline">\(x\)</span> is: <span class="math display">\[f(X=x|\mu, \sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \]</span> The probability density of observing multiple independent values <span class="math inline">\(x_1, x_2, ..., x_n\)</span> is</p>
@@ -451,10 +455,8 @@ $(document).ready(function () {
 </div>
 <div class="column-full-left">
 <p>Suppose I chose the three numbers <span class="math inline">\(-1, 0, 1\)</span>. For these numbers, we can imagine that the mean of the theoretical probability distribution from which they were drawn is in the vicinity of <span class="math inline">\(\mu \in [-\frac{1}{4},\frac{1}{4}]\)</span> and the standard deviation is in the vicinity of <span class="math inline">\(\sigma \in [\frac{1}{2},1]\)</span>. So we want to check the probability of making these observations using combinations of possible <span class="math inline">\(\mu, \sigma\)</span>.</p>
-<ol style="list-style-type: lower-alpha">
-<li><p>[BONUS] Choose three numbers (numbers different than the ones I chose above), and then choose the boundaries of the parameter space, <span class="math inline">\(\mu, \sigma\)</span> which you want to explore. Choose three values for each of those parameters and then calculate the likelihood for each of the nine combinations. Which combination in the parameter space yields the highest likelihood?</p></li>
-<li><p>[BONUS] Try choosing a narrower parameter space around the point that maximizes the likelihood, and repeat this exercise. Your objective is to locate the parameters that maximize the likelihood with greater precision.</p></li>
-</ol>
+<p>1.a. Choose three numbers (numbers different than the ones I chose above), and then choose the boundaries of the parameter space, <span class="math inline">\(\mu, \sigma\)</span> which you want to explore. Choose three values for each of those parameters and then calculate the likelihood for each of the nine combinations. Which combination in the parameter space yields the highest likelihood?</p>
+<p>1.b. Try choosing a narrower parameter space around the point that maximizes the likelihood, and repeat this exercise. Your objective is to locate the parameters that maximize the likelihood with greater precision.</p>
 </div>
 <div class="column-right-large">
 <p><img src="Lab03_files/figure-html/show-contour-1.png" width="384" /></p>
@@ -464,17 +466,13 @@ $(document).ready(function () {
 <p>From a simple example of only three observations, we now move to an example of 100 observations. You will find the data for these observations as the second variable <code>rVariable</code> in <a href="https://bit.ly/3uZsuQv">this dataset</a>.</p>
 <p>When we have larger datasets, it is often mathematically more convenient to look at the log of the likelihood, and not the likelihood. The parameters that maximize the log-likelihood are also known as the log-likelihood estimates of our parameters. In what follows, we are going to calculate a number of combinations of parameters <span class="math inline">\(\mu, \sigma\)</span> and find which combination maximizes the log likelihood for our observations.</p>
 <p>First, we create a function to calculate the log likelihood for our data, given a set of parameters. Then, we create a data-frame with combinations of parameters, where <span class="math inline">\(\mu\in[2,4]\)</span> and <span class="math inline">\(\sigma\in[4,6]\)</span>. Notice that this range contains what we believe are the real parameters. We hope that the log likelihood would be maximized for a combination of parameters in the vicinity of the real parameters.</p>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Remember that the log of a product equals the sum of the logs. This means that <span class="math inline">\(\log(x_1\cdot x_2\cdot x_3...) = log(\prod_i x_i) = \sum_i \log( x_i)\)</span>. Using this equation, <em>write an expression</em> for the log-likelihood:</li>
-</ol>
+<p>1.c. Remember that the log of a product equals the sum of the logs. This means that <span class="math inline">\(\log(x_1\cdot x_2\cdot x_3...) = log(\prod_i x_i) = \sum_i \log( x_i)\)</span>. Using this equation, <em>write an expression</em> for the log-likelihood:</p>
 <p><span class="math display">\[
 \log\Big[f(X=x_1, x_2, ... x_n |\mu, \sigma)\Big]
 \]</span></p>
-<ol start="4" style="list-style-type: lower-alpha">
-<li><p>Instead of maximizing the likelihood, it is common practice to maximize the log-likelihood. Can you explain why?</p></li>
-<li><p>Create a heat-map or a contour map showing the distribution of the log-likelihood, depending on the parameters <span class="math inline">\(\mu, \sigma\)</span>. Add vertical and horizontal straight lines to illustrate the parameters that maximize the log likelihood (see the code below). Read the random data into R using <code>read.csv("https://bit.ly/3uZsuQv")</code>.</p></li>
-<li><p>What are the values of the parameters <span class="math inline">\(\mu, \sigma\)</span> that maximize the log-likelihood? What is the maximum log-likelihood for those values? How do these values compare to the <em>mean</em> and <em>standard deviation</em> of the sample observations? Show that your results suggest that one of the maximum likelihood estimations is unbiased and that the other <a href="https://www.youtube.com/watch?v=u2liUsAC61k">is biased</a>. Is this bias an underestating or overestating the standard deviation? What does it mean to say that an estimate is biased?</p></li>
-</ol>
+<p>1.d. Instead of maximizing the likelihood, it is common practice to maximize the log-likelihood. Can you explain why?</p>
+<p>1.e. Create a heat-map or a contour map showing the distribution of the log-likelihood, depending on the parameters <span class="math inline">\(\mu, \sigma\)</span>. Add vertical and horizontal straight lines to illustrate the parameters that maximize the log likelihood (see the code below). Read the random data into R using <code>read.csv("https://bit.ly/3uZsuQv")</code>.</p>
+<p>1.f. What are the values of the parameters <span class="math inline">\(\mu, \sigma\)</span> that maximize the log-likelihood? What is the maximum log-likelihood for those values? How do these values compare to the <em>mean</em> and <em>standard deviation</em> of the sample observations? Show that your results suggest that one of the maximum likelihood estimations is unbiased and that the other <a href="https://www.youtube.com/watch?v=u2liUsAC61k">is biased</a>. Is this bias an underestating or overestating the standard deviation? What does it mean to say that an estimate is biased?</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(metR) <span class="co"># &lt;-- this library for the contour plot...</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -531,12 +529,10 @@ $(document).ready(function () {
 <p><img src="images/rethinking.png" width="500px" /> The questions are audaciously taken from coursework made publicly available by Richard McElreath.</p>
 </div>
 <p>Before starting, consider reviewing the EASY problems at the end of Chapters 1, 2 and 3 in McElreath’s <a href="https://xcelab.net/rm/statistical-rethinking/">Statistical Rethinking</a> book</p>
-<ol style="list-style-type: decimal">
-<li><p>Suppose the globe tossing data data (Chapter 2) had turned out to be 4 water and 11 land. Construct the posterior distribution, using grid approximation. Use the same flat prior as in the book.</p></li>
-<li><p>Now suppose the data are 4 water and 2 land. Compute the posterior again, but this time use a prior that is zero below <span class="math inline">\(p = 0.5\)</span> and a constant above <span class="math inline">\(p = 0.5\)</span>. This corresponds to prior information that a majority of the Earth’s surface is water.</p></li>
-<li><p>BONUS: For the posterior distribution from 2, compute 89% percentile and HPDI intervals. Compare the widths of these intervals. Which is wider? Why? If you had only the information in the interval, what might you misunderstand about the shape of the posterior distribution?</p></li>
-<li><p>BONUS: Suppose there is bias in sampling so that Land is more likely than Water to be recorded. Specifically, assume that 1-in-5 (20%) of Water samples are accidentally recorded instead as ”Land”. First, write a generative simulation of this sampling process. Assuming the true proportion of Water is 0.70, what proportion does your simulation tend to produce instead? Second, using a simulated sample of 20 tosses, compute the unbiased posterior distribution of the true proportion of water. <br/></p></li>
-</ol>
+<p>2.a Suppose the globe tossing data data (Chapter 2) had turned out to be 4 water and 11 land. Construct the posterior distribution, using grid approximation. Use the same flat prior as in the book.</p>
+<p>2.b Now suppose the data are 4 water and 2 land. Compute the posterior again, but this time use a prior that is zero below <span class="math inline">\(p = 0.5\)</span> and a constant above <span class="math inline">\(p = 0.5\)</span>. This corresponds to prior information that a majority of the Earth’s surface is water.</p>
+<p>2.c For the posterior distribution from 2, compute 89% percentile and HPDI intervals. Compare the widths of these intervals. Which is wider? Why? If you had only the information in the interval, what might you misunderstand about the shape of the posterior distribution?</p>
+<p>2.d Suppose there is bias in sampling so that Land is more likely than Water to be recorded. Specifically, assume that 1-in-5 (20%) of Water samples are accidentally recorded instead as ”Land”. First, write a generative simulation of this sampling process. Assuming the true proportion of Water is 0.70, what proportion does your simulation tend to produce instead? Second, using a simulated sample of 20 tosses, compute the unbiased posterior distribution of the true proportion of water. <br/></p>
 </div>
 
 
