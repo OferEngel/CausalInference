@@ -116,8 +116,6 @@ As a first step, we construct our prior. This means, that we associate an equal 
 ```{r prior, echo=TRUE, eval=FALSE}
 
 set.seed(____) 
-# set the "real" and unobserved number of tanks here
-n.tanks <- ____  # <- The real number of German tanks
 
 
 # Start with a range of hypothesis regarding 
@@ -140,7 +138,7 @@ prior <- rep(1, max.n)
 # 
 # Given a hypothesis about the number of tanks, *hyp*, 
 # calculate the probability of observing *obs*
-pr.obs.given.hyp <- function(obs, hyp) {
+f.likelihood <- function(obs, hyp) {
 # Assume that:
 # 1. If the hypothesis is smaller than your observation, 
 # the probability to make that observation is zero.
@@ -153,16 +151,17 @@ pr.obs.given.hyp <- function(obs, hyp) {
 # Now let's calculate the posterior, p(hypothesis|obs), 
 # in a dedicated function. 
 # 
-pr.hyp.given.obs <- function(obs, prior) {
+f.posterior <- function(obs, prior) {
 # For each of the possible hypotheses in hyp.range, we 
 # need to associate a probability. 
 # Using the observation obs, calculate the likelihood
 # for each hypothesis in  hyp.range
-likelihood <- pr.obs.given.hyp(_______, _______)
+likelihood <- f.likelihood(_______, _______)
 
 # Now multiply the likelihood by the posterior, and 
 # divide the result by the sum of this product.
-return(_______*_______/sum(_______*_______))
+posterior <- (_______*_______/sum(_______*_______))
+return(posterior)
 
 }
   
@@ -253,7 +252,7 @@ Now that all our functions are in place, we simulate capturing a tank. To find i
 
 <div class="column-left-large">
 
-2. *BONUS QUESTION:* Now create a plot using `geom_ribbon`, to show how the uncertainty around the real tank-count value diminishes with every additional observation. Explain what the graph is showing, and discuss relevant reflections you might have. 
+2. Now create a plot using `geom_ribbon`, to show how the uncertainty around the real tank-count value diminishes with every additional observation. Explain what the graph is showing, and discuss relevant reflections you might have. 
 
 ```{r bonus, echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE, include=TRUE}
 
