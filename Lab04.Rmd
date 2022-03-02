@@ -158,7 +158,7 @@ f.posterior <- function(obs, prior) {
 # for each hypothesis in  hyp.range
 likelihood <- f.likelihood(_______, _______)
 
-# Now multiply the likelihood by the posterior, and 
+# Now multiply the likelihood by the prior, and 
 # divide the result by the sum of this product.
 posterior <- (_______*_______/sum(_______*_______))
 return(posterior)
