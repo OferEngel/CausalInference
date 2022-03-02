@@ -130,6 +130,12 @@ for(i in 1:nrow(df)){
 
 df$col <- rank(loglik)/100
 
+
+
+
+
+
+
 # Finally, we plot a heat map and a contour map, 
 # a representation of a three dimensional space where the x-axis
 # represents the mu, the y-axis represents the standard deviation, 
@@ -142,6 +148,51 @@ df %>%
 
 
 
+# see https://www.theguardian.com/world/2006/jul/20/secondworldwar.tvandradio
+# 
+library(tidyverse)
+max.n <- 10000
+n.german.tanks <- 50
+x.tanks <- 1:max.n
+# p(obs|hypothesis)
+pr.obs.given.hyp <- function(obs, hyp) 
+  ifelse(hyp<obs, 0, 1/hyp)
+
+# Calculate the posterior
+pr.hyp.given.obs <- function(prior, obs) {
+  lik <- pr.obs.given.hyp(obs, x.tanks)
+  lik*prior/sum(lik*prior)
+}
+
+
+prior <- rep(1, max.n)
+
+obs <- sample(1:n.german.tanks, 1)
+post <- pr.hyp.given.obs(prior, obs)
+ggplot() + geom_line(aes(x=x.tanks, y=post)) + scale_x_log10()
+x.tanks[sum(cumsum(post)==0)]
+x.tanks[sum(cumsum(post)<0.95)]
+prior <- post
+
+
+n.observations <- 50
+percentile.95 <- data.frame(min=rep(NA,n.observations), 
+                            max=rep(NA,n.observations))
+prior <- rep(1, max.n)
+for(i in 1:n.observations){
+  obs <- sample(1:n.german.tanks, 1)
+  post <- pr.hyp.given.obs(prior, obs)
+  percentile.95[i,] <- c(x.tanks[sum(cumsum(post)==0)]+1, 
+                         x.tanks[sum(cumsum(post)<0.95)])
+  prior <- post
+}
+percentile.95
+ggplot() + geom_ribbon(aes(x=1:n.observations, 
+                           ymin=percentile.95$min, 
+                           ymax=percentile.95$max), 
+                       alpha=.4) + 
+  geom_hline(yintercept = n.german.tanks, color="red") + 
+  scale_y_log10()
 
 
 
@@ -149,6 +200,129 @@ df %>%
 
 
 
+roll2dice <- function(){
+  d1 <- sample(1:6,1)
+  d2 <- sample(1:6,1)
+  d3 <- sample(1:6,1)
+  d4 <- sample(1:6,1)
+  d5 <- sample(1:6,1)
+  sum(d1,d2,d3,d4,d5)
+}
 
 
+rolldice <- function(){
+  sum(sample(1:6, 1000, replace=TRUE))
+}
+
+outcome <- replicate(100000, rolldice())
+mu <- mean(outcome)
+sd <- sd(outcome)
+mean(outcome<=3550)
+
+
+
+ggplot() + 
+  geom_histogram(aes(x=outcome, y=..density..), binwidth=1) + 
+  scale_x_continuous(breaks=seq(310,500,by=20)) + 
+  geom_function(fun=dnorm, args=list(mean=mu, sd=sd))
+
+
+
+
+
+var(1:6)
+var(outcome)*9999/10000
+mean(outcome^2)-(mean(outcome)^2)
+
+
+
+mean(outcome>375)
+
+
+summary(outcome)
+
+read.csv("https://raw.githubusercontent.com/rstudio-education/datascience-box/main/course-materials/slides/u4-d01-language-of-models/data/paris-paintings.csv")
+
+
+
+
+library(tidyverse)
+
+ggplot(paintings) + 
+  geom_histogram(aes(x=logprice))
+
+
+paintings <- read.csv("https://bit.ly/36IfLaO")
+
+ggplot(paintings) + 
+  geom_point(aes(x=Width_in, y=Height_in)) 
+
+
+
+  scale_color_continuous(type = "viridis")  + 
+  scale_x_log10() + scale_y_log10()
+
+library(mosaicData)
+data(Whickham)
+
+levels(Whickham$outcome)
+levels(Whickham$smoker)
+Whickham %>% mutate(ismoke=as.numeric(smoker)-1) -> d
+
+
+
+
+glm( outcome ~ age + I(age^2) + ismoke + I(age*ismoke), 
+    data=d, 
+    family=binomial) %>% summary()
+
+glm( outcome ~ smoker, 
+     data=d, 
+     family=binomial) %>% summary()
+
+glm( outcome ~ age, 
+     data=d, 
+     family=binomial) %>% summary()
+
+
+Whickham %>%
+  count(smoker, outcome)
+
+
+library(janitor)
+Whickham %>% mutate(fct_age=case_when(
+  age <= 44 ~ "young", 
+  age < 65  ~ "midage",
+  TRUE ~ "old"
+  )) %>% 
+  mutate(fct_age = 
+                  factor(fct_age,levels=c("young", "midage", "old"))) ->
+  d
+  
+
+
+d %>% 
+  tabyl(outcome, smoker)  %>% 
+  adorn_percentages() %>% 
+  adorn_pct_formatting() %>% adorn_title("top")
+
+d %>% 
+  tabyl(fct_age, smoker)  %>% 
+  adorn_percentages() %>% 
+  adorn_pct_formatting() %>% adorn_title("top")
+
+
+d %>% 
+  tabyl(fct_age, outcome) %>% 
+  adorn_percentages() %>% 
+  adorn_pct_formatting() %>% adorn_title("top")
+
+d %>% 
+  tabyl(outcome, smoker, fct_age) %>% 
+  adorn_percentages() %>% 
+  adorn_pct_formatting() %>% adorn_title("top")
+
+d %>% 
+  tabyl(fct_age) %>% 
+  adorn_pct_formatting()
 

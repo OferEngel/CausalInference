@@ -185,7 +185,7 @@ ggplot(params) +
 
 ```
 
-The figure above suggests that the region of highest likelihood is in the vicinity where $\mu=0$ and $\sigma \in [^3/_4, 1]$
+The figure on the right suggests that the region of highest likelihood is in the vicinity where $\mu=0$ and $\sigma \in [^3/_4, 1]$
 
 </div>
 
@@ -242,7 +242,7 @@ $$
 \log\Big[f(X=x_1, x_2, ... x_n |\mu, \sigma)\Big]
 $$ 
 
-1.d. Instead of maximizing the likelihood, it is common practice to maximize the log-likelihood. Can you explain why? 
+1.d. Instead of maximizing the likelihood, it is [common practice](https://www.youtube.com/watch?v=ddqny3aZNPY) to maximize the log-likelihood. Can you explain why? 
 
 1.e. Create a heat-map or a contour map showing the distribution of the log-likelihood, depending on the parameters  $\mu, \sigma$. Add vertical and horizontal straight lines to illustrate the parameters that maximize the log likelihood (see the code below). Read the random data into R using `read.csv("https://bit.ly/3uZsuQv")`.
 

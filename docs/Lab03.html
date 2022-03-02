@@ -350,6 +350,9 @@ $(document).ready(function () {
     <li>
       <a href="Lab03.html">Lab 3</a>
     </li>
+    <li>
+      <a href="Lab04.html">Lab 4</a>
+    </li>
     <li class="dropdown-header">To be continued...</li>
   </ul>
 </li>
@@ -451,7 +454,7 @@ $(document).ready(function () {
 </div>
 <div class="column-right-small">
 <p><img src="Lab03_files/figure-html/phases-1.png" width="288" /></p>
-<p>The figure above suggests that the region of highest likelihood is in the vicinity where <span class="math inline">\(\mu=0\)</span> and <span class="math inline">\(\sigma \in [^3/_4, 1]\)</span></p>
+<p>The figure on the right suggests that the region of highest likelihood is in the vicinity where <span class="math inline">\(\mu=0\)</span> and <span class="math inline">\(\sigma \in [^3/_4, 1]\)</span></p>
 </div>
 <div class="column-full-left">
 <p>Suppose I chose the three numbers <span class="math inline">\(-1, 0, 1\)</span>. For these numbers, we can imagine that the mean of the theoretical probability distribution from which they were drawn is in the vicinity of <span class="math inline">\(\mu \in [-\frac{1}{4},\frac{1}{4}]\)</span> and the standard deviation is in the vicinity of <span class="math inline">\(\sigma \in [\frac{1}{2},1]\)</span>. So we want to check the probability of making these observations using combinations of possible <span class="math inline">\(\mu, \sigma\)</span>.</p>
@@ -470,7 +473,7 @@ $(document).ready(function () {
 <p><span class="math display">\[
 \log\Big[f(X=x_1, x_2, ... x_n |\mu, \sigma)\Big]
 \]</span></p>
-<p>1.d. Instead of maximizing the likelihood, it is common practice to maximize the log-likelihood. Can you explain why?</p>
+<p>1.d. Instead of maximizing the likelihood, it is <a href="https://www.youtube.com/watch?v=ddqny3aZNPY">common practice</a> to maximize the log-likelihood. Can you explain why?</p>
 <p>1.e. Create a heat-map or a contour map showing the distribution of the log-likelihood, depending on the parameters <span class="math inline">\(\mu, \sigma\)</span>. Add vertical and horizontal straight lines to illustrate the parameters that maximize the log likelihood (see the code below). Read the random data into R using <code>read.csv("https://bit.ly/3uZsuQv")</code>.</p>
 <p>1.f. What are the values of the parameters <span class="math inline">\(\mu, \sigma\)</span> that maximize the log-likelihood? What is the maximum log-likelihood for those values? How do these values compare to the <em>mean</em> and <em>standard deviation</em> of the sample observations? Show that your results suggest that one of the maximum likelihood estimations is unbiased and that the other <a href="https://www.youtube.com/watch?v=u2liUsAC61k">is biased</a>. Is this bias an underestating or overestating the standard deviation? What does it mean to say that an estimate is biased?</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
