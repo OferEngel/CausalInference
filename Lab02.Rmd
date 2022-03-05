@@ -72,7 +72,7 @@ include_graphics("images/shystudent.jpg")
 </div>
 
 
-* Please submit your lab using [this link](https://docs.google.com/forms/d/e/1FAIpQLScFGWxA-NFSjIz1uB7vPakkEFXnXXMsVnotvFA48PwVDDJigg/viewform).   
+* Please submit your lab using [this link](https://docs.google.com/forms/d/e/1FAIpQLScFGWxA-NFSjIz1uB7vPakkEFXnXXMsVnotvFA48PwVDDJigg/viewform) .    
 * If you have questions, please [book a slot](https://bit.ly/OferMeet) during Ofer's office hours!
 
 

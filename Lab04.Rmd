@@ -139,11 +139,11 @@ prior <- rep(1, max.n)
 # Given a hypothesis about the number of tanks, *hyp*, 
 # calculate the probability of observing *obs*
 f.likelihood <- function(obs, hyp) {
-# Assume that:
-# 1. If the hypothesis is smaller than your observation, 
-# the probability to make that observation is zero.
-# 2. Otherwise, any serial number observed is equally 
-# likely 
+  # Assume that:
+  # 1. If the hypothesis is smaller than your observation, 
+  # the probability to make that observation is zero.
+  # 2. Otherwise, any serial number observed is equally 
+  # likely 
   
 }
 
@@ -152,16 +152,17 @@ f.likelihood <- function(obs, hyp) {
 # in a dedicated function. 
 # 
 f.posterior <- function(obs, prior) {
-# For each of the possible hypotheses in hyp.range, we 
-# need to associate a probability. 
-# Using the observation obs, calculate the likelihood
-# for each hypothesis in  hyp.range
-likelihood <- f.likelihood(_______, _______)
-
-# Now multiply the likelihood by the prior, and 
-# divide the result by the sum of this product.
-posterior <- (_______*_______/sum(_______*_______))
-return(posterior)
+  
+  # For each of the possible hypotheses in hyp.range, we 
+  # need to associate a probability. 
+  # Using the observation obs, calculate the likelihood
+  # for each hypothesis in  hyp.range
+  likelihood <- f.likelihood(_______, _______)
+  
+  # Now multiply the likelihood by the prior, and 
+  # divide the result by the sum of this product.
+  posterior <- (_______*_______/sum(_______*_______))
+  return(posterior)
 
 }
   
@@ -205,6 +206,18 @@ obs5 <- sample(1:n.tanks, 1)
 <div class="column-right-large">
 
 ```{r post1, eval=TRUE, echo=FALSE, fig.height=4, fig.width=4, message=FALSE, warning=FALSE}
+
+f.likelihood <- function(obs, hyp) {
+  return(ifelse(obs>hyp,0,1/hyp))
+}
+
+
+f.posterior <- function(obs, prior) {
+   likelihood <- pr.obs.given.hyp(obs, hyp.range)
+   return(likelihood*prior/sum(likelihood*prior))
+}
+
+
 
 post1 <- pr.hyp.given.obs(obs1, prior)
 post2 <- pr.hyp.given.obs(obs2, post1)
@@ -287,5 +300,106 @@ ggplot(percentile.90) +
 ```
 
 
+```{r bonus-show, echo=TRUE, eval=FALSE}
+
+# Fill this in with the number of observations, 
+# Or how many tanks you captured
+n.observations <- ____
+
+# The data frame below is a place holder for three columns: 
+# 1. the observation number running from 1 to n.observations
+# 2. The minimum value of our 90% interval
+# 3. The maximum value of our 90% interval
+percentile.90 <- data.frame(min.90=rep(NA,____), 
+                            max.90=rep(NA,____))
+# We do need our prior!
+prior <- rep(1, max.n)
+set.seed(____)
+for(i in 1:____){
+  # observe a random tank from a uniform discrete distribution
+  obs <- sample(1:n.tanks, 1)
+  
+  # find the posterior for our observation
+  post <- f.posterior(obs, prior)
+  
+  # find the first hypothesis whose posterior is greater than zero
+  first.hyp.nonzero.posterior <- min(which(post>____))
+  
+  # find the first hypothesis whose cumulative 
+  # posterior is greater than 90%
+  first.hyp.cum.post.in.90pct <- min(which(cumsum(post)>____))
+  
+  # fill in the 90th percentile for the current observation
+  percentile.90[i,] <- 
+    c(________, 
+      ________)
+  
+  # Use the current posterior as the prior for the next observation
+  prior <- ________
+}
+
+# now let's plot it!
+ggplot() + 
+  geom_ribbon(aes(x=1:________, 
+                   ymin=percentile.90$________, 
+                   ymax=percentile.90$________), alpha=.4) + 
+  geom_hline(yintercept = n.tanks, color="red",  alpha=.6) 
+
+```
+
+
+
+
+```{r bonus-answer, echo=FALSE, eval=FALSE}
+
+# Fill this in with the number of observations, 
+# Or how many tanks you captured
+n.observations <- 50
+
+# The data frame below is a place holder for three columns: 
+# 1. the observation number running from 1 to n.observations
+# 2. The minimum value of our 90% interval
+# 3. The maximum value of our 90% interval
+percentile.90 <- data.frame(min.90=rep(NA,n.observations), 
+                            max.90=rep(NA,n.observations))
+# We do need our prior!
+prior <- rep(1, max.n)
+set.seed(666)
+for(i in 1:n.observations){
+  # observe a random tank from a uniform discrete distribution
+  obs <- sample(1:n.tanks, 1)
+  
+  # find the posterior for our observation
+  post <- f.posterior(obs, prior)
+  
+  # find the first hypothesis whose posterior is greater than zero
+  first.hyp.nonzero.posterior <- min(which(post>0))
+  
+  # find the first hypothesis whose cumulative 
+  # posterior is greater than 90%
+  first.hyp.cum.post.in.90pct <- min(which(cumsum(post)>0.9))
+  
+  # fill in the 90th percentile for the current observation
+  percentile.90[i,] <- 
+    c(first.hyp.nonzero.posterior, 
+      first.hyp.cum.post.in.90pct)
+  
+  # Use the current posterior as the prior for the next observation
+  prior <- post
+}
+# percentile.90
+# 
+ggplot() + 
+  # geom_point(aes(x=index, y=obs), color="red", size=1) +
+  geom_ribbon(aes(x=1:n.observations, 
+                   ymin=percentile.90$min.90, 
+                   ymax=percentile.90$max.90), alpha=.4) + 
+  geom_hline(yintercept = n.tanks, color="red", alpha=.6) + 
+  scale_y_log10(name="90% credibility interval", 
+                breaks=c(200,246, 300, 400, 500, 800)) + 
+  scale_x_log10(name="observation number", 
+                breaks=c(1,3,5,12, 21, 30 , 50))
+
+```
 
 </div>

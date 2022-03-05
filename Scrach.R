@@ -8,6 +8,8 @@ sample <- read.csv("https://bit.ly/3uZsuQv")
 str(sample)
 
 
+library(deconvolveR)
+
 
 b <- c(seq(-317,-307, by=2), 
        round(seq(-308, -306.3258, length.out=4),1))
@@ -253,9 +255,14 @@ ggplot(paintings) +
 
 
 paintings <- read.csv("https://bit.ly/36IfLaO")
+paintings %>% filter(name=="R1777-89a") %>% glimpse()
+
+
 
 ggplot(paintings) + 
-  geom_point(aes(x=Width_in, y=Height_in)) 
+  geom_point(aes(x=Width_in, y=Height_in)) + 
+  scale_x_log10()
+
 
 
 

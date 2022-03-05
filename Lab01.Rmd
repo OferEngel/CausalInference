@@ -227,7 +227,7 @@ include_graphics("images/kusama.jpg")
     
 1. Demonstrate that the average probability for success in each trial is approximately $\pi/4$. Try to give a theoretical explanation for this.
     
-1. Given that the probability for success in each trial is $p=\pi/4$, you can calculate the binomial distribution's  theoretical mean of $\mu=n\cdot p$ and its theoretical standard deviation of $\sigma=\sqrt{n\cdot p\cdot(1-p)}$. Calculate the theoretical mean and standard deviation, and compare with the actual mean and standard deviation from your simulations. 
+1. Given that the probability for success in each trial is $p=\pi/4$, you can calculate the binomial distribution's  theoretical mean of $\mu=n\cdot p$ and its theoretical standard deviation of $\sigma=\sqrt{n\cdot p\cdot(1-p)}$. Calculate the theoretical mean and standard deviation, and compare with the actual mean and standard deviation from your simulations... 
 
 1. Now try to superimpose a normal distribution with the theoretical mean and standard deviation on top of your histogram. It should fit nicely - just like the figure above. 
 
