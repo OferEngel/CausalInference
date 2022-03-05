@@ -225,14 +225,17 @@ post3 <- pr.hyp.given.obs(obs3, post2)
 post4 <- pr.hyp.given.obs(obs4, post3)
 post5 <- pr.hyp.given.obs(obs5, post4)
 
-d <- data.frame(hyp.range, post1, post2, post3, post4, post5) %>% 
+d <- 
+  data.frame(hyp.range, post1, post2, post3, post4, post5) %>% 
   pivot_longer(cols=c("post1","post2","post3", "post4", "post5")) %>% 
   mutate(posterior=factor(name, levels=c("post1","post2","post3", "post4", "post5")))
 
 ggplot(d) + 
   geom_line(aes(x=hyp.range, y=value, color=posterior)) + 
-  scale_x_continuous(breaks=seq(50,350,by=50), limits=c(50,360), name="hypothesized number of tanks") + ylab("posterior density") + 
-  theme(legend.position = "bottom")
+  scale_x_continuous(breaks=seq(50,350,by=50), limits=c(50,360), name="hypothesized number of tanks") + 
+  ylab("posterior density") + 
+  theme(legend.position = "bottom") + 
+  scale_color_discrete(name = "")
 
 ```
 
@@ -306,10 +309,9 @@ ggplot(percentile.90) +
 # Or how many tanks you captured
 n.observations <- ____
 
-# The data frame below is a place holder for three columns: 
-# 1. the observation number running from 1 to n.observations
-# 2. The minimum value of our 90% interval
-# 3. The maximum value of our 90% interval
+# The data frame below is a place holder for two columns: 
+# 1. The minimum value of our 90% interval
+# 2. The maximum value of our 90% interval
 percentile.90 <- data.frame(min.90=rep(NA,____), 
                             max.90=rep(NA,____))
 # We do need our prior!
@@ -331,8 +333,8 @@ for(i in 1:____){
   
   # fill in the 90th percentile for the current observation
   percentile.90[i,] <- 
-    c(________, 
-      ________)
+    c(________,       # the first hypothesis in the 90th percentile
+      ________)       # the last hypothesis in the 90th percentile
   
   # Use the current posterior as the prior for the next observation
   prior <- ________
