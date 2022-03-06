@@ -91,7 +91,7 @@ include_graphics("images/germantank.jpg")
 <div class="column-left" >
 
 * Please submit your lab using [this link](https://docs.google.com/forms/d/e/1FAIpQLSdWdqWg2vh9OkDuoPb03Ky46SrnsaNfyXkiYaJShRBt8HpLiA/viewform).   
-* If you have questions, please [book a slot](https://bit.ly/OferMeet) during Ofer's office hours!
+<!-- * If you have questions, please [book a slot](https://bit.ly/OferMeet) during Ofer's office hours! -->
 
 
 In this lab we show how the Bayesian framework could help solve an actual problem faced by the Western Allies during the Second World War.    

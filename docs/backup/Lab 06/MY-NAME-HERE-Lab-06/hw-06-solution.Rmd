@@ -1,0 +1,133 @@
+---
+title: "HW 06 - Optimizing helicopter flight time"
+author: "Your RA Group Name"
+date: "The Date"
+output:
+  pdf_document: default
+---
+
+```{r setup, message=F,include=F}
+knitr::opts_chunk$set(eval = TRUE, echo = FALSE, warning=FALSE)
+library(tidyverse)
+library(kableExtra)
+library(gridExtra)
+library(modelsummary)
+library(metR)
+
+# Include any additional packages you used in the homework
+# Never install packages in your RMarkdown file!
+
+```
+
+
+
+1. before running the experiment, try to guess what the outcome might be. Do you think that the time it takes the helicopter to reach the ground (the flight-time) depends on the dimensions of the helicopter's wings (their width or length)? If so, What do you think is the link, and why?
+
+*Answer:* SAY SOMETHING HERE
+
+
+2. Make a collage of photographs showing your various experiments and describe how you decided to run them. How did you choose where to fly the helicopters from? How did you make sure that you drop them from the same height each time? How did you measure the number of seconds it took them to fly? What were the challenges that you encountered and how did you address them? What decisions did you have to take? What would you do different next time, if you had to do the same experiment?  What did you like, and what did you dislike? 
+
+*Answer:* SAY SOMETHING HERE
+
+
+# Descriptive statistics
+
+3. Present the data you collected in a table and explore it using diagrams and/or descriptive statistics where appropriate. What does the distribution of the flight-time variable look like and why? What happens when you draw a scatter plot of the wing's width against its length? Do you notice an association between flight time and wing length? What about the association between flight time and wing width? 
+
+
+
+```{r diagrams, echo=FALSE, message=FALSE}
+# 1 Create your data frame. Let's call it `flights`. You have two ways to create it
+# You can use a separate  csv file that you read in RMarkdown by using flights <- read.csv("filename.csv")
+# OR you can use a tribble, like we did in lab 2, the bag of goodies
+# Remember - you want a table with FIVE columns, the names of the columns 
+# must be ~flightNumber, ~helicopterID, ~wingWidth, ~wingLength, ~flightTime
+
+
+# 2 present your dataframe in a table. There should be at least 27 rows in your table and the columns defined above
+
+
+# 3 Now you can create some diagrams here: 
+#  A histogram for the distribution of the flight-time. Use geom_histogram()
+#  If the name of your data frame is flights, your code will look like something this: 
+#  flights %>% ggplot(aes(x=______, y=..density..)) + geom_histogram(binwidth=_______)
+
+# 4 A scatter-plot showing the wing length and width using geom_point()
+#  If the name of your data frame is flights, your code will look like something this: 
+#  flights %>% ggplot(aes(x=______, y=________)) + geom_point()
+
+
+
+# 5 A scatter-plot showing the association between flight time and wing dimensions using geom_point()  
+#  If the name of your data frame is flights, your code will look like something this: 
+#  flights %>% ggplot(aes(x=______, y=________)) + geom_point()
+
+           
+```
+
+
+
+*Answer:* INTERPRET WHAT YOU SEE IN THE FIGURES ABOVE, ANSWER ALL THE QUESTIONS IN Q3
+
+
+# Inference Statistics: Regression Models
+
+4. Run four regressions models as follows, and analyze the results: interpret the coefficients in the linear models, 
+
+* Model 1: Predict the helicopter's flight time from its wing's width (one independent variable)
+* Model 2: Predict the helicopter's flight time from its wing's length  (one independent variable)
+* Model 3: Predict the helicopter's flight time from its wing's width and length  (two independent variables) 
+* Model 4: To the last model add three more variables: (i) the square of the wing-length, (ii) the square of the wing-width and (iii) an interaction term.
+
+
+
+```{r models, echo=FALSE, warning=FALSE}
+# First model: flight time ~ wingWidth
+#  If the name of your data frame is flights, your code will look like something this: 
+#  mdl1 <- lm(______~________, data=flights)
+
+# Second model: flight time ~ wingLength
+#  If the name of your data frame is flights, your code will look like something this: 
+#  mdl2 <- lm(______~________, data=flights)
+
+
+# Third model: flight time ~ wingLength + wingWidth
+#  If the name of your data frame is flights, your code will look like something this: 
+#  mdl3 <- lm(______~________, data=flights)
+
+
+
+# Fourth model: add terms with squares and interaction
+#  If the name of your data frame is flights, your code will look like something this: 
+#  mdl4 <- lm(______~________, data=flights)
+
+
+# Put them all together
+# modelsummary(list(mdl1, mdl2, mdl3, mdl4), stars=TRUE, gof_omit="F|L|B")
+
+```
+
+
+*Answer:* SAY SOMETHING HERE. INTERPRET THE COEFFICIENTS, ANSWER ALL THE QUESTIONS IN Q4
+
+
+
+
+
+5. Bonus question: use the fourth model above to create a contour map and a heat map, illustrating the `flight time` as a function of the wing's `length` and `width`.  
+
+*Answer:* SAY SOMETHING HERE.
+
+
+
+
+
+6. Bonus question: Identify the helicopter that would give you the longest flying time. What is the optimal length and width of its wings? What is its predicted flying time, according to model 4? NOW BUILD the optimal helicopter, with the wing width and length that would slow it down the most, and test it. Is the actual flying time close to your prediction? What is the error? How would you explain the results? 
+
+*Answer:* SAY SOMETHING HERE.
+
+
+7. Bonus question: Run questions 4, 5 and 6 using the backup dataset (you can find it in a sub-folder in the zip file.) Compare the results to your experiments and try to explain any differences or similarties.  
+
+*Answer:* SAY SOMETHING HERE.
