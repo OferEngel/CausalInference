@@ -225,10 +225,12 @@ post3 <- pr.hyp.given.obs(obs3, post2)
 post4 <- pr.hyp.given.obs(obs4, post3)
 post5 <- pr.hyp.given.obs(obs5, post4)
 
-d <- 
-  data.frame(hyp.range, post1, post2, post3, post4, post5) %>% 
-  pivot_longer(cols=c("post1","post2","post3", "post4", "post5")) %>% 
-  mutate(posterior=factor(name, levels=c("post1","post2","post3", "post4", "post5")))
+d <- data.frame(hyp.range, post1, 
+                post2, post3, 
+                post4, post5) %>% 
+  pivot_longer(cols = c("post1", "post2", 
+                        "post3", "post4", 
+                        "post5")) %>% mutate(posterior = factor(name, levels = c("post1", "post2", "post3", "post4", "post5")))
 
 ggplot(d) + 
   geom_line(aes(x=hyp.range, y=value, color=posterior)) + 
@@ -303,6 +305,8 @@ ggplot(percentile.90) +
 ```
 
 
+Please see below the code needed to plot this graph. 
+
 ```{r bonus-show, echo=TRUE, eval=FALSE}
 
 # Fill this in with the number of observations, 
@@ -327,9 +331,9 @@ for(i in 1:____){
   # find the first hypothesis whose posterior is greater than zero
   first.hyp.nonzero.posterior <- min(which(post>____))
   
-  # find the first hypothesis whose cumulative 
-  # posterior is greater than 90%
-  first.hyp.cum.post.in.90pct <- min(which(cumsum(post)>____))
+  # find the last hypothesis whose cumulative 
+  # posterior is less than 90%
+  last.hyp.cum.post.in.90pct <- max(which(cumsum(post)<____))
   
   # fill in the 90th percentile for the current observation
   percentile.90[i,] <- 

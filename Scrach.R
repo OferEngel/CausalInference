@@ -333,3 +333,135 @@ d %>%
   tabyl(fct_age) %>% 
   adorn_pct_formatting()
 
+
+
+
+
+
+
+
+
+library(magrittr)
+library(knitr)
+library(kableExtra)
+library(emo)
+library(gridExtra)
+library(tidyverse)
+library(janitor)
+
+
+n.tanks <- 246
+max.n <- 1000       # the max we are willing to consider
+hyp.range <- 1:max.n # the range of hypotheses
+
+prior <- rep(1, max.n)
+
+pr.obs.given.hyp <- function(obs, hyp) {
+  return(ifelse(obs>hyp,0,1/hyp))
+}
+
+
+pr.hyp.given.obs <- function(obs, prior) {
+  likelihood <- pr.obs.given.hyp(obs, hyp.range)
+  return(likelihood*prior/sum(likelihood*prior))
+}
+
+set.seed(666)
+
+obs1 <- sample(1:n.tanks, 1)
+obs2 <- sample(1:n.tanks, 1)
+obs3 <- sample(1:n.tanks, 1)
+obs4 <- sample(1:n.tanks, 1)
+obs5 <- sample(1:n.tanks, 1)
+
+post1 <- pr.hyp.given.obs(obs1, prior)
+post2 <- pr.hyp.given.obs(obs2, post1)
+post3 <- pr.hyp.given.obs(obs3, post2)
+post4 <- pr.hyp.given.obs(obs4, post3)
+post5 <- pr.hyp.given.obs(obs5, post4)
+
+d <- data.frame(hyp.range, post1, post2, post3, post4, post5) %>% 
+  pivot_longer(cols=c("post1","post2","post3", "post4", "post5")) %>% 
+  mutate(posterior=
+          factor(name, 
+          levels=c("post1","post2","post3", "post4", "post5")))
+
+
+
+ggplot(d) + 
+  geom_line(aes(x=hyp.range, y=value, color=posterior)) + 
+  scale_x_continuous(breaks=seq(50,350,by=50), 
+                     limits=c(50,360), 
+                     name="hypothesized number of tanks") + 
+  ylab("posterior density") + 
+  theme(legend.position = "bottom")
+
+
+
+
+
+
+
+
+
+
+
+n.observations <- 50
+percentile.90 <- data.frame(index=rep(NA,n.observations),
+                            min=rep(NA,n.observations), 
+                            max=rep(NA,n.observations), 
+                            obs=rep(NA,n.observations))
+prior <- rep(1, max.n)
+set.seed(666)
+for(i in 1:n.observations){
+  obs <- sample(1:n.tanks, 1)
+  post <- pr.hyp.given.obs(obs, prior)
+  percentile.90[i,] <- 
+    c(i, hyp.range[sum(cumsum(post)==0)]+1, 
+      hyp.range[sum(cumsum(post)<0.90)], obs)
+  prior <- post
+}
+# percentile.90
+ggplot(percentile.90) + 
+  geom_point(aes(x=index, y=obs), color="red", size=1) +
+  geom_ribbon(aes(x=index, 
+                  ymin=min, 
+                  ymax=max), alpha=.4) + 
+  geom_hline(yintercept = n.tanks, color="red", alpha=.6) + 
+  scale_y_log10(name="90% credibility interval", 
+                breaks=c(200,246, 300, 400, 500, 800)) + 
+  scale_x_log10(name="observation number", 
+                breaks=c(1,3,5,12, 21, 30 , 50))
+
+
+
+
+n.observations <- 50
+
+# The data frame below is a place holder for two columns: 
+# 1. The minimum value of our 90% interval
+# 2. The maximum value of our 90% interval
+percentile.90 <- 
+  data.frame(min.90=rep(NA,n.observations), 
+  max.90=rep(NA,n.observations))
+
+# We do need our prior!
+prior <- rep(1, max.n)
+
+
+
+
+observation_number <- 
+  c(obs1, obs2, 
+    obs3, obs4, 
+    obs4, obs6, 
+    obs7, obs8, 
+    obs9, obs10)
+
+post_obs <- 
+  c(post.after.obs1, post.after.obs2,post.after.obs3,post.after.obs4,post.after.obs5, post.after.obs6,post.after.obs7,post.after.obs8,post.after.obs9,post.after.obs10)
+
+percentile.90 <- 
+  data.frame(min.90=rep(NA,min(observation_number)), 
+             max.90=rep(NA,min(which(cumsum(post_obs)>0.90))))
+

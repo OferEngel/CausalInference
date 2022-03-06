@@ -1,0 +1,185 @@
+---
+title: "Lab 05 - Rubins potential outcomes framework"
+subtitle: Individual assignment
+date: 'Due: March 13 at 23:59'
+---
+
+<style>
+.column-left{
+  float: left;
+  width: 60%;
+  text-align: left;
+}
+.column-right-small{
+  float: right;
+  width: 30%;
+  text-align: right;
+  padding-left: 10px;
+  font-size:10px;
+}
+
+.column-right-large{
+  float: right;
+  width: 40%;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.column-full{
+  float: none;
+  width: 100%;
+  text-align: centre;
+}
+
+
+.column-full-left{
+  float: none;
+  width: 100%;
+  text-align: left;
+}
+
+.center {
+  height: 200px;
+  border: 0px;
+  text-align: center;
+}
+
+
+.RUsers {
+  padding: 1em;
+  background: aliceblue;
+  color: black;
+}
+
+
+.SPSS {
+  padding: 1em;
+  background: whitesmoke;
+  color: black;
+}
+
+</style>
+
+
+```{r global-options, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+library(magrittr)
+library(knitr)
+library(kableExtra)
+library(emo)
+library(gridExtra)
+library(tidyverse)
+library(janitor)
+```
+
+
+<div class="column-right-large">
+
+
+```{r pi, out.width="500px", echo=FALSE, eval=TRUE}
+
+include_graphics("images/covid.jpg")
+
+```
+<!-- <br/> -->
+<!-- <br/> -->
+<!-- <br/> -->
+<!-- <br/> -->
+
+</div>
+
+<div class="column-left" >
+
+* Please submit your lab using [this link](https://docs.google.com/forms/d/e/1FAIpQLSdt37P0YrzOa7QzYf2pEvix4RgzNlWWRtvhFeO-KODP_c5Vow/viewform).   
+* If you have questions, please [book a slot](https://bit.ly/OferMeet) during Ofer's office hours!
+
+
+In this lab we start exploring Rubin's potential outcome framework. 
+
+
+### The perfect doctor
+
+<!-- Table 1.  consists of data about eleven patients,  each of whom is infected with coronavirus. There are two treatments: ventilators would lead to the potential outcome  $Y^{(1)}$ and bedrestwould lead to the potential outcome  $Y^{(0)}$ .  Table 1 displays each patient’s potential outcomes in terms of years of post-treatment survival under each treatment. Larger outcome values correspond to better health outcomes.  -->
+
+Table 1 on the right hand side displays each patient’s potential outcomes in terms of years of post-treatment survival under each treatment. 
+
+a. Under what conditions might [SUTVA](https://www.youtube.com/watch?v=wFpUKGNgb0Y) be violated for treatments of covid-19 in the scenario described above?
+
+b. Calculate each individual’s treatment effect ($\delta_i$).
+
+c. What is the average treatment effect, when comparing the outcome of the ventilators with the bedrest treatment? Which type of intervention is more effective on average?
+
+</div>
+
+
+<div class="column-right-large">
+
+```{r the-table, echo=FALSE, eval=TRUE}
+
+
+tribble(
+  ~patient, ~`$Y^{(0)}$`, ~`$Y^{(1)}$`, ~Age, ~`   $\\delta$   `, ~`   D   `, ~`   Y   `,
+  1, 10, 1,  29, "      ", "      ", "      ",
+  2,  5, 1,  35, "", "", "",
+  3,  4, 1,  19, "", "", "",
+  4,  6, 5,  45, "", "", "",
+  5,  1, 5,  65, "", "", "",
+  6,  7, 6,  50, "", "", "", 
+  7,  8, 7,  77, "", "", "", 
+  8, 10, 7,  18, "", "", "", 
+  9,  2, 8,  85, "", "", "",
+  10, 6, 9,  96, "", "", "",
+  11, 7, 10, 77, "", "", "") %>% kbl( caption = "Patients' potential outcomes", escape = FALSE) %>% kable_classic( full_width = FALSE,position="left")
+
+
+# kable_classic(kbl(tr, caption = "Patients' potential outcomes", escape = FALSE), full_width = FALSE,position="left")
+# 
+# kable(tr, 
+#       booktabs = TRUE, 
+#       caption = "Patients' potential outcomes", 
+#       escape = FALSE)
+
+```
+Table 1.  consists of data about eleven patients,  each of whom is infected with coronavirus. There are two treatments: ventilators would lead to the potential outcome  $Y^{(1)}$ and bedrest would lead to the potential outcome  $Y^{(0)}$ . 
+
+</div>
+
+<div class="column-left" >
+
+d. Suppose the “perfect doctor” knows each patient’s potential outcomes and as a result chooses the best treatment for each patient. If she assigns each patient to the treatment most beneficial for that patient, which patients will receive ventilators, and which will receive bedrest? Fill in the remaining missing columns based on what the perfect doctor chooses.
+
+e. Calculate the simple difference in outcomes (SDO).  Is it a good estimation for the ATE?
+
+f. Calculate the ATT and the ATU. How similar are each of these to the SDO?  How similar are each of these to the ATE?
+
+g. Show that the SDO is equal to the sum of the ATT and the selection bias. 
+
+h. Calculate $\mathbb{E}[Y|D=0]$
+
+i. Estimate the following regression, comparing the coefficients $\alpha$ and $\delta$ to the statistics you’ve previously calculated. What did you find? 
+
+$$
+Y_i=\alpha~+~\delta\cdot D_i~+~\epsilon_i
+$$
+
+j. Now estimate the same regression, but this time, controlling for age, again comparing, the coefficient $\delta$  to the statistics you’ve previously calculated. What did you find? Did controlling for age recover the ATE? 
+
+$$
+Y_i=\alpha+\delta\cdot D_i+\beta\cdot X_{age}+\epsilon_i
+$$
+
+
+
+k. Estimate the following three regression models. The first model is the same as the one above. The second equation is the auxiliary regression of $D$ onto $X_{age}$. The third equation regresses $Y$ onto $\tilde{D}$ which is the residual from the second equation.  Compare the coefficient on $D$ from the first equation to the coefficient on $\tilde{D}$  in the third equation.  What does this tell you about how to interpret multivariate regressions?
+
+\begin{equation}
+    Y_i=\alpha_0+\delta_0\cdot D_i+\beta_0\cdot X_{age}+\epsilon_{0i}  \\
+    D_i=\alpha_1+\beta_1\cdot X_{age} +\epsilon_{1i}  \\
+    Y_i=\alpha_2+\delta_2\cdot \tilde{D}_i +\epsilon_{2i}  \\
+
+\end{equation}
+
+
+
+
+</div>

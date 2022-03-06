@@ -525,6 +525,7 @@ $(document).ready(function () {
 <li>Now create a plot using <code>geom_ribbon</code>, to show how the uncertainty around the real tank-count value diminishes with every additional observation. Explain what the graph is showing, and discuss relevant reflections you might have.</li>
 </ol>
 <p><img src="Lab04_files/figure-html/bonus-1.png" width="672" /></p>
+<p>Please see below the code needed to plot this graph.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill this in with the number of observations, </span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Or how many tanks you captured</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>n.observations <span class="ot">&lt;-</span> ____</span>
@@ -547,9 +548,9 @@ $(document).ready(function () {
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># find the first hypothesis whose posterior is greater than zero</span></span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  first.hyp.nonzero.posterior <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="fu">which</span>(post<span class="sc">&gt;</span>____))</span>
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># find the first hypothesis whose cumulative </span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># posterior is greater than 90%</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  first.hyp.cum.post.in<span class="fl">.90</span>pct <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="fu">which</span>(<span class="fu">cumsum</span>(post)<span class="sc">&gt;</span>____))</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># find the last hypothesis whose cumulative </span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># posterior is less than 90%</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  last.hyp.cum.post.in<span class="fl">.90</span>pct <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">which</span>(<span class="fu">cumsum</span>(post)<span class="sc">&lt;</span>____))</span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fill in the 90th percentile for the current observation</span></span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  percentile<span class="fl">.90</span>[i,] <span class="ot">&lt;-</span> </span>
