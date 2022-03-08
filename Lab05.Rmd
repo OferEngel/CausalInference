@@ -1,7 +1,7 @@
 ---
 title: "Lab 05 - Rubins potential outcomes framework"
 subtitle: Individual assignment
-date: 'Due: March 13 at 23:59'
+date: 'Due: March 15 at 23:59'
 ---
 
 <style>
