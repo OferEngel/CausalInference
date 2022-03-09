@@ -101,13 +101,28 @@ In this lab we start exploring Rubin's potential outcome framework.
 
 <!-- Table 1.  consists of data about eleven patients,  each of whom is infected with coronavirus. There are two treatments: ventilators would lead to the potential outcome  $Y^{(1)}$ and bedrestwould lead to the potential outcome  $Y^{(0)}$ .  Table 1 displays each patient’s potential outcomes in terms of years of post-treatment survival under each treatment. Larger outcome values correspond to better health outcomes.  -->
 
-Table 1 on the right hand side displays each patient’s potential outcomes in terms of years of post-treatment survival under each treatment. 
+Table 1 on the right hand side displays a small data set that is used for practice purposes only. Two unobserved (and imagined)  potential outcomes are recorded for each patient, denoting years of post-treatment survival under each of two treatments. 
+
+```{r setup, include=FALSE}
+df <- read.csv("data/po.csv")
+df$delta <- df$Y1 - df$Y0 
+df$D <- ifelse(df$Y1>df$Y0,1,0)
+df$Y <- ifelse(df$D==1,df$Y1,df$Y0)
+
+ATE <- mean(df$delta)
+ATT <- mean(df[df$D==1,"delta"])
+ATU <- mean(df[df$D==0,"delta"])
+
+
+```
+
+
 
 a. Under what conditions might [SUTVA](https://www.youtube.com/watch?v=wFpUKGNgb0Y) be violated for treatments of covid-19 in the scenario described above?
 
 b. Calculate each individual’s treatment effect ($\delta_i$).
 
-c. What is the average treatment effect, when comparing the outcome of the ventilators with the bedrest treatment? Which type of intervention is more effective on average?
+c. What is the average treatment effect (ATE), when comparing the outcome of the ventilators with the bedrest treatment? Which type of intervention is more effective on average? 
 
 </div>
 
@@ -150,19 +165,19 @@ d. Suppose the “perfect doctor” knows each patient’s potential outcomes an
 
 e. Calculate the simple difference in outcomes (SDO).  Is it a good estimation for the ATE?
 
-f. Calculate the ATT and the ATU. How similar are each of these to the SDO?  How similar are each of these to the ATE?
+f. Compare the treatment effect for those treated with a ventilator with the treatment effect for those who were treated with bedrest. What explains the difference in the average effect? Now compare all four measures of effects. What are the advantages and disadvantages of each? Explain any similarities or differences you observe. 
 
 g. Show that the SDO is equal to the sum of the ATT and the selection bias. 
 
-h. Calculate $\mathbb{E}[Y|D=0]$
+h. Calculate the outcome, conditional on getting the bedrest treatment $\mathbb{E}[Y|D=0]$ 
 
-i. Estimate the following regression, comparing the coefficients $\alpha$ and $\delta$ to the statistics you’ve previously calculated. What did you find? 
+i. Estimate the following regression, comparing the coefficients $\alpha$ and $\delta$ to the statistics you’ve previously calculated. What did you find? How would you explain this finding? 
 
 $$
 Y_i=\alpha~+~\delta\cdot D_i~+~\epsilon_i
 $$
 
-j. Now estimate the same regression, but this time, controlling for age, again comparing, the coefficient $\delta$  to the statistics you’ve previously calculated. What did you find? Did controlling for age recover the ATE? 
+j. Now estimate the same regression, but this time, controlling for age, again comparing, the coefficient $\delta$  to the statistics you’ve previously calculated. What did you find? How do you explain these results?
 
 $$
 Y_i=\alpha+\delta\cdot D_i+\beta\cdot X_{age}+\epsilon_i

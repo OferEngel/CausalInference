@@ -354,11 +354,11 @@ $(document).ready(function () {
 <div id="the-perfect-doctor" class="section level3">
 <h3>The perfect doctor</h3>
 <!-- Table 1.  consists of data about eleven patients,  each of whom is infected with coronavirus. There are two treatments: ventilators would lead to the potential outcome  $Y^{(1)}$ and bedrestwould lead to the potential outcome  $Y^{(0)}$ .  Table 1 displays each patient’s potential outcomes in terms of years of post-treatment survival under each treatment. Larger outcome values correspond to better health outcomes.  -->
-<p>Table 1 on the right hand side displays each patient’s potential outcomes in terms of years of post-treatment survival under each treatment.</p>
+<p>Table 1 on the right hand side displays a small data set that is used for practice purposes only. Two unobserved (and imagined) potential outcomes are recorded for each patient, denoting years of post-treatment survival under each of two treatments.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Under what conditions might <a href="https://www.youtube.com/watch?v=wFpUKGNgb0Y">SUTVA</a> be violated for treatments of covid-19 in the scenario described above?</p></li>
 <li><p>Calculate each individual’s treatment effect (<span class="math inline">\(\delta_i\)</span>).</p></li>
-<li><p>What is the average treatment effect, when comparing the outcome of the ventilators with the bedrest treatment? Which type of intervention is more effective on average?</p></li>
+<li><p>What is the average treatment effect (ATE), when comparing the outcome of the ventilators with the bedrest treatment? Which type of intervention is more effective on average?</p></li>
 </ol>
 </div>
 </div>
@@ -621,16 +621,16 @@ Y
 <ol start="4" style="list-style-type: lower-alpha">
 <li><p>Suppose the “perfect doctor” knows each patient’s potential outcomes and as a result chooses the best treatment for each patient. If she assigns each patient to the treatment most beneficial for that patient, which patients will receive ventilators, and which will receive bedrest? Fill in the remaining missing columns based on what the perfect doctor chooses.</p></li>
 <li><p>Calculate the simple difference in outcomes (SDO). Is it a good estimation for the ATE?</p></li>
-<li><p>Calculate the ATT and the ATU. How similar are each of these to the SDO? How similar are each of these to the ATE?</p></li>
+<li><p>Compare the treatment effect for those treated with a ventilator with the treatment effect for those who were treated with bedrest. What explains the difference in the average effect? Now compare all four measures of effects. What are the advantages and disadvantages of each? Explain any similarities or differences you observe.</p></li>
 <li><p>Show that the SDO is equal to the sum of the ATT and the selection bias.</p></li>
-<li><p>Calculate <span class="math inline">\(\mathbb{E}[Y|D=0]\)</span></p></li>
-<li><p>Estimate the following regression, comparing the coefficients <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\delta\)</span> to the statistics you’ve previously calculated. What did you find?</p></li>
+<li><p>Calculate the outcome, conditional on getting the bedrest treatment <span class="math inline">\(\mathbb{E}[Y|D=0]\)</span></p></li>
+<li><p>Estimate the following regression, comparing the coefficients <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\delta\)</span> to the statistics you’ve previously calculated. What did you find? How would you explain this finding?</p></li>
 </ol>
 <p><span class="math display">\[
 Y_i=\alpha~+~\delta\cdot D_i~+~\epsilon_i
 \]</span></p>
 <ol start="10" style="list-style-type: lower-alpha">
-<li>Now estimate the same regression, but this time, controlling for age, again comparing, the coefficient <span class="math inline">\(\delta\)</span> to the statistics you’ve previously calculated. What did you find? Did controlling for age recover the ATE?</li>
+<li>Now estimate the same regression, but this time, controlling for age, again comparing, the coefficient <span class="math inline">\(\delta\)</span> to the statistics you’ve previously calculated. What did you find? How do you explain these results?</li>
 </ol>
 <p><span class="math display">\[
 Y_i=\alpha+\delta\cdot D_i+\beta\cdot X_{age}+\epsilon_i
