@@ -165,7 +165,7 @@ d. Suppose the “perfect doctor” knows each patient’s potential outcomes an
 
 e. Calculate the simple difference in outcomes (SDO).  Is it a good estimation for the ATE?
 
-f. Compare the treatment effect for those treated with a ventilator with the treatment effect for those who were treated with bedrest. What explains the difference in the average effect? Now compare all four measures of effects. What are the advantages and disadvantages of each? Explain any similarities or differences you observe. 
+f. Compare the treatment effect for those treated with a ventilator with the treatment effect for those who were treated with bedrest. What explains the difference in the average effect? Now compare all four measures of effects. What are the advantages and disadvantages of each? Explain any similarities or differences you observe. Is the ATE equal to the mean of the ATU and the ATT? Why or why not?  
 
 g. Show that the SDO is equal to the sum of the ATT and the selection bias. 
 
