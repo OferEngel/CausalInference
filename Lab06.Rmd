@@ -100,10 +100,10 @@ In our data, we also have the age of the individuals, which acts as a confounder
 Because we are using data from a simulation, we know that the true ATE of sodium on blood pressure is 1.05. More concretely, the line of code that generates blood pressure $Y$ looks as follows:
 
 
-AGE = Age (years)
-SOD = 24-hour dietary sodium intake (g)
-PRO = 24-hour excretion of urinary protein (proteinuria) (mg)
-SBP = Systolic blood pressure (mmHg)
+AGE = Age (years) \
+SOD = 24-hour dietary sodium intake (g) \
+PRO = 24-hour excretion of urinary protein (proteinuria) (mg) \
+SBP = Systolic blood pressure (mmHg) \
 
 1. Create a directed acyclical graph (DAG) to represent our assumptions regarding the system of relationships between the four variables. 
 <br/>
@@ -134,8 +134,8 @@ n_{obs}&=1000\\
 
   * Since we simulated our data, we know what the ATE should be. We also have three estimations for the ATE, one from each model. What is the error (in percentages) for each of the three models?
   * How does the ATE compare with the estimates of the model coefficients?
-    
-    
+
+<br/>
 5. Experiment with the [colider visualization](https://watzilei.com/shiny/collider/) and try to find out how the average treatment effect depends on the three coefficients $\beta_{sod2sbp}, \alpha_{sod2pro},  \alpha_{sbp2pro}$. Describe your findings. Under what conditions would the ATE appear to be negative? 
 
 ```{r sim, echo=FALSE, eval=FALSE}

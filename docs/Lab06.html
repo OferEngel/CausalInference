@@ -354,7 +354,11 @@ $(document).ready(function () {
 <p>We use Luque-Fernandez et al. (2019) example from epidemiology, to explore collider bias using a simulation. The outcome <span class="math inline">\(Y\)</span> of interest is (systolic) blood pressure. This is an important outcome because roughly 46% of Americans have high blood pressure, and high blood pressure is associated with increased risk of mortality. The “Treatment” <span class="math inline">\(T\)</span> of interest is sodium intake. Sodium intake is a continuous variable; but we will binarize <span class="math inline">\(T\)</span> by letting <span class="math inline">\(T=1\)</span> denote daily sodium intake above the mean in our sample and letting <span class="math inline">\(T=0\)</span> denote daily sodium intake below the mean. We will be estimating the causal effect of sodium intake on blood pressure.</p>
 <p>In our data, we also have the age of the individuals, which acts as a confounder and amount of protein in their urine, which acts as a collider. We will replicate Luque-Fernandez et al.’s simulation, which takes care that the range of values is “biologically plausible and as close to reality as possible.”</p>
 <p>Because we are using data from a simulation, we know that the true ATE of sodium on blood pressure is 1.05. More concretely, the line of code that generates blood pressure <span class="math inline">\(Y\)</span> looks as follows:</p>
-<p>AGE = Age (years) SOD = 24-hour dietary sodium intake (g) PRO = 24-hour excretion of urinary protein (proteinuria) (mg) SBP = Systolic blood pressure (mmHg)</p>
+<p>AGE = Age (years)<br />
+SOD = 24-hour dietary sodium intake (g)<br />
+PRO = 24-hour excretion of urinary protein (proteinuria) (mg)<br />
+SBP = Systolic blood pressure (mmHg)<br />
+</p>
 <ol style="list-style-type: decimal">
 <li><p>Create a directed acyclical graph (DAG) to represent our assumptions regarding the system of relationships between the four variables. <br/></p></li>
 <li><p>Simulate the data given the following coefficients and the model below, to create a dataset. Plot the distributions of the variables in the dataset. <br/> <span class="math display">\[\begin{align}
@@ -379,9 +383,7 @@ n_{obs}&amp;=1000\\
 <li>Since we simulated our data, we know what the ATE should be. We also have three estimations for the ATE, one from each model. What is the error (in percentages) for each of the three models?</li>
 <li>How does the ATE compare with the estimates of the model coefficients?</li>
 </ul>
-<ol start="5" style="list-style-type: decimal">
-<li>Experiment with the <a href="https://watzilei.com/shiny/collider/">colider visualization</a> and try to find out how the average treatment effect depends on the three coefficients <span class="math inline">\(\beta_{sod2sbp}, \alpha_{sod2pro}, \alpha_{sbp2pro}\)</span>. Describe your findings. Under what conditions would the ATE appear to be negative?</li>
-</ol>
+<p><br/> 5. Experiment with the <a href="https://watzilei.com/shiny/collider/">colider visualization</a> and try to find out how the average treatment effect depends on the three coefficients <span class="math inline">\(\beta_{sod2sbp}, \alpha_{sod2pro}, \alpha_{sbp2pro}\)</span>. Describe your findings. Under what conditions would the ATE appear to be negative?</p>
 <div id="references" class="section level3">
 <h3>References</h3>
 <p>Luque-Fernandez, M. A., Schomaker, M., Redondo-Sanchez, D., Jose Sanchez Perez, M., Vaidya, A., &amp; Schnitzer, M. E. (2019). Educational Note: Paradoxical collider effect in the analysis of non-communicable disease epidemiological data: a reproducible illustration and web application. International journal of epidemiology, 48(2), 640-653.</p>
