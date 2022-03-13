@@ -357,7 +357,7 @@ $(document).ready(function () {
       <a href="Lab05.html">Lab 5</a>
     </li>
     <li>
-      <a href="Lab05.html">Lab 6</a>
+      <a href="Lab06.html">Lab 6</a>
     </li>
     <li class="dropdown-header">To be continued...</li>
   </ul>
@@ -464,6 +464,26 @@ $(document).ready(function () {
 <p><img src="Lab01_files/figure-html/dots-and-circle-1.png" width="336" style="display: block; margin: auto;" /></p>
 <p>You can generate points sprinkled randomly in the square using the function <code>runif(n, min, max)</code> for both coordinates of every point. We then count how many points fall inside the circle - that would be the result of our experiment.</p>
 <p>You now want to repeat this experiment thousands of times. For each experiment you calculate the number of points that fall within the circle. Your code might look like this:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This function returns the number of points for one experiment</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>successes.in.one.experiment <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Each experiment consists of numerous trials</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># The number of trials in each experiment:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  n.trials <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># generating random numbers for x and y of each point</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  point.x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n.trials, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  point.y <span class="ot">&lt;-</span> <span class="fu">runif</span>(n.trials, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate  the number of  &quot;successes&quot;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># The number of successes is the number of </span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># dots inside the circle.</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(point.x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> point.y<span class="sc">^</span><span class="dv">2</span> <span class="sc">&lt;</span> <span class="dv">1</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the number of experiments</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Each experiment counts the number of successes</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>n.experiments <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n.experiments, <span class="fu">successes.in.one.experiment</span>())</span></code></pre></div>
 <p>Now, you can create a histogram of the variable <span class="math inline">\(X\)</span>, which consists of a series of numbers, representing the number of “successes” in each of the experiments.</p>
 <p><img src="Lab01_files/figure-html/circle-histog%20-1.png" width="480" style="display: block; margin: auto;" /></p>
 <div class="column-right">
