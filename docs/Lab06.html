@@ -11,7 +11,7 @@
 
 
 
-<title>Causal inference in data science</title>
+<title>Lab 06 - Paradoxical collider effect</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -280,7 +280,9 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Causal inference in data science</h1>
+<h1 class="title toc-ignore">Lab 06 - Paradoxical collider effect</h1>
+<h3 class="subtitle">Individual assignment</h3>
+<h4 class="date">Due: March 22 at 23:59</h4>
 
 </div>
 
@@ -291,17 +293,38 @@ $(document).ready(function () {
   width: 60%;
   text-align: left;
 }
-.column-right{
+.column-right-small{
+  float: right;
+  width: 30%;
+  text-align: right;
+  padding-left: 10px;
+  font-size:10px;
+}
+
+.column-right-large{
   float: right;
   width: 40%;
-  text-align: right;
+  text-align: left;
   padding-left: 10px;
 }
 
 .column-full{
   float: none;
   width: 100%;
+  text-align: centre;
+}
+
+
+.column-full-left{
+  float: none;
+  width: 100%;
   text-align: left;
+}
+
+.center {
+  height: 200px;
+  border: 0px;
+  text-align: center;
 }
 
 
@@ -312,7 +335,6 @@ $(document).ready(function () {
 }
 
 
-
 .SPSS {
   padding: 1em;
   background: whitesmoke;
@@ -320,44 +342,50 @@ $(document).ready(function () {
 }
 
 </style>
-<div class="column-right">
-<p><img src="images/causalethno.png" width="285" /></p>
+<div class="column-right-large">
+<p><img src="images/salt.jpg" width="500px" /></p>
 </div>
-<div class="column-left">
-<p>Recent years have seen the emergence of new methods designed to probe into causal inference, at the intersection of three academic traditions: In the computer sciences, Judea Pearl won the Alan Turing prize in 2011 for fundamental contributions to artificial intelligence through the development of a Bayesian probabilistic framework for causal reasoning. In the social and economic sciences, Joshua Angrist and Guido Imbens were awarded the 2021 Nobel prize for their methodological contributions to the analysis of causal relationships, their insights spreading to a wide range of fields and were said to “revolutionise” empirical research.</p>
-</div>
-<div class="column-full">
-<p>In the philosophy of sciences, Nancy Cartwright and James Woodward have grounded these achievements within normative and epistemological foundations, prompting the rise of manipulability theories of causation. Drawing on ideas in artificial intelligence, the social sciences and philosophy, this course will introduce you to emerging ways of seeing the world around us.</p>
-<div id="aim" class="section level3">
-<h3>Aim:</h3>
-<p>Upon the successful completion of this course, I hope you will be able to achieve three things:</p>
+<div class="column-full-left">
+<ul>
+<li>Please submit your lab using <a href="https://docs.google.com/forms/d/e/1FAIpQLSeWnDOKz2_2p4XQl9efCOK9PrgwSIbisFx5nBd-B6bwGa4d6w/viewform">this link</a>.<br />
+</li>
+<li>If you have questions, please <a href="https://bit.ly/OferMeet">book a slot</a> during Ofer’s office hours!</li>
+</ul>
+<p>We use Luque-Fernandez et al. (2019) example from epidemiology, to explore collider bias using a simulation. The outcome <span class="math inline">\(Y\)</span> of interest is (systolic) blood pressure. This is an important outcome because roughly 46% of Americans have high blood pressure, and high blood pressure is associated with increased risk of mortality. The “Treatment” <span class="math inline">\(T\)</span> of interest is sodium intake. Sodium intake is a continuous variable; but we will binarize <span class="math inline">\(T\)</span> by letting <span class="math inline">\(T=1\)</span> denote daily sodium intake above the mean in our sample and letting <span class="math inline">\(T=0\)</span> denote daily sodium intake below the mean. We will be estimating the causal effect of sodium intake on blood pressure.</p>
+<p>In our data, we also have the age of the individuals, which acts as a confounder and amount of protein in their urine, which acts as a collider. We will replicate Luque-Fernandez et al.’s simulation, which takes care that the range of values is “biologically plausible and as close to reality as possible.”</p>
+<p>Because we are using data from a simulation, we know that the true ATE of sodium on blood pressure is 1.05. More concretely, the line of code that generates blood pressure <span class="math inline">\(Y\)</span> looks as follows:</p>
+<p>AGE = Age (years) SOD = 24-hour dietary sodium intake (g) PRO = 24-hour excretion of urinary protein (proteinuria) (mg) SBP = Systolic blood pressure (mmHg)</p>
 <ol style="list-style-type: decimal">
-<li><p>You will have been exposed to a wide range of methods of causal analysis, and acquire familiarity with their pros and cons.</p></li>
-<li><p>You will become more familiar with the terminology that is used in contemporary social research regarding causal inference.</p></li>
-<li><p>You will be able to identify weaknesses of research making claims about causal mechanisms; recognize implicit assumptions that drive those claims and critique those assumptions and their limitations.</p></li>
+<li><p>Create a directed acyclical graph (DAG) to represent our assumptions regarding the system of relationships between the four variables. <br/></p></li>
+<li><p>Simulate the data given the following coefficients and the model below, to create a dataset. Plot the distributions of the variables in the dataset. <br/> <span class="math display">\[\begin{align}
+X_{age} &amp;\sim \mathbb{N}(\mu=65, \sigma=5)\\
+n_{obs}&amp;=1000\\
+\beta_{sod2sbp}&amp;=1.05\\
+\alpha_{sod2pro}&amp;=0.5\\
+\alpha_{sbp2pro}&amp;=0.5\\
+\mathbb{E}\big[X_{sodium_{gr}}\big] &amp;= X_{age}/18\\
+\mathbb{E}\big[X_{sbp}\big]&amp;=\beta_{sod2sbp} * X_{sodium.bin} + 2.00 \cdot X_{age} \\
+\mathbb{E}\big[X_{pro}\big]&amp;=\alpha_{sod2pro} * X_{sodium.bin} + \alpha_{sbp2pro} * X_{sbp} \\
+\end{align}\]</span></p></li>
 </ol>
+<p><br/> <br/> 3. We now start with our data-set, and want to estimate the average treatment effect. Estimate the coefficients of the following three:</p>
+<ul>
+<li>For the first model, regress the Systolic blood pressure against the sodium intake. This will be our <em>naive estimation</em>.</li>
+<li>For the second model, regress the Systolic blood pressure against the sodium intake while controlling for the age and urinary protein.</li>
+<li>For the third model, we regress the Systolic blood pressure against the sodium intake while controlling for the age only.</li>
+</ul>
+<p><br/> 4. For each of these three models, estimate the average treatment effect (ATE), by predicting two potential outcomes for each of the observations. Subtract the estimated potential outcome to find the individual level effect, <span class="math inline">\(\delta\)</span>, and average the individual level effect across all subjects.</p>
+<ul>
+<li>Since we simulated our data, we know what the ATE should be. We also have three estimations for the ATE, one from each model. What is the error (in percentages) for each of the three models?</li>
+<li>How does the ATE compare with the estimates of the model coefficients?</li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
+<li>Experiment with the <a href="https://watzilei.com/shiny/collider/">colider visualization</a> and try to find out how the average treatment effect depends on the three coefficients <span class="math inline">\(\beta_{sod2sbp}, \alpha_{sod2pro}, \alpha_{sbp2pro}\)</span>. Describe your findings. Under what conditions would the ATE appear to be negative?</li>
+</ol>
+<div id="references" class="section level3">
+<h3>References</h3>
+<p>Luque-Fernandez, M. A., Schomaker, M., Redondo-Sanchez, D., Jose Sanchez Perez, M., Vaidya, A., &amp; Schnitzer, M. E. (2019). Educational Note: Paradoxical collider effect in the analysis of non-communicable disease epidemiological data: a reproducible illustration and web application. International journal of epidemiology, 48(2), 640-653.</p>
 </div>
-<div id="method" class="section level3">
-<h3>Method</h3>
-<p>The course is designed to follow the flipped-classroom approach. Readings and videos of the lectures are available before the course begins. You will be expected to read the relevant chapters in the textbook, watch the videos, and comment on them in Perusall PRIOR to attending the course. During the course itself, you will work on quizzes and lab assignments, which you may then submit at the end of each day.</p>
-</div>
-</div>
-<div id="prepare" class="section level4 column-left">
-<h4>Prepare</h4>
-<p>To prepare for the course, please complete the preparation assignments, all available on the Perusall platform. You can find the assignments in Nestor under <code>Assignments</code>. You then need to click on the title of the item: <code>CLICK ME to access Perusall</code>.</p>
-<p>Completing the assignment involves watching the video and reading the text before the assigned deadlines.</p>
-</div>
-<div class="column-right">
-<p><img src="images/Perusall.jpg" width="483" /></p>
-</div>
-<div id="resources" class="section level3">
-<h3>Resources</h3>
-<p>Online (Nestor, Perusall, github): lectures, presentations, data-sets and exercises and background literature</p>
-<p>To brush up on your R programming skills, there are a variety of free resources you can use, such as the <a href="https://sicss.io/boot_camp/">SICSS bootcamp</a>, Harvard’s famous <a href="https://www.edx.org/course/data-science-r-basics">R Basics course</a>, or Stanford’s <a href="https://www.edx.org/course/r-programming-fundamentals">R Programming fundamentals</a>. If you speak German, <a href="https://shiny.lmes.uni-potsdam.de/startR/">this site</a> is quite nice.</p>
-<p>An introduction to visualization using <code>ggplot</code> is available in <a href="https://bit.ly/3rrzzqV">this playlist</a>.</p>
-<p>For RMarkdown, have a look at <a href="https://www.pipinghotdata.com/posts/2020-09-07-introducing-the-rstudio-ide-and-r-markdown/">piping hot data</a></p>
-<p>You may work and submit your assignments using any statistical software including SPSS, STATA, Python, SCALA or Julia. However, as R is becoming the lingua franca of data science in many academic circles, this is going to be the default technology used in this course.</p>
-<p><img src="images/causalbooks.jpg" width="398" /></p>
 </div>
 
 

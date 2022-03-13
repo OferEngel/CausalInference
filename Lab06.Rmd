@@ -1,0 +1,198 @@
+---
+title: "Lab 06 - Paradoxical collider effect"
+subtitle: Individual assignment
+date: 'Due: March 22 at 23:59'
+---
+
+<style>
+.column-left{
+  float: left;
+  width: 60%;
+  text-align: left;
+}
+.column-right-small{
+  float: right;
+  width: 30%;
+  text-align: right;
+  padding-left: 10px;
+  font-size:10px;
+}
+
+.column-right-large{
+  float: right;
+  width: 40%;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.column-full{
+  float: none;
+  width: 100%;
+  text-align: centre;
+}
+
+
+.column-full-left{
+  float: none;
+  width: 100%;
+  text-align: left;
+}
+
+.center {
+  height: 200px;
+  border: 0px;
+  text-align: center;
+}
+
+
+.RUsers {
+  padding: 1em;
+  background: aliceblue;
+  color: black;
+}
+
+
+.SPSS {
+  padding: 1em;
+  background: whitesmoke;
+  color: black;
+}
+
+</style>
+
+
+```{r global-options, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+library(magrittr)
+library(knitr)
+library(kableExtra)
+library(emo)
+library(gridExtra)
+library(tidyverse)
+library(janitor)
+library(modelsummary)
+```
+
+
+<div class="column-right-large">
+
+
+```{r salt, out.width="500px", echo=FALSE, eval=TRUE}
+
+include_graphics("images/salt.jpg")
+
+```
+
+
+</div>
+
+<div class="column-full-left" >
+
+* Please submit your lab using [this link](https://docs.google.com/forms/d/e/1FAIpQLSeWnDOKz2_2p4XQl9efCOK9PrgwSIbisFx5nBd-B6bwGa4d6w/viewform).   
+* If you have questions, please [book a slot](https://bit.ly/OferMeet) during Ofer's office hours!
+
+
+
+We use Luque-Fernandez et al. (2019) example from epidemiology, to explore collider bias using a simulation. The outcome $Y$ of interest is (systolic) blood pressure. This is an important outcome because roughly 46% of Americans have high blood pressure, and high blood pressure is associated with increased risk of mortality. The "Treatment" $T$ of interest is sodium intake. Sodium intake is a continuous variable; but we will binarize  $T$ by letting  $T=1$  denote daily sodium intake above the mean in our sample and letting $T=0$ denote daily sodium intake below the mean. We will be estimating the causal effect of sodium intake on blood pressure. 
+
+In our data, we also have the age of the individuals, which acts as a confounder and amount of protein in their urine, which acts as a collider. We will replicate Luque-Fernandez et al.'s  simulation, which takes care  that the range of values is "biologically plausible and as close to reality as possible." 
+
+Because we are using data from a simulation, we know that the true ATE of sodium on blood pressure is 1.05. More concretely, the line of code that generates blood pressure $Y$ looks as follows:
+
+
+AGE = Age (years)
+SOD = 24-hour dietary sodium intake (g)
+PRO = 24-hour excretion of urinary protein (proteinuria) (mg)
+SBP = Systolic blood pressure (mmHg)
+
+1. Create a directed acyclical graph (DAG) to represent our assumptions regarding the system of relationships between the four variables. 
+<br/>
+
+2. Simulate the data given the following coefficients and the model below, to create a dataset. Plot the distributions of the variables in the dataset. 
+<br/>
+\begin{align}
+X_{age} &\sim \mathbb{N}(\mu=65, \sigma=5)\\
+n_{obs}&=1000\\
+\beta_{sod2sbp}&=1.05\\
+\alpha_{sod2pro}&=0.5\\
+\alpha_{sbp2pro}&=0.5\\
+\mathbb{E}\big[X_{sodium_{gr}}\big] &= X_{age}/18\\
+\mathbb{E}\big[X_{sbp}\big]&=\beta_{sod2sbp} * X_{sodium.bin} + 2.00 \cdot X_{age} \\
+\mathbb{E}\big[X_{pro}\big]&=\alpha_{sod2pro} * X_{sodium.bin} + \alpha_{sbp2pro} * X_{sbp} \\
+\end{align}
+
+<br/>
+<br/>
+3. We now start with our data-set, and want to estimate the average treatment effect. Estimate the coefficients of the following three: 
+
+  * For the first model, regress the Systolic blood pressure against the sodium intake. This will be our *naive estimation*. 
+  * For the second model, regress the Systolic blood pressure against the sodium intake while controlling for the age and urinary protein.
+  * For the third model, we regress the Systolic blood pressure against the sodium intake while controlling for the age only.
+
+<br/>
+4. For each of these three models,  estimate the average treatment effect (ATE), by predicting two potential outcomes for each of the observations. Subtract the estimated potential outcome to find the individual level effect, $\delta$, and average the individual level effect across all subjects. 
+
+  * Since we simulated our data, we know what the ATE should be. We also have three estimations for the ATE, one from each model. What is the error (in percentages) for each of the three models?
+  * How does the ATE compare with the estimates of the model coefficients?
+    
+    
+5. Experiment with the [colider visualization](https://watzilei.com/shiny/collider/) and try to find out how the average treatment effect depends on the three coefficients $\beta_{sod2sbp}, \alpha_{sod2pro},  \alpha_{sbp2pro}$. Describe your findings. Under what conditions would the ATE appear to be negative? 
+
+```{r sim, echo=FALSE, eval=FALSE}
+
+# Generate the data
+n        <-  1000
+slope_SOD2SBP  <-  1.05 
+slope_SOD2PRO  <-  0.5
+slope_SBP2PRO  <-  0.5
+
+set.seed(777)
+age_years   <- rnorm(n, 65, 5)
+sodium_gr   <- age_years / 18 + rnorm(n)
+sodium_cutoff <- mean(sodium_gr)
+sodium.bin <- ifelse(sodium_gr>sodium_cutoff,1,0)
+
+
+sbp_in_mmHg <- 
+  slope_SOD2SBP * sodium.bin + 
+  2.00 * age_years + rnorm(n)
+
+proteinuria_in_mg <- slope_SOD2PRO * sodium.bin + 
+  slope_SBP2PRO * sbp_in_mmHg + 
+  rnorm(n)
+
+df <- data.frame(sbp_in_mmHg, sodium.bin, age_years, proteinuria_in_mg)
+
+# Estimating the ATE 
+
+ATE.ctrl.all <- lm(sbp_in_mmHg ~ age_years + proteinuria_in_mg + sodium.bin)
+ATE.ctrl.age <- lm(sbp_in_mmHg ~ age_years + sodium.bin)
+ATE.naive <- lm(sbp_in_mmHg ~ sodium.bin)
+
+Y0.ctrl.age <-  predict(ATE.ctrl.age, data.frame(age_years, proteinuria_in_mg, sodium.bin=0))
+Y1.ctrl.age <-  predict(ATE.ctrl.age, data.frame(age_years, proteinuria_in_mg, sodium.bin=1))
+mean(Y1.ctrl.age - Y0.ctrl.age)
+
+Y0.naive <-  predict(ATE.naive, data.frame(age_years, proteinuria_in_mg, sodium.bin=0))
+Y1.naive <-  predict(ATE.naive, data.frame(age_years, proteinuria_in_mg, sodium.bin=1))
+mean(Y1.naive - Y0.naive)
+
+
+Y0.ctrl.all <-  predict(ATE.ctrl.all, data.frame(age_years, proteinuria_in_mg, sodium.bin=0))
+Y1.ctrl.all <-  predict(ATE.ctrl.all, data.frame(age_years, proteinuria_in_mg, sodium.bin=1))
+mean(Y1.ctrl.all - Y0.ctrl.all)
+
+
+
+
+modelsummary(list(naive=ATE.naive, all=ATE.ctrl.all, age=ATE.ctrl.age), stars=TRUE, statistic=NA)
+
+```
+
+
+### References
+
+Luque-Fernandez, M. A., Schomaker, M., Redondo-Sanchez, D., Jose Sanchez Perez, M., Vaidya, A., & Schnitzer, M. E. (2019). Educational Note: Paradoxical collider effect in the analysis of non-communicable disease epidemiological data: a reproducible illustration and web application. International journal of epidemiology, 48(2), 640-653.
+
+
+</div>

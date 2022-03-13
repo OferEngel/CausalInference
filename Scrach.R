@@ -465,3 +465,15 @@ percentile.90 <-
   data.frame(min.90=rep(NA,min(observation_number)), 
              max.90=rep(NA,min(which(cumsum(post_obs)>0.90))))
 
+
+
+
+x <- read.delim("clipboard")
+write.csv(x, "po.csv")
+
+
+
+
+
+
+
