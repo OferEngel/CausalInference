@@ -367,23 +367,23 @@ n_{obs}&amp;=1000\\
 \beta_{sod2sbp}&amp;=1.05\\
 \alpha_{sod2pro}&amp;=0.5\\
 \alpha_{sbp2pro}&amp;=0.5\\
-\mathbb{E}\big[X_{sodium_{gr}}\big] &amp;= X_{age}/18\\
-\mathbb{E}\big[X_{sbp}\big]&amp;=\beta_{sod2sbp} * X_{sodium.bin} + 2.00 \cdot X_{age} \\
-\mathbb{E}\big[X_{pro}\big]&amp;=\alpha_{sod2pro} * X_{sodium.bin} + \alpha_{sbp2pro} * X_{sbp} \\
+X_{sodium_{gr}} &amp;\sim \mathbb{N}(\mu=X_{age}/18,\sigma=1) \\
+Y_{sbp} &amp;\sim \mathbb{N}(\mu=\beta_{sod2sbp}\cdot X_{sodium.bin}+  2\cdot X_{age},\sigma=1) \\
+X_{pro} &amp;\sim \mathbb{N}(\mu=\alpha_{sod2pro}\cdot X_{sodium.bin}+  \alpha_{sbp2pro}\cdot X_{sbp},\sigma=1) \\
 \end{align}\]</span></p></li>
 </ol>
-<p><br/> <br/> 3. We now start with our data-set, and want to estimate the average treatment effect. Estimate the coefficients of the following three:</p>
+<p><br/> <br/> We now start with our data-set, and want to estimate three models, as follows:</p>
 <ul>
 <li>For the first model, regress the Systolic blood pressure against the sodium intake. This will be our <em>naive estimation</em>.</li>
 <li>For the second model, regress the Systolic blood pressure against the sodium intake while controlling for the age and urinary protein.</li>
 <li>For the third model, we regress the Systolic blood pressure against the sodium intake while controlling for the age only.</li>
 </ul>
-<p><br/> 4. For each of these three models, estimate the average treatment effect (ATE), by predicting two potential outcomes for each of the observations. Subtract the estimated potential outcome to find the individual level effect, <span class="math inline">\(\delta\)</span>, and average the individual level effect across all subjects.</p>
+<p><br/> 3. For each of these three models, estimate the average treatment effect (ATE), by predicting two potential outcomes for each of the observations. Subtract the estimated potential outcome to find the individual level effect, <span class="math inline">\(\delta\)</span>, and average the individual level effect across all subjects.</p>
 <ul>
 <li>Since we simulated our data, we know what the ATE should be. We also have three estimations for the ATE, one from each model. What is the error (in percentages) for each of the three models?</li>
 <li>How does the ATE compare with the estimates of the model coefficients?</li>
 </ul>
-<p><br/> 5. Experiment with the <a href="https://watzilei.com/shiny/collider/">colider visualization</a> and try to find out how the average treatment effect depends on the three coefficients <span class="math inline">\(\beta_{sod2sbp}, \alpha_{sod2pro}, \alpha_{sbp2pro}\)</span>. Describe your findings. Under what conditions would the ATE appear to be negative?</p>
+<p><br/> 4. Experiment with the <a href="https://watzilei.com/shiny/collider/">colider visualization</a> and try to find out how the estimation of the ATE depends on the different models. Describe your findings. Under what conditions would the ATE appear to be negative?</p>
 <div id="references" class="section level3">
 <h3>References</h3>
 <p>Luque-Fernandez, M. A., Schomaker, M., Redondo-Sanchez, D., Jose Sanchez Perez, M., Vaidya, A., &amp; Schnitzer, M. E. (2019). Educational Note: Paradoxical collider effect in the analysis of non-communicable disease epidemiological data: a reproducible illustration and web application. International journal of epidemiology, 48(2), 640-653.</p>
