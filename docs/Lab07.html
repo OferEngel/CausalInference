@@ -11,7 +11,7 @@
 
 
 
-<title>Lab 06 - Paradoxical collider effect</title>
+<title>Lab 07 - Instruments and Huguenots in Brandenburg</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -283,9 +283,9 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Lab 06 - Paradoxical collider effect</h1>
+<h1 class="title toc-ignore">Lab 07 - Instruments and Huguenots in Brandenburg</h1>
 <h3 class="subtitle">Individual assignment</h3>
-<h4 class="date">Due: March 22 at 23:59</h4>
+<h4 class="date">Due: March 29 at 23:59</h4>
 
 </div>
 
@@ -346,51 +346,96 @@ $(document).ready(function () {
 
 </style>
 <div class="column-right-large">
-<p><img src="images/salt.jpg" width="500px" /></p>
+<p><img src="images/huguenot.jpg" width="500px" /></p>
+<p>Arrival of French Huguenot immigrants in Brandenburg after the Great Elector Frederick William issued the Edict of Potsdam in 1685. Illustration for Weltgeschichte Fur Das Volk by Otto von Corvin and Wilhelm Held (Verlag und Druck von Otto Spamer, 1880).</p>
 </div>
 <div class="column-full-left">
 <ul>
-<li>Please submit your lab using <a href="https://docs.google.com/forms/d/e/1FAIpQLSeWnDOKz2_2p4XQl9efCOK9PrgwSIbisFx5nBd-B6bwGa4d6w/viewform">this link</a>.<br />
+<li>Please submit your lab using <a href="https://docs.google.com/forms/d/e/1FAIpQLSdZJEndcian0_EGO6tbwoYi-f8FalRe2JPmzVc2bcyFsq9hGw/viewform">this link</a>.<br />
 </li>
 <li>If you have questions, please <a href="https://bit.ly/OferMeet">book a slot</a> during Ofer’s office hours!</li>
 </ul>
-<p>We use Luque-Fernandez et al. (2019) example from epidemiology, to explore collider bias using a simulation. The outcome <span class="math inline">\(Y\)</span> of interest is (systolic) blood pressure. This is an important outcome because roughly 46% of Americans have high blood pressure, and high blood pressure is associated with increased risk of mortality. The “Treatment” <span class="math inline">\(T\)</span> of interest is sodium intake. Sodium intake is a continuous variable; but we will binarize <span class="math inline">\(T\)</span> by letting <span class="math inline">\(T=1\)</span> denote daily sodium intake above the mean in our sample and letting <span class="math inline">\(T=0\)</span> denote daily sodium intake below the mean. We will be estimating the causal effect of sodium intake on blood pressure.</p>
-<p>In our data, we also have the age of the individuals, which acts as a confounder and amount of protein in their urine, which acts as a collider. We will replicate Luque-Fernandez et al.’s simulation, which takes care that the range of values is “biologically plausible and as close to reality as possible.”</p>
-<p>Because we are using data from a simulation, we know that the true ATE of sodium on blood pressure is 1.05. More concretely, the line of code that generates blood pressure <span class="math inline">\(Y\)</span> looks as follows:</p>
-<p>AGE = Age (years)<br />
-SOD = 24-hour dietary sodium intake (g)<br />
-PRO = 24-hour excretion of urinary protein (proteinuria) (mg)<br />
-SBP = Systolic blood pressure (mmHg)<br />
-</p>
+<p>We will be looking at, and replicating, <a href="https://www.aeaweb.org/articles?id=10.1257/aer.104.1.84">this</a> paper which looks at the influence of the mass emigration of French Huguenots to Prussia in the 17th century. It specifically looks at the effect of skilled immigration to places with underused economic potential on their productivity. It instruments for immigration with population loss in a Prussian area during the Thirty Years’ War - immigrants were encouraged to move to places that had lost a lot of people.</p>
+<p>Variable descriptions are:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ln_output1802_all</td>
+<td>(ln) Output (the dependent variable)</td>
+</tr>
+<tr class="even">
+<td>hugue_1700_pc</td>
+<td>% Huguenots 1700 (a measure of immigration)</td>
+</tr>
+<tr class="odd">
+<td>poploss_keyser</td>
+<td>Pop losses in 30 Years’ War, Keyser (the instrument)</td>
+</tr>
+<tr class="even">
+<td>ln_workers1802_all</td>
+<td>(ln) Workers</td>
+</tr>
+<tr class="odd">
+<td>ln_looms1802_all</td>
+<td>(ln) Looms</td>
+</tr>
+<tr class="even">
+<td>mi_ln_input1802_all</td>
+<td>(ln) Value of Materials (imputed)</td>
+</tr>
+<tr class="odd">
+<td>no_looms</td>
+<td>Not using looms (dummy)</td>
+</tr>
+<tr class="even">
+<td>ln_popcity1802</td>
+<td>(ln) Town Population 1802</td>
+</tr>
+<tr class="odd">
+<td>vieh1816_schaf_ganz_veredelt_pc</td>
+<td>Merino sheep p.c. 1816 (county)</td>
+</tr>
+<tr class="even">
+<td>pop1816_prot_pc</td>
+<td>% Protestant</td>
+</tr>
+<tr class="odd">
+<td>no_hugue_possible</td>
+<td>Not Prussia in 1700 (dummy)</td>
+</tr>
+<tr class="even">
+<td>imputed_dummy</td>
+<td>Dummy for imputed values</td>
+</tr>
+<tr class="odd">
+<td>textil_1680_dummy</td>
+<td>Relevant textile production before 1685 (dummy)</td>
+</tr>
+</tbody>
+</table>
 <ol style="list-style-type: decimal">
-<li><p>Create a directed acyclical graph (DAG) to represent our assumptions regarding the system of relationships between the four variables. <br/></p></li>
-<li><p>Simulate the data given the following coefficients and the model below, to create a dataset. Plot the distributions of the variables in the dataset. <br/> <span class="math display">\[\begin{align}
-X_{age} &amp;\sim \mathbb{N}(\mu=65, \sigma=5)\\
-n_{obs}&amp;=1000\\
-\beta_{sod2sbp}&amp;=1.05\\
-\alpha_{sod2pro}&amp;=0.5\\
-\alpha_{sbp2pro}&amp;=0.5\\
-X_{sodium_{gr}} &amp;\sim \mathbb{N}(\mu=X_{age}/18,\sigma=1) \\
-Y_{sbp} &amp;\sim \mathbb{N}(\mu=\beta_{sod2sbp}\cdot X_{sodium.bin}+  2\cdot X_{age},\sigma=1) \\
-X_{pro} &amp;\sim \mathbb{N}(\mu=\alpha_{sod2pro}\cdot X_{sodium.bin}+  \alpha_{sbp2pro}\cdot X_{sbp},\sigma=1) \\
-\end{align}\]</span></p></li>
+<li><p>Run a linear regression for the “first stage” of this IV analysis, regressing the measure of immigration on the instrument and all controls. Comment on what you see, keeping in mind that the Stock and Yogo cutoff for one treatment and one control to ensure that IV bias is less than 10% of OLS bias is 16.38. Outside of Stock &amp; Yogo, any major concerns from what you see in this regression?</p></li>
+<li><p>Ignoring the controls, produce a scatterplot graph with immigration on the y-axis and the instrument on the x-axis. Comment on what you see. Does this look like a strong relationship? Does the relationship look linear?</p></li>
+<li><p>Run two 2SLS regressions, and display their estimates in a shared table, all using heteroskedasticity-robust standard errors. First, estimate 2SLS “by hand” by estimating the first stage like in Step 2, getting the predicted values, and using that in the second stage (remember, the standard errors for this one will definitely be wrong). Second, estimate the same model (again using 2SLS) but using a command specially designed to estimate IV. Then, show both regression results on a shared table (optionally, you may make the table show only the coefficient on the immigration variable, if you’d like it to be a bit cleaner).</p></li>
 </ol>
-<p><br/> <br/> We now start with our data-set, and want to estimate three models, as follows:</p>
 <ul>
-<li>For the first model, regress the Systolic blood pressure against the sodium intake. This will be our <em>naive estimation</em>.</li>
-<li>For the second model, regress the Systolic blood pressure against the sodium intake while controlling for the age and urinary protein.</li>
-<li>For the third model, we regress the Systolic blood pressure against the sodium intake while controlling for the age only.</li>
+<li>To add the predicted values to the data, you’ll need to deal with the fact that some observations were dropped from the data to estimate the model, so there are fewer predicted values than rows in the data. This can be solved in R by using <code>predict(model, newdata = hr)</code> instead of just <code>predict(model)</code>.</li>
 </ul>
-<p><br/> 3. For each of these three models, estimate the average treatment effect (ATE), by predicting two potential outcomes for each of the observations. Subtract the estimated potential outcome to find the individual level effect, <span class="math inline">\(\delta\)</span>, and average the individual level effect across all subjects.</p>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Run a third 2SLS model, this time without robust SEs but with adding the square of the instrument as a second instrument. Show the F statistic testing whether the coefficients on the instrument are jointly 0, and comment on what you see (the Stock and Yogo cutoff from Step 2 is now 19.93, note). Then, show the results of this third 2SLS model on the same table as the first two models from Step 4.</p></li>
+<li><p>Our model from Step 5 has two instruments, so we can run an overidentification test on it. Comment on whether an overidentification test makes sense in this context or not, <em>and why</em>. Then, regardless of whether it makes sense, run the test (the Sargan, if you have a choice) and interpret the result.</p></li>
+<li><p>Re-estimate the same model from Step 5, but this time use GMM to estimate the model. In R or Stata, show the results in a table shared with the model from Step 5.</p></li>
+<li><p>If you are using R or Stata, re-estimate the 2SLS model using Anderson-Rubin confidence intervals. Comment on how this changes the results relative to the last model you ran in Step 4.</p></li>
+</ol>
 <ul>
-<li>Since we simulated our data, we know what the ATE should be. We also have three estimations for the ATE, one from each model. What is the error (in percentages) for each of the three models?</li>
-<li>How does the ATE compare with the estimates of the model coefficients?</li>
+<li>You’ll first need to re-estimate your Step 4 model using the <code>ivreg</code> function from <strong>AER</strong>. Note that <code>ivreg</code> formula syntax is <code>y ~ d + x | z + x</code>, where <code>d</code> is treatment, <code>z</code> is the instrument, and <code>x</code> are controls. Controls must go on both sides of the <code>|</code>, unlike in <code>feols()</code>.</li>
 </ul>
-<p><br/> 4. Experiment with the <a href="https://watzilei.com/shiny/collider/">colider visualization</a> and try to find out how the estimation of the ATE depends on the different models. Describe your findings. Under what conditions would the ATE appear to be negative?</p>
-<div id="references" class="section level3">
-<h3>References</h3>
-<p>Luque-Fernandez, M. A., Schomaker, M., Redondo-Sanchez, D., Jose Sanchez Perez, M., Vaidya, A., &amp; Schnitzer, M. E. (2019). Educational Note: Paradoxical collider effect in the analysis of non-communicable disease epidemiological data: a reproducible illustration and web application. International journal of epidemiology, 48(2), 640-653.</p>
-</div>
 </div>
 
 
