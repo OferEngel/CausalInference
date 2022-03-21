@@ -355,8 +355,11 @@ $(document).ready(function () {
 </li>
 <li>If you have questions, please <a href="https://bit.ly/OferMeet">book a slot</a> during Ofer’s office hours!</li>
 </ul>
-<p>We will be looking at, and replicating, <a href="https://www.aeaweb.org/articles?id=10.1257/aer.104.1.84">this</a> paper which looks at the influence of the mass emigration of French Huguenots to Prussia in the 17th century. It specifically looks at the effect of skilled immigration to places with underused economic potential on their productivity. It instruments for immigration with population loss in a Prussian area during the Thirty Years’ War - immigrants were encouraged to move to places that had lost a lot of people.</p>
-<p>Variable descriptions are:</p>
+<p>We will replicate, <a href="https://www.aeaweb.org/articles?id=10.1257/aer.104.1.84">this</a> paper which looks at the influence of the mass emigration of French <a href="https://en.wikipedia.org/wiki/Edict_of_Potsdam">Huguenots to Prussia</a> in the 17th century. It specifically looks at the effect of skilled immigration to places with underused economic potential on their productivity. It instruments for immigration with population loss in a Prussian area during the Thirty Years’ War - immigrants were encouraged to move to places that had lost a lot of people. You can find the dataset <a href="https://bit.ly/3CUSzSK">here</a>, variable descriptions are available below.</p>
+<ol style="list-style-type: decimal">
+<li><p>Run a linear regression for the “first stage” of this IV analysis, regressing the measure of immigration on the instrument and all controls. Comment on what you see, keeping in mind that the Stock and Yogo cutoff for one treatment and one control to ensure that IV bias is less than 10% of OLS bias is 16.38. Outside of Stock &amp; Yogo, any major concerns from what you see in this regression?</p></li>
+<li><p>Ignoring the controls, produce a scatterplot graph with immigration on the y-axis and the instrument on the x-axis. Comment on what you see. Does this look like a strong relationship? Does the relationship look linear?</p></li>
+</ol>
 <table>
 <thead>
 <tr class="header">
@@ -419,10 +422,8 @@ $(document).ready(function () {
 </tr>
 </tbody>
 </table>
-<ol style="list-style-type: decimal">
-<li><p>Run a linear regression for the “first stage” of this IV analysis, regressing the measure of immigration on the instrument and all controls. Comment on what you see, keeping in mind that the Stock and Yogo cutoff for one treatment and one control to ensure that IV bias is less than 10% of OLS bias is 16.38. Outside of Stock &amp; Yogo, any major concerns from what you see in this regression?</p></li>
-<li><p>Ignoring the controls, produce a scatterplot graph with immigration on the y-axis and the instrument on the x-axis. Comment on what you see. Does this look like a strong relationship? Does the relationship look linear?</p></li>
-<li><p>Run two 2SLS regressions, and display their estimates in a shared table, all using heteroskedasticity-robust standard errors. First, estimate 2SLS “by hand” by estimating the first stage like in Step 2, getting the predicted values, and using that in the second stage (remember, the standard errors for this one will definitely be wrong). Second, estimate the same model (again using 2SLS) but using a command specially designed to estimate IV. Then, show both regression results on a shared table (optionally, you may make the table show only the coefficient on the immigration variable, if you’d like it to be a bit cleaner).</p></li>
+<ol start="3" style="list-style-type: decimal">
+<li>Run two 2SLS regressions, and display their estimates in a shared table, all using heteroskedasticity-robust standard errors. First, estimate 2SLS “by hand” by estimating the first stage like in Step 2, getting the predicted values, and using that in the second stage (remember, the standard errors for this one will definitely be wrong). Second, estimate the same model (again using 2SLS) but using a command specially designed to estimate IV. Then, show both regression results on a shared table (optionally, you may make the table show only the coefficient on the immigration variable, if you’d like it to be a bit cleaner).</li>
 </ol>
 <ul>
 <li>To add the predicted values to the data, you’ll need to deal with the fact that some observations were dropped from the data to estimate the model, so there are fewer predicted values than rows in the data. This can be solved in R by using <code>predict(model, newdata = hr)</code> instead of just <code>predict(model)</code>.</li>

@@ -94,9 +94,12 @@ Arrival of French Huguenot immigrants in Brandenburg after the Great Elector Fre
 
 
 
-We will be looking at, and replicating, [this](https://www.aeaweb.org/articles?id=10.1257/aer.104.1.84) paper which looks at the influence of the mass emigration of French Huguenots to Prussia in the 17th century. It specifically looks at the effect of skilled immigration to places with underused economic potential on their productivity. It instruments for immigration with population loss in a Prussian area during the Thirty Years’ War - immigrants were encouraged to move to places that had lost a lot of people.
+We will replicate, [this](https://www.aeaweb.org/articles?id=10.1257/aer.104.1.84) paper which looks at the influence of the mass emigration of French [Huguenots to Prussia](https://en.wikipedia.org/wiki/Edict_of_Potsdam) in the 17th century. It specifically looks at the effect of skilled immigration to places with underused economic potential on their productivity. It instruments for immigration with population loss in a Prussian area during the Thirty Years’ War - immigrants were encouraged to move to places that had lost a lot of people. You can find the dataset [here](https://bit.ly/3CUSzSK), variable descriptions are available below. 
 
-Variable descriptions are:
+1. Run a linear regression for the "first stage" of this IV analysis, regressing the measure of immigration on the instrument and all controls. Comment on what you see, keeping in mind that the Stock and Yogo cutoff for one treatment and one control to ensure that IV bias is less than 10% of OLS bias is 16.38. Outside of Stock & Yogo, any major concerns from what you see in this regression?
+
+2. Ignoring the controls, produce a scatterplot graph with immigration on the y-axis and the instrument on the x-axis. Comment on what you see. Does this look like a strong relationship? Does the relationship look linear? 
+
 
 | Variable | Description |
 | -------- | ----------- |
@@ -115,17 +118,14 @@ Variable descriptions are:
 | textil_1680_dummy | Relevant textile production before 1685 (dummy) |
 
 
-```{r eval=FALSE, echo=FALSE, include=FALSE}
-hr <- read.csv("data/iv_hornug_data.csv")
+```{r eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+hr <- read_csv("data/iv_hornug_data.csv")
+
+
 
 
 ```
 
-
-
-1. Run a linear regression for the "first stage" of this IV analysis, regressing the measure of immigration on the instrument and all controls. Comment on what you see, keeping in mind that the Stock and Yogo cutoff for one treatment and one control to ensure that IV bias is less than 10% of OLS bias is 16.38. Outside of Stock & Yogo, any major concerns from what you see in this regression?
-
-2. Ignoring the controls, produce a scatterplot graph with immigration on the y-axis and the instrument on the x-axis. Comment on what you see. Does this look like a strong relationship? Does the relationship look linear? 
 
 3. Run two 2SLS regressions, and display their estimates in a shared table, all using heteroskedasticity-robust standard errors. First, estimate 2SLS "by hand" by estimating the first stage like in Step 2, getting the predicted values, and using that in the second stage (remember, the standard errors for this one will definitely be wrong). Second, estimate the same model (again using 2SLS) but using a command specially designed to estimate IV. Then, show both regression results on a shared table (optionally, you may make the table show only the coefficient on the immigration variable, if you'd like it to be a bit cleaner).
 

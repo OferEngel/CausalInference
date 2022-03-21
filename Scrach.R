@@ -471,9 +471,29 @@ percentile.90 <-
 x <- read.delim("clipboard")
 write.csv(x, "po.csv")
 
+library(foreign)
+library(tidyverse)
+
+U <- rnorm(1000)
+Z <- rbinom(1000, 1, .5)
+X <- U+Z+rnorm(1000)
+X <- Z+rnorm(1000)
+Y <- U+0.5*X+rnorm(1000)
+Y <- 0.5*X+rnorm(1000)
+
+lm(Y~X) %>% summary()
 
 
 
+mdlY.Z <- lm(Y~Z)
+mdlX.Z <- lm(X~Z)
+
+X.exp.Z <- predict(mdlX.Z)
+Y.exp.Z <- predict(mdlY.Z)
+lm(Y.exp.Z~X.exp.Z) %>% summary()
+
+library(AER)
+ivreg(Y~X|Z) %>% summary()
 
 
 
