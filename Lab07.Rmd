@@ -109,7 +109,7 @@ Z &\sim
   \end{cases}  \\
 U &\sim \mathcal{N}(\mu=0, \sigma=1)  \\
 T &\sim \mathcal{N}(\mu=\alpha_1\cdot Z +\alpha_2\cdot U, \sigma=1)  \\
-Y &\sim \mathcal{N}(\mu=\beta_1\cdot X+\beta_2\cdot U, \sigma=1)  \\
+Y &\sim \mathcal{N}(\mu=\beta_1\cdot T+\beta_2\cdot U, \sigma=1)  \\
 \end{aligned}
 $$
 1. Now let us explore our data as follows:
@@ -118,7 +118,7 @@ $$
 -  Plot the distributions of your variables, and a scatter-plot to show the relationship between the variables of interest. 
 -   Regress the outcome $Y$ against the treatment $T$ and interpret the estimates. Are the estimates biased?
 -   Regress the outcome $Y$ against the treatment $T$ and $U$ and interpret the estimates. Are the estimates biased?
--   Without using the unobserved confounder, use the instrumentto produce a model with unbiased estimates of the effect of treatment on the outcome. Estimate the effect using the 2SLS approach by hand, and by using the `ivreg`  function from the **AER** library. Note that `ivreg` formula syntax is `Y ~ T  | Z `, where `T` is treatment, and `Z` is the instrument.
+-   Without using the unobserved confounder $U$, use the instrument $Z$ to produce a model with unbiased estimates of the causal effect of interest. Estimate the effect using the 2SLS approach by hand, and by using the `ivreg`  function from the **AER** library. Note that `ivreg` formula syntax is `Y ~ T  | Z `, where `T` is treatment, and `Z` is the instrument.
 
 ### Replicating Hornung (2014) : Immigration and the Diffusion of Technology
 

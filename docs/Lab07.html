@@ -368,7 +368,7 @@ Z &amp;\sim
   \end{cases}  \\
 U &amp;\sim \mathcal{N}(\mu=0, \sigma=1)  \\
 T &amp;\sim \mathcal{N}(\mu=\alpha_1\cdot Z +\alpha_2\cdot U, \sigma=1)  \\
-Y &amp;\sim \mathcal{N}(\mu=\beta_1\cdot X+\beta_2\cdot U, \sigma=1)  \\
+Y &amp;\sim \mathcal{N}(\mu=\beta_1\cdot T+\beta_2\cdot U, \sigma=1)  \\
 \end{aligned}
 \]</span> 1. Now let us explore our data as follows:</p>
 <ul>
@@ -376,7 +376,7 @@ Y &amp;\sim \mathcal{N}(\mu=\beta_1\cdot X+\beta_2\cdot U, \sigma=1)  \\
 <li>Plot the distributions of your variables, and a scatter-plot to show the relationship between the variables of interest.</li>
 <li>Regress the outcome <span class="math inline">\(Y\)</span> against the treatment <span class="math inline">\(T\)</span> and interpret the estimates. Are the estimates biased?</li>
 <li>Regress the outcome <span class="math inline">\(Y\)</span> against the treatment <span class="math inline">\(T\)</span> and <span class="math inline">\(U\)</span> and interpret the estimates. Are the estimates biased?</li>
-<li>Without using the unobserved confounder, use the instrumentto produce a model with unbiased estimates of the effect of treatment on the outcome. Estimate the effect using the 2SLS approach by hand, and by using the <code>ivreg</code> function from the <strong>AER</strong> library. Note that <code>ivreg</code> formula syntax is <code>Y ~ T  | Z</code>, where <code>T</code> is treatment, and <code>Z</code> is the instrument.</li>
+<li>Without using the unobserved confounder <span class="math inline">\(U\)</span>, use the instrument <span class="math inline">\(Z\)</span> to produce a model with unbiased estimates of the causal effect of interest. Estimate the effect using the 2SLS approach by hand, and by using the <code>ivreg</code> function from the <strong>AER</strong> library. Note that <code>ivreg</code> formula syntax is <code>Y ~ T  | Z</code>, where <code>T</code> is treatment, and <code>Z</code> is the instrument.</li>
 </ul>
 </div>
 <div id="replicating-hornung-2014-immigration-and-the-diffusion-of-technology" class="section level3">
