@@ -355,8 +355,34 @@ $(document).ready(function () {
 </li>
 <li>If you have questions, please <a href="https://bit.ly/OferMeet">book a slot</a> during Ofer’s office hours!</li>
 </ul>
-<p>We will replicate, <a href="https://www.aeaweb.org/articles?id=10.1257/aer.104.1.84">this</a> paper which looks at the influence of the mass emigration of French <a href="https://en.wikipedia.org/wiki/Edict_of_Potsdam">Huguenots to Prussia</a> in the 17th century. It specifically looks at the effect of skilled immigration to places with underused economic potential on their productivity. It instruments for immigration with population loss in a Prussian area during the Thirty Years’ War - immigrants were encouraged to move to places that had lost a lot of people. You can find the dataset <a href="https://bit.ly/3CUSzSK">here</a>, variable descriptions are available below.</p>
-<ol style="list-style-type: decimal">
+<div id="simulating-the-operation-of-an-instrumental-variable" class="section level3">
+<h3>Simulating the operation of an instrumental variable</h3>
+<p>We will first create fake data to simulate the operation of an instrumental variable. Using <a href="http://dagitty.net/dags.html">dagitty.net</a>, create a DAG with an treatment, <span class="math inline">\(T\)</span> that links to an outcome, <span class="math inline">\(Y\)</span>. Add a confounder, <span class="math inline">\(U\)</span> with causal links to both the treatment and the outcome. Finally, add a binary instrument, <span class="math inline">\(Z\in\{0,1\}\)</span>, which links to the treatment alone.</p>
+<p>Now create fake data, simulating the data generating process represented by your DAG. You will need to specify your model. For example, consider the following model:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Z &amp;\sim 
+  \begin{cases}
+    p=\frac{1}{2}     &amp; \text{if $z = 1$}, \\
+    p=\frac{1}{2} &amp; \text{if $z = 0$}
+  \end{cases}  \\
+U &amp;\sim \mathcal{N}(\mu=0, \sigma=1)  \\
+T &amp;\sim \mathcal{N}(\mu=\alpha_1\cdot Z +\alpha_2\cdot U, \sigma=1)  \\
+Y &amp;\sim \mathcal{N}(\mu=\beta_1\cdot X+\beta_2\cdot U, \sigma=1)  \\
+\end{aligned}
+\]</span> 1. Now let us explore our data as follows:</p>
+<ul>
+<li>Add a snapshot of the DAG you created to your lab report.</li>
+<li>Plot the distributions of your variables, and a scatter-plot to show the relationship between the variables of interest.</li>
+<li>Regress the outcome <span class="math inline">\(Y\)</span> against the treatment <span class="math inline">\(T\)</span> and interpret the estimates. Are the estimates biased?</li>
+<li>Regress the outcome <span class="math inline">\(Y\)</span> against the treatment <span class="math inline">\(T\)</span> and <span class="math inline">\(U\)</span> and interpret the estimates. Are the estimates biased?</li>
+<li>Without using the unobserved confounder, use the instrumentto produce a model with unbiased estimates of the effect of treatment on the outcome. Estimate the effect using the 2SLS approach by hand, and by using the <code>ivreg</code> function from the <strong>AER</strong> library. Note that <code>ivreg</code> formula syntax is <code>Y ~ T  | Z</code>, where <code>T</code> is treatment, and <code>Z</code> is the instrument.</li>
+</ul>
+</div>
+<div id="replicating-hornung-2014-immigration-and-the-diffusion-of-technology" class="section level3">
+<h3>Replicating Hornung (2014) : Immigration and the Diffusion of Technology</h3>
+<p>We will now replicate <a href="https://www.aeaweb.org/articles?id=10.1257/aer.104.1.84">this</a> paper which looks at the influence of the mass emigration of French <a href="https://en.wikipedia.org/wiki/Edict_of_Potsdam">Huguenots to Prussia</a> in the 17th century. It specifically looks at the effect of skilled immigration to places with underused economic potential on their productivity. It instruments for immigration with population loss in a Prussian area during the Thirty Years’ War - immigrants were encouraged to move to places that had lost a lot of people. You can find the dataset <a href="https://bit.ly/3CUSzSK">here</a>, variable descriptions are available below.</p>
+<ol start="2" style="list-style-type: decimal">
 <li><p>Run a linear regression for the “first stage” of this IV analysis, regressing the measure of immigration on the instrument and all controls. Comment on what you see, keeping in mind that the Stock and Yogo cutoff for one treatment and one control to ensure that IV bias is less than 10% of OLS bias is 16.38. Outside of Stock &amp; Yogo, any major concerns from what you see in this regression?</p></li>
 <li><p>Ignoring the controls, produce a scatterplot graph with immigration on the y-axis and the instrument on the x-axis. Comment on what you see. Does this look like a strong relationship? Does the relationship look linear?</p></li>
 </ol>
@@ -422,21 +448,24 @@ $(document).ready(function () {
 </tr>
 </tbody>
 </table>
-<ol start="3" style="list-style-type: decimal">
-<li>Run two 2SLS regressions, and display their estimates in a shared table, all using heteroskedasticity-robust standard errors. First, estimate 2SLS “by hand” by estimating the first stage like in Step 2, getting the predicted values, and using that in the second stage (remember, the standard errors for this one will definitely be wrong). Second, estimate the same model (again using 2SLS) but using a command specially designed to estimate IV. Then, show both regression results on a shared table (optionally, you may make the table show only the coefficient on the immigration variable, if you’d like it to be a bit cleaner).</li>
-</ol>
-<ul>
-<li>To add the predicted values to the data, you’ll need to deal with the fact that some observations were dropped from the data to estimate the model, so there are fewer predicted values than rows in the data. This can be solved in R by using <code>predict(model, newdata = hr)</code> instead of just <code>predict(model)</code>.</li>
-</ul>
 <ol start="4" style="list-style-type: decimal">
-<li><p>Run a third 2SLS model, this time without robust SEs but with adding the square of the instrument as a second instrument. Show the F statistic testing whether the coefficients on the instrument are jointly 0, and comment on what you see (the Stock and Yogo cutoff from Step 2 is now 19.93, note). Then, show the results of this third 2SLS model on the same table as the first two models from Step 4.</p></li>
-<li><p>Our model from Step 5 has two instruments, so we can run an overidentification test on it. Comment on whether an overidentification test makes sense in this context or not, <em>and why</em>. Then, regardless of whether it makes sense, run the test (the Sargan, if you have a choice) and interpret the result.</p></li>
-<li><p>Re-estimate the same model from Step 5, but this time use GMM to estimate the model. In R or Stata, show the results in a table shared with the model from Step 5.</p></li>
-<li><p>If you are using R or Stata, re-estimate the 2SLS model using Anderson-Rubin confidence intervals. Comment on how this changes the results relative to the last model you ran in Step 4.</p></li>
+<li>Run two 2SLS regressions, and display their estimates in a shared table.</li>
 </ol>
 <ul>
-<li>You’ll first need to re-estimate your Step 4 model using the <code>ivreg</code> function from <strong>AER</strong>. Note that <code>ivreg</code> formula syntax is <code>y ~ d + x | z + x</code>, where <code>d</code> is treatment, <code>z</code> is the instrument, and <code>x</code> are controls. Controls must go on both sides of the <code>|</code>, unlike in <code>feols()</code>.</li>
+<li>First, estimate 2SLS “by hand” by estimating the first stage like in Step 2, getting the predicted values, and using that in the second stage (remember, the standard errors for this one will definitely be wrong).</li>
+<li>Second, estimate the same model (again using 2SLS) but using a command specially designed to estimate IV. Then, show both regression results on a shared table (optionally, you may make the table show only the coefficient on the immigration variable, if you’d like it to be a bit cleaner).</li>
+<li>To add the predicted values to the data, you’ll need to deal with the fact that some observations were dropped from the data to estimate the model, so there are fewer predicted values than rows in the data. This can be solved by using <code>predict(model, newdata = hr)</code> instead of just <code>predict(model)</code>.</li>
 </ul>
+<ol start="5" style="list-style-type: decimal">
+<li><p>Run a third 2SLS model, this time with adding the square of the instrument as a second instrument. Show the F statistic testing whether the coefficients on the instrument are jointly 0, and comment on what you see (the Stock and Yogo cutoff from Step 2 is now 19.93, note). Then, show the results of this third 2SLS model on the same table as the first two models from the previous step.</p></li>
+<li><p>For the model with two instruments, we can run an over-identification test. Comment on whether an overidentification test makes sense in this context or not, <em>and why</em>. Then, regardless of whether it makes sense, run the test (the Sargan, if you have a choice) and interpret the result.</p></li>
+<li><p>Re-estimate the same model, but this time using GMM to estimate the model. Show the results in a table shared with the previous models</p></li>
+<li><p>Re-estimate the 2SLS model using Anderson-Rubin confidence intervals. Comment on how this changes the results relative to the last model you ran earlier.</p></li>
+</ol>
+<ul>
+<li>You’ll first need to re-estimate your model using the <code>ivreg</code> function from the <strong>AER</strong> library. Note that <code>ivreg</code> formula syntax is <code>Y ~ T + X | Z + X</code>, where <code>T</code> is treatment, <code>Z</code> is the instrument, and <code>X</code> are controls.</li>
+</ul>
+</div>
 </div>
 
 
