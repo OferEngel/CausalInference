@@ -1,6 +1,6 @@
 ---
 title: "Lab 07 -  Instruments and the backlash against windfarms"
-subtitle: Team assignment
+subtitle: Individual assignment
 date: 'Due: March 29 at 23:59'
 header-includes:
   - \usepackage{xfrac} 
@@ -117,10 +117,10 @@ $$
 1. Now let us explore our data as follows:
 
 -   Add a snapshot of the DAG you created to your lab report. How would your DAG change if you had one variable, mediating between instrument and outcome, and another, confounding on instrument and outcome. Given these variables, what would you need to do in order to identify the effect of the treatment on the outcome? 
--   Plot the distributions of your variables, and visualize the data to show  relationships between variables of interest. Assuming that the data was observed (rather than simulated), how would you know that  your instrument is *relevant* and *valid*? 
+-   Plot the distributions of variables of interest, and visualize the relationships between them. Assuming that the data was observed (rather than simulated), how would you know that  your instrument is *relevant* and *valid*? 
 -   Regress the outcome $Y$ against the treatment $T$ and interpret the estimated parameters. Are the estimates biased?
 -   Regress the outcome $Y$ against the treatment $T$ and $U$ and interpret the estimates. Are the estimates biased?
--   Without using the unobserved confounder $U$, use the instrument $Z$ to produce a model with unbiased estimates of the causal effect of interest. Estimate the effect using the 2SLS approach by hand, and by using the `ivreg`  function from the **AER** library. Note that `ivreg` formula syntax is `Y ~ T  | Z `, where `T` is treatment, and `Z` is the instrument.
+-   Without using the unobserved confounder $U$, use the instrument $Z$ to produce a model with unbiased estimates of the causal effect of interest. Estimate the effect using the 2SLS approach by hand, and by using the `ivreg`  function from the **AER** library. Note that `ivreg` formula syntax is `Y ~ T  | Z `, where `T` is treatment, and `Z` is the instrument. Compare the results of your various experiments. 
 
 ### Replicating Stokes (2015) : Electoral backlash against climate policy
 
