@@ -116,7 +116,7 @@ Y &\sim \mathcal{N}(\mu=\beta_1\cdot T+\beta_2\cdot U, \sigma=1)  \\
 $$
 1. Now let us explore our data as follows:
 
--   Add a snapshot of the DAG you created to your lab report. 
+-   Add a snapshot of the DAG you created to your lab report. How would your DAG change if you had one variable, mediating between instrument and outcome, and another, confounding on instrument and outcome. Given these variables, what would you need to do in order to identify the effect of the treatment on the outcome? 
 -   Plot the distributions of your variables, and visualize the data to show  relationships between variables of interest. Assuming that the data was observed (rather than simulated), how would you know that  your instrument is *relevant* and *valid*? 
 -   Regress the outcome $Y$ against the treatment $T$ and interpret the estimated parameters. Are the estimates biased?
 -   Regress the outcome $Y$ against the treatment $T$ and $U$ and interpret the estimates. Are the estimates biased?
@@ -147,7 +147,7 @@ stokes <- read_csv("https://bit.ly/3iuPSOw", show_col_types = FALSE)
 
 ```
 
-2. Using data visualization, investigate the distribution of variables of interest, and the relationship between them. Does the data suggest that the instrument is relevant and valid? Justify your claim. 
+2. Using data visualization, investigate the distribution of variables of interest, and the relationship between them. Create a DAG as a theoretical model, representing the system, and include it in your report. Does the data suggest that the instrument is relevant and valid? Justify your claim. 
 
 3. Assess whether wind speed can be considered to be as-if randomly assigned geographically, by regressing the instrument on all of the geographical covariates. What do you conclude? Is that problematic in terms of relevance or validity of the instrument? 
 
@@ -159,7 +159,7 @@ stokes <- read_csv("https://bit.ly/3iuPSOw", show_col_types = FALSE)
 
 6. Estimate the first-stage relationship between the treatment and the instrument using a regression, this time with a full set of geographic controls. Interpret the result, and compare to the estimates in the previous two questions question 4 (i.e., to Stokes' estimates). 
 
-7. Estimate the (Local) Average Treatment Effect of the treatment on the outcome using two-stage least squares (2SLS) with avg_pwr_log as the instrument and the full set of geographic controls. Interpret the coeffcient on the treatment and its statistical significance precisely.
+7. Estimate the (Local) Average Treatment Effect of the treatment on the outcome using two-stage least squares (2SLS) with `avg_pwr_log` as the instrument and the full set of geographic controls. Interpret the coeffcient on the treatment and its statistical significance precisely.
 
 *Code Hints:* Remember to use ivreg() in the AER library. Your code should take the form:
 
