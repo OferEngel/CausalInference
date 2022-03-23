@@ -378,7 +378,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Lab 07 - Instruments and the backlash against windfarms</h1>
-<h3 class="subtitle">Individual assignment</h3>
+<h3 class="subtitle">Team assignment</h3>
 <h4 class="date">Due: March 29 at 23:59</h4>
 
 </div>
@@ -449,10 +449,10 @@ $(document).ready(function () {
 <h3>Simulating the operation of an instrumental variable</h3>
 <div class="column-right-large">
 <p><img src="images/windfarms.jpg" width="500px" /></p>
-<p>Stokes (2016) uses a natural experiment to demonstrate how citizens hold incumbent governments accountable because of its climate policy, leading to electoral losses for the incumbent party ranging from 4 to 10%, with the effect persisting 3 km from wind turbines.</p>
+<p>Stokes (2016) uses a natural experiment to demonstrate how citizens punish incumbent governments for progressive climate policy, leading to electoral losses for the incumbent party ranging from 4 to 10%, with the effect persisting 3 km from wind turbines.</p>
 </div>
 <p>We will first create fake data to simulate the operation of an instrumental variable. Using <a href="http://dagitty.net/dags.html">dagitty.net</a>, create a DAG with an treatment, <span class="math inline">\(T\)</span> that links to an outcome, <span class="math inline">\(Y\)</span>. Add a confounder, <span class="math inline">\(U\)</span> with causal links to both the treatment and the outcome. Finally, add a binary instrument, <span class="math inline">\(Z\in\{0,1\}\)</span>, which links to the treatment alone.</p>
-<p>Now create fake data, simulating the data generating process represented by your DAG. You will need to specify your model. For example, consider the following model:</p>
+<p>Now create fake data, simulating the data generating process represented by your DAG. You will need to specify your model. For example, consider the following model (you may choose other, perhaps more complex models):</p>
 <p><span class="math display">\[
 \begin{aligned}
 Z &amp;\sim 
@@ -467,8 +467,8 @@ Y &amp;\sim \mathcal{N}(\mu=\beta_1\cdot T+\beta_2\cdot U, \sigma=1)  \\
 \]</span> 1. Now let us explore our data as follows:</p>
 <ul>
 <li>Add a snapshot of the DAG you created to your lab report.</li>
-<li>Plot the distributions of your variables, and a diagrams to show the relationship between the variables of interest. Assuming that the data was observed (rather than simulated), how would you know that your instrument is <em>relevant</em> and <em>valid</em>?</li>
-<li>Regress the outcome <span class="math inline">\(Y\)</span> against the treatment <span class="math inline">\(T\)</span> and interpret the estimates. Are the estimates biased?</li>
+<li>Plot the distributions of your variables, and visualize the data to show relationships between variables of interest. Assuming that the data was observed (rather than simulated), how would you know that your instrument is <em>relevant</em> and <em>valid</em>?</li>
+<li>Regress the outcome <span class="math inline">\(Y\)</span> against the treatment <span class="math inline">\(T\)</span> and interpret the estimated parameters. Are the estimates biased?</li>
 <li>Regress the outcome <span class="math inline">\(Y\)</span> against the treatment <span class="math inline">\(T\)</span> and <span class="math inline">\(U\)</span> and interpret the estimates. Are the estimates biased?</li>
 <li>Without using the unobserved confounder <span class="math inline">\(U\)</span>, use the instrument <span class="math inline">\(Z\)</span> to produce a model with unbiased estimates of the causal effect of interest. Estimate the effect using the 2SLS approach by hand, and by using the <code>ivreg</code> function from the <strong>AER</strong> library. Note that <code>ivreg</code> formula syntax is <code>Y ~ T  | Z</code>, where <code>T</code> is treatment, and <code>Z</code> is the instrument.</li>
 </ul>
@@ -524,14 +524,14 @@ Y &amp;\sim \mathcal{N}(\mu=\beta_1\cdot T+\beta_2\cdot U, \sigma=1)  \\
 </tbody>
 </table>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Using data visualization, investigate the distribution of some of the variables of interest, and the relationship between them. Does the data suggest that the instrument is relevant and valid? Discuss.</p></li>
-<li><p>Assess whether wind speed can be considered to be as-if randomly assigned geographically, by regressing avg pwr log on all of the geographical covariates. What do you conclude? Is that problematic in terms of relevance or validity of the instrument?</p></li>
+<li><p>Using data visualization, investigate the distribution of variables of interest, and the relationship between them. Does the data suggest that the instrument is relevant and valid? Justify your claim.</p></li>
+<li><p>Assess whether wind speed can be considered to be as-if randomly assigned geographically, by regressing the instrument on all of the geographical covariates. What do you conclude? Is that problematic in terms of relevance or validity of the instrument?</p></li>
 </ol>
-<p><em>Code Hint:</em> Remember to use factor() for the ed id variable</p>
+<p><em>Code Hint:</em> Remember to use factor() for the <code>ed_id</code> variable</p>
 <ol start="4" style="list-style-type: decimal">
-<li><p>Estimate the first-stage relationship between treatment and the instrument using a regression with no added covariates. Interpret the result precisely.</p></li>
+<li><p>Estimate the first-stage relationship between treatment and the instrument using a regression with no added covariates. Interpret the result precisely, and comment on whether you think it might be biased and if so, why.</p></li>
 <li><p>Stokes actually estimates the first and second stages with a full set of geographic controls included. Why do you think she does this?</p></li>
-<li><p>Estimate the first-stage relationship between the treatment and the instrument using a regression, this time with a full set of geographic controls. Interpret the result, and explain why it does or does not differ from part your answer to question 4.</p></li>
+<li><p>Estimate the first-stage relationship between the treatment and the instrument using a regression, this time with a full set of geographic controls. Interpret the result, and compare to the estimates in the previous two questions question 4 (i.e., to Stokes’ estimates).</p></li>
 <li><p>Estimate the (Local) Average Treatment Effect of the treatment on the outcome using two-stage least squares (2SLS) with avg_pwr_log as the instrument and the full set of geographic controls. Interpret the coeffcient on the treatment and its statistical significance precisely.</p></li>
 </ol>
 <p><em>Code Hints:</em> Remember to use ivreg() in the AER library. Your code should take the form:</p>
