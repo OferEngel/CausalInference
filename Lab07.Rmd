@@ -175,6 +175,8 @@ stokes <- read_csv("https://bit.ly/3iuPSOw", show_col_types = FALSE)
 include_graphics("images/2sls.jpg")
 
 ```
+
+The first and second stage of the 2SLS process, as it is described in this week's reading (week 7: instrumental variables) 
 </div>
 
 <div class="column-full-left" >
@@ -184,9 +186,31 @@ include_graphics("images/2sls.jpg")
 
 5. Stokes actually estimates the first and second stages with a full set of geographic controls included. Why do you think she does this?
 
-6. Estimate the first-stage relationship between the treatment and the instrument using a regression, this time with a full set of geographic controls. Interpret the result, and compare to your answer to question 4 and to Stokes' estimates. 
+6. Estimate the first-stage relationship between the treatment and the instrument using a regression, this time with a full set of geographic controls. Interpret the result, and compare to your answer to question 4 and to Stokes' estimate of the first stage. 
 
 7. Estimate the (Local) Average Treatment Effect of the treatment on the outcome using two-stage least squares (2SLS) with `avg_pwr_log` as the instrument and the full set of geographic controls. Interpret the coeffcient on the treatment and its statistical significance precisely. Compare your result to Stokes' estimate in the second stage.
+
+
+
+</div>
+
+<div class="column-right-small">
+
+
+```{r 2sls-stokes, out.width="500px", echo=FALSE, eval=TRUE}
+
+include_graphics("images/stokestable2.jpg")
+
+```
+
+You will find Stoke's estimates of the first and second stage in table 2 of the article.
+</div>
+
+<div class="column-full-left" >
+
+
+::: {.SPSS}
+
 
 *Code Hints:* For the 2SLS estimation, you can use ivreg() from the AER library. Your code should take the form:
 
@@ -197,6 +221,7 @@ ivreg(outcome ~ treatment + covariates | instrument + covariates)
 ```
 
 
+:::
 
 ```{r solution, eval=FALSE, echo=FALSE, include=FALSE}
 library(lmtest)
@@ -212,9 +237,11 @@ library(AER)
   summary(lm(prop_3km ~ avg_pwr_log + factor(ed_id) + longitude + latitude + mindistlake + mindistlake_sq , data=stokes))
 
 # e)
-  mod1 <- lm(prop_3km ~ longitude + latitude + mindistlake + mindistlake_sq + as.factor(ed_id), data=stokes) # Run one model without the instrument.
-  mod2 <- lm(prop_3km ~ avg_pwr_log + longitude + latitude + mindistlake + mindistlake_sq + as.factor(ed_id), data=stokes) # Run a second model with the instrument.
-  waldtest(mod2, mod1) #Compare the two using a wald test
+mod1 <- lm(prop_3km ~ longitude + latitude + mindistlake + mindistlake_sq + as.factor(ed_id), data=stokes) # Run one model without the instrument.
+
+mod2 <- lm(prop_3km ~ avg_pwr_log + longitude + latitude + mindistlake + mindistlake_sq + as.factor(ed_id), data=stokes) # Run a second model with the instrument.
+
+waldtest(mod2, mod1) #Compare the two using a wald test
 
 # f)
   summary(ivreg(chng_lib ~ prop_3km + mindistlake + mindistlake_sq + longitude + latitude + as.factor(ed_id) 

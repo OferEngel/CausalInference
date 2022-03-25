@@ -537,16 +537,25 @@ Y &amp;\sim \mathcal{N}(\mu=\beta_1\cdot T+\beta_2\cdot U, \sigma=1)  \\
 </div>
 <div class="column-right-small">
 <p><img src="images/2sls.jpg" width="500px" /></p>
+<p>The first and second stage of the 2SLS process, as it is described in this week’s reading (week 7: instrumental variables)</p>
 </div>
 <div class="column-full-left">
 <ol start="4" style="list-style-type: decimal">
 <li><p>Estimate the first-stage relationship between treatment and the instrument using a regression with no added covariates. Interpret the result precisely, and comment on whether you think it might be biased and if so, why.</p></li>
 <li><p>Stokes actually estimates the first and second stages with a full set of geographic controls included. Why do you think she does this?</p></li>
-<li><p>Estimate the first-stage relationship between the treatment and the instrument using a regression, this time with a full set of geographic controls. Interpret the result, and compare to your answer to question 4 and to Stokes’ estimates.</p></li>
+<li><p>Estimate the first-stage relationship between the treatment and the instrument using a regression, this time with a full set of geographic controls. Interpret the result, and compare to your answer to question 4 and to Stokes’ estimate of the first stage.</p></li>
 <li><p>Estimate the (Local) Average Treatment Effect of the treatment on the outcome using two-stage least squares (2SLS) with <code>avg_pwr_log</code> as the instrument and the full set of geographic controls. Interpret the coeffcient on the treatment and its statistical significance precisely. Compare your result to Stokes’ estimate in the second stage.</p></li>
 </ol>
+</div>
+<div class="column-right-small">
+<p><img src="images/stokestable2.jpg" width="500px" /></p>
+<p>You will find Stoke’s estimates of the first and second stage in table 2 of the article.</p>
+</div>
+<div class="column-full-left">
+<div class="SPSS">
 <p><em>Code Hints:</em> For the 2SLS estimation, you can use ivreg() from the AER library. Your code should take the form:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ivreg</span>(outcome <span class="sc">~</span> treatment <span class="sc">+</span> covariates <span class="sc">|</span> instrument <span class="sc">+</span> covariates)</span></code></pre></div>
+</div>
 </div>
 
 
