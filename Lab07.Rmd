@@ -100,6 +100,12 @@ Stokes (2016) uses a natural experiment to demonstrate how  citizens punish incu
 
 We will first create fake data to simulate the operation of an instrumental variable. Using [dagitty.net](http://dagitty.net/dags.html), create a DAG with an treatment, $T$ that links to an outcome, $Y$. Add a confounder, $U$ with causal links to both the treatment and the outcome. Finally, add a binary instrument, $Z\in\{0,1\}$, which links to the treatment alone.
 
+::: {.SPSS}
+
+Remember when using formulas to estimate slope and intercept, the formula would look like this: `Y ~ X1 +X2 + X3`. The first variable (Y) is ALWAYS the dependent variable (outcome variables), and the rest are the independent (causes or explanatory variables).
+
+:::
+
 Now create fake data, simulating the data generating process represented by your DAG. You will need to specify your model. For example, consider the following model (you may choose other, perhaps more complex models): 
 
 $$
@@ -151,17 +157,38 @@ stokes <- read_csv("https://bit.ly/3iuPSOw", show_col_types = FALSE)
 
 3. Assess whether wind speed can be considered to be as-if randomly assigned geographically, by regressing the instrument on all of the geographical covariates. What do you conclude? Is that problematic in terms of relevance or validity of the instrument? 
 
-*Code Hint:* Remember to use factor() for the `ed_id` variable
 
-4. Estimate the first-stage relationship between treatment and the instrument using a regression with no added covariates. Interpret the result precisely, and comment on whether you think it might be biased and if so, why.
+::: {.SPSS}
+
+*Code Hint:* Remember to use factor() for the `ed_id` variable. Because this is a designation of the precinct (like a district), it is a categorical variable, so estimating the model would involve automatic creation of dummy variables. Each dummy variable is associated with one precinct, and the estimated coefficient tells us the relationship between the precinct and the average wind speed in that precinct.
+
+:::
+
+
+</div>
+
+<div class="column-right-small">
+
+
+```{r 2sls, out.width="500px", echo=FALSE, eval=TRUE}
+
+include_graphics("images/2sls.jpg")
+
+```
+</div>
+
+<div class="column-full-left" >
+
+
+4. Estimate the first-stage relationship between treatment and the instrument using a regression with no added covariates. Interpret the result precisely, and comment on whether you think it might be biased and if so, why. 
 
 5. Stokes actually estimates the first and second stages with a full set of geographic controls included. Why do you think she does this?
 
-6. Estimate the first-stage relationship between the treatment and the instrument using a regression, this time with a full set of geographic controls. Interpret the result, and compare to the estimates in the previous two questions question 4 (i.e., to Stokes' estimates). 
+6. Estimate the first-stage relationship between the treatment and the instrument using a regression, this time with a full set of geographic controls. Interpret the result, and compare to your answer to question 4 and to Stokes' estimates. 
 
-7. Estimate the (Local) Average Treatment Effect of the treatment on the outcome using two-stage least squares (2SLS) with `avg_pwr_log` as the instrument and the full set of geographic controls. Interpret the coeffcient on the treatment and its statistical significance precisely.
+7. Estimate the (Local) Average Treatment Effect of the treatment on the outcome using two-stage least squares (2SLS) with `avg_pwr_log` as the instrument and the full set of geographic controls. Interpret the coeffcient on the treatment and its statistical significance precisely. Compare your result to Stokes' estimate in the second stage.
 
-*Code Hints:* Remember to use ivreg() in the AER library. Your code should take the form:
+*Code Hints:* For the 2SLS estimation, you can use ivreg() from the AER library. Your code should take the form:
 
 ```{r show-ivreg, echo=TRUE, eval=FALSE}
 
@@ -182,19 +209,19 @@ library(AER)
   summary(lm(prop_3km ~ avg_pwr_log, data=stokes))
   
 # d)
-  summary(lm(prop_3km ~ avg_pwr_log + factor(ed_id) + longitude + latitude + mindistlake + mindistlake_sq , data=s))
+  summary(lm(prop_3km ~ avg_pwr_log + factor(ed_id) + longitude + latitude + mindistlake + mindistlake_sq , data=stokes))
 
 # e)
-  mod1 <- lm(prop_3km ~ longitude + latitude + mindistlake + mindistlake_sq + as.factor(ed_id), data=s) # Run one model without the instrument.
-  mod2 <- lm(prop_3km ~ avg_pwr_log + longitude + latitude + mindistlake + mindistlake_sq + as.factor(ed_id), data=s) # Run a second model with the instrument.
+  mod1 <- lm(prop_3km ~ longitude + latitude + mindistlake + mindistlake_sq + as.factor(ed_id), data=stokes) # Run one model without the instrument.
+  mod2 <- lm(prop_3km ~ avg_pwr_log + longitude + latitude + mindistlake + mindistlake_sq + as.factor(ed_id), data=stokes) # Run a second model with the instrument.
   waldtest(mod2, mod1) #Compare the two using a wald test
 
 # f)
   summary(ivreg(chng_lib ~ prop_3km + mindistlake + mindistlake_sq + longitude + latitude + as.factor(ed_id) 
-                | avg_pwr_log + mindistlake + mindistlake_sq + longitude + latitude + as.factor(ed_id), data = s))
+                | avg_pwr_log + mindistlake + mindistlake_sq + longitude + latitude + as.factor(ed_id), data = stokes))
 
 # g)
-  first.stage <- lm(prop_3km ~ avg_pwr_log + factor(ed_id) + longitude + latitude + mindistlake + mindistlake_sq , data=s)
+  first.stage <- lm(prop_3km ~ avg_pwr_log + factor(ed_id) + longitude + latitude + mindistlake + mindistlake_sq , data=stokes)
   s$fitted.first <- fitted.values(first.stage)
   
   summary(lm(chng_lib ~ fitted.first + factor(ed_id) + longitude + latitude + mindistlake + mindistlake_sq , data=s))

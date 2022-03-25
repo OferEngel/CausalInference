@@ -452,6 +452,9 @@ $(document).ready(function () {
 <p>Stokes (2016) uses a natural experiment to demonstrate how citizens punish incumbent governments for progressive climate policy, leading to electoral losses for the incumbent party ranging from 4 to 10%, with the effect persisting 3 km from wind turbines.</p>
 </div>
 <p>We will first create fake data to simulate the operation of an instrumental variable. Using <a href="http://dagitty.net/dags.html">dagitty.net</a>, create a DAG with an treatment, <span class="math inline">\(T\)</span> that links to an outcome, <span class="math inline">\(Y\)</span>. Add a confounder, <span class="math inline">\(U\)</span> with causal links to both the treatment and the outcome. Finally, add a binary instrument, <span class="math inline">\(Z\in\{0,1\}\)</span>, which links to the treatment alone.</p>
+<div class="SPSS">
+<p>Remember when using formulas to estimate slope and intercept, the formula would look like this: <code>Y ~ X1 +X2 + X3</code>. The first variable (Y) is ALWAYS the dependent variable (outcome variables), and the rest are the independent (causes or explanatory variables).</p>
+</div>
 <p>Now create fake data, simulating the data generating process represented by your DAG. You will need to specify your model. For example, consider the following model (you may choose other, perhaps more complex models):</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -527,16 +530,23 @@ Y &amp;\sim \mathcal{N}(\mu=\beta_1\cdot T+\beta_2\cdot U, \sigma=1)  \\
 <li><p>Using data visualization, investigate the distribution of variables of interest, and the relationship between them. Create a DAG as a theoretical model, representing the system, and include it in your report. Does the data suggest that the instrument is relevant and valid? Justify your claim.</p></li>
 <li><p>Assess whether wind speed can be considered to be as-if randomly assigned geographically, by regressing the instrument on all of the geographical covariates. What do you conclude? Is that problematic in terms of relevance or validity of the instrument?</p></li>
 </ol>
-<p><em>Code Hint:</em> Remember to use factor() for the <code>ed_id</code> variable</p>
+<div class="SPSS">
+<p><em>Code Hint:</em> Remember to use factor() for the <code>ed_id</code> variable. Because this is a designation of the precinct (like a district), it is a categorical variable, so estimating the model would involve automatic creation of dummy variables. Each dummy variable is associated with one precinct, and the estimated coefficient tells us the relationship between the precinct and the average wind speed in that precinct.</p>
+</div>
+</div>
+</div>
+<div class="column-right-small">
+<p><img src="images/2sls.jpg" width="500px" /></p>
+</div>
+<div class="column-full-left">
 <ol start="4" style="list-style-type: decimal">
 <li><p>Estimate the first-stage relationship between treatment and the instrument using a regression with no added covariates. Interpret the result precisely, and comment on whether you think it might be biased and if so, why.</p></li>
 <li><p>Stokes actually estimates the first and second stages with a full set of geographic controls included. Why do you think she does this?</p></li>
-<li><p>Estimate the first-stage relationship between the treatment and the instrument using a regression, this time with a full set of geographic controls. Interpret the result, and compare to the estimates in the previous two questions question 4 (i.e., to Stokes’ estimates).</p></li>
-<li><p>Estimate the (Local) Average Treatment Effect of the treatment on the outcome using two-stage least squares (2SLS) with <code>avg_pwr_log</code> as the instrument and the full set of geographic controls. Interpret the coeffcient on the treatment and its statistical significance precisely.</p></li>
+<li><p>Estimate the first-stage relationship between the treatment and the instrument using a regression, this time with a full set of geographic controls. Interpret the result, and compare to your answer to question 4 and to Stokes’ estimates.</p></li>
+<li><p>Estimate the (Local) Average Treatment Effect of the treatment on the outcome using two-stage least squares (2SLS) with <code>avg_pwr_log</code> as the instrument and the full set of geographic controls. Interpret the coeffcient on the treatment and its statistical significance precisely. Compare your result to Stokes’ estimate in the second stage.</p></li>
 </ol>
-<p><em>Code Hints:</em> Remember to use ivreg() in the AER library. Your code should take the form:</p>
+<p><em>Code Hints:</em> For the 2SLS estimation, you can use ivreg() from the AER library. Your code should take the form:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ivreg</span>(outcome <span class="sc">~</span> treatment <span class="sc">+</span> covariates <span class="sc">|</span> instrument <span class="sc">+</span> covariates)</span></code></pre></div>
-</div>
 </div>
 
 
