@@ -1,0 +1,85 @@
+---
+title: "Untitled"
+author: "ofer engel"
+date: "27/03/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+
+df <- read.delim("clipboard") %>% drop_na()
+
+
+library(tidyverse)
+ggplot(df) +
+geom_line(aes(x=Year,y=Outcome,color=Country))  +
+geom_point(aes(x=Year,y=Outcome,color=Country)) +
+scale_x_continuous(breaks=2012:2020) +
+scale_colour_brewer(palette="Dark2") +
+theme_bw()
+
+m <- c("(Intercept)"="(Intercept)", "GNI_pc"="GNI per capita (US$)",
+DAG="Poverty reduction (% GNI)",
+IFF="Clean energy research (M US$)",
+PROP_ED="Services, education %",
+DA4BIO="Biodiversity (M US$)",
+FFSUB="Fossil fuel subsidies ($)",
+TECHCOOP="Tech cooperation (M US$)",
+FDI="FDI")
+
+
+
+mdl <- lm(Outcome ~ Year + factor(Country)+ GNI_pc +
+IFF + DAG + PROP_ED + DA4BIO + FFSUB + TECHCOOP  + FDI, data=df)
+
+modelsummary(list(`SDG1 progress`=mdl), stars=TRUE, fmt=  "%.1e", coef_map=m,gof_omit = "L|F|B|Adj",
+statistic = NA, estimate="{estimate} ({std.error}){stars}")
+summary(mdl)
+
+mdl <- lm(Outcome ~ Year + factor(Country)+ GNI_pc +
+DAG + IFF  , data=df)
+modelsummary(list(`SDG1 progress`=mdl), stars=TRUE,
+coef_map = m, fmt=  "%.1e", gof_omit = "L|F|B|Adj",
+statistic = NA, estimate="{estimate} ({std.error}){stars}")
+summary(mdl)
+
+
+library(MASS)
+# Fit the full model 
+full.model <- lm(Outcome ~ Year + factor(Country)+ GNI_pc +
+IFF + DAG + PROP_ED + DA4BIO + FFSUB + TECHCOOP  + FDI, data=df)
+# Stepwise regression model
+step.model <- stepAIC(full.model, direction = "both", 
+                      trace = FALSE)
+summary(step.model)
+
+
+
+
+
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+$\beta_{GNI\_per\_capita}$
