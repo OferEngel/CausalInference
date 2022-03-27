@@ -30,8 +30,6 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -361,83 +359,25 @@ $(document).ready(function () {
 </div>
 <div class="column-full-left">
 <p>For this tutorial, we will analyze Erik Meyersson’s 2014 <a href="https://onlinelibrary-wiley-com.proxy-ub.rug.nl/doi/abs/10.3982/ECTA9878">paper</a>, “Islamic Rule and the Empowerment of the Poor and Pious.” Meyersson asks whether political control by Islamic religious political parties leads to a decrease in women’s rights, particularly female education rates.</p>
-<ol style="list-style-type: decimal">
-<li>Suppose Meyersson were to find that under women’s rights are associated with the religious affiliation of the party in control. Why would that finding not suffice to conclude the nature of the causal links? Please be precise and specific when justifying your answer.</li>
-</ol>
 <p>Meyersson looks at Turkey in 1994, where an Islamic party gained political control in many municipalities, and a number of the election results were very close. He uses a regression discontinuity analysis of Islamic control on the rate of secondary school completion by girls, focusing on the Local Average Treatment Effect in areas where Islamic parties barely won or lost their elections.</p>
 <p>You’ll need to install the ‘rdd’ package for this tutorial. You can find the dataset <a href="https://raw.githubusercontent.com/OferEngel/CausalInference/master/data/islamic.csv">here</a>, it contains the following variables:</p>
 </div>
 <div class="column-right-large">
-<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; ">
-<caption>
-Codebook for Meyersson’s (2014) paper
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-Variable
-</th>
-<th style="text-align:left;">
-Description
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-iwm94
-</td>
-<td style="text-align:left;">
-running/treatment variable: margin of Islamic party win or loss in 1994, pp: 0 indicates an exact tie, A margin of greater than zero means the Islamic party won
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-hischshr1520f
-</td>
-<td style="text-align:left;">
-outcome: secondary school completion rates for ages 15-20 females
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-lpop1994
-</td>
-<td style="text-align:left;">
-log of the locality population in 1994
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-sexr
-</td>
-<td style="text-align:left;">
-sex ratio in locality
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-lareapre
-</td>
-<td style="text-align:left;">
-log of locality area
-</td>
-</tr>
-</tbody>
-</table>
+
 </div>
 <div class="column-full-left">
-<ol start="2" style="list-style-type: decimal">
-<li><p>Calculate the difference in means in secondary school completion rates for women between regions where Islamic parties won and lost in 1994. Do you think this is a credible estimate of the causal effect of Islamic party control? Why or why not? (Use the option <code>na.rm=T</code> to ignore missing data)</p></li>
+<ol style="list-style-type: decimal">
+<li><p>Suppose Meyersson found that women’s level of education is associated with the religious affiliation of the party in control. But such a finding would not suffice to conclude the nature of the causal association. Why is that? What alternative explanations might explain this association? How would we decide which explanation is the correct one?</p></li>
+<li><p>Calculate the difference in means in secondary school completion rates for females and males, comparing regions where Islamic parties won and lost in 1994. This is equivalent to the <code>SDO</code>, the simple difference in means <span class="math inline">\(\mathbb{E}\big[Y|T=1\big]-\mathbb{E}\big[Y|T=0\big]\)</span>. Do you think this is a credible estimate of the causal effect of Islamic party control? Why or why not? (Create a treatment variable, <code>islamicwin</code>, that indicates whether or not the Islamic party won the 1994 election. Then use the option <code>na.rm=T</code> to ignore missing data.)</p></li>
 <li><p>Now we’ll start regression discontinuity analysis. First, select optimal bandwidths for testing female high school completion rates using the Imbens-Kalyanaram procedure.</p>
 <ul>
-<li>Explain what the bandwidth means in this case (Use the IKbandwidth function from the rdd package. Read the help file to see what the function requires). Using this band width, create a new dataset containing only data within the optimal bandwidth.</li>
+<li>Explain what the bandwidth means in this case (Use the IKbandwidth function from the rdd package. Read the help file to see what the function requires). Using this band width, create a new dataset containing only data within the optimal bandwidth. Notice that if the cutoff point is <span class="math inline">\(C_o\)</span> optimal bandwidth is <span class="math inline">\(h\)</span>, you want to include regions where the running variable <span class="math inline">\(r\in[C_o-h, C_o+h]\)</span></li>
 </ul></li>
 </ol>
 <p><br/></p>
 <ol start="4" style="list-style-type: decimal">
-<li><p>Find the Local Average Treatment Effect of Islamic party control on women’s secondary school education at the threshold, using the dataset you created in (d) and a simple linear regression that includes the treatment and running variable. How credible do you think this result is?</p></li>
-<li><p>Use RD estimation to find the Local Average Treatment Effect of Islamic party control on men’s and women’s secondary school education at the threshold, using local linear regression estimated with the RDestimate function from the <code>rdd</code> package. Does the estimate differ from your previous estimates? Your code should be of the form <code>RDestimate(___~___, bw=___, data=___)</code></p></li>
+<li><p>create a new dataset containing only data within the optimal bandwidth. Then find the Local Average Treatment Effect of Islamic party control on women’s secondary school education at the threshold, using the dataset you created in (d) and a simple linear regression that includes the treatment and running variable. How credible do you think this result is?</p></li>
+<li><p>Use RD estimation to find the Local Average Treatment Effect of Islamic party control on men’s and women’s secondary school education at the threshold, using local linear regression estimated with the RDestimate function from the <code>rdd</code> package. Does the estimate differ from your previous estimates? Your code should be of the form <code>RDestimate(___~___, cutpoint=___, bw=___, data=___)</code></p></li>
 <li><p>Plot the relationship between the running variable and outcome using local linear regressions. Use your plot to explain why your results do or do not differ strongly compared to your previous results.</p>
 <ul>
 <li>Code Hints: You can just use the plot() function directly on the object you created in the previous question. Use the range argument to control the x axis</li>
@@ -445,9 +385,9 @@ log of locality area
 </ol>
 <p><br/></p>
 <ol start="7" style="list-style-type: decimal">
-<li><p>Perform placebo tests to check that the relationship between the running variable and out- come is not fundamentally discontinuous, by estimating RD estimates at placebo cutoffs of -0.1, -0.05, 0.05 and 0.1. What do you conclude?</p></li>
+<li><p>Perform placebo tests to check that the relationship between the running variable and out- come is not fundamentally discontinuous, by estimating RD estimates at placebo cutoffs of -0.1, -0.05, 0.05 and 0.1. What do you conclude? To run placebo cutoffs, use the <code>RDestimate</code> as before and but use a different cutoff.</p></li>
 <li><p>Perform a robustness check for local randomisation at the threshold by performing RD estimates in the same way as in question (6) for the three background covariates <code>sexr</code>, <code>lop1994</code> and <code>lareapre</code>. What do you conclude?</p></li>
-<li><p>Perform a McCrary test: another way to check for sorting at the theshold. Plot and interpret the results. Code Hints: Use the DCdensity function in the rdd package with the option verbose=TRUE</p></li>
+<li><p>Perform a McCrary test: another way to check for sorting at the theshold. Plot and interpret the results. Code Hints: Use the <code>DCdensity</code> function in the <code>rdd</code> package with the option <code>verbose=TRUE</code></p></li>
 <li><p><em>Bonus:</em> Examine the sensitivity of the main RD result to the choice of bandwidth by calculating and plotting RD estimates and their associated 95% confidence intervals for a range of bandwidths from 0.05 to 0.6. To what extent do the results depend on the choice of bandwidth? Hints: Begin by creating a vector of thresholds such as thresholds &lt;- seq(from=0.05,to=0.6, by=0.005). Then use a for loop. You can extract the estimate and standard error from an RD estimate named <code>rdest</code> with the code <code>rdest$est[1]</code> and <code>rdest$se[1]</code></p></li>
 </ol>
 </div>

@@ -62,7 +62,7 @@ date: 'Due: April 6 at 23:59'
 
 
 ```{r global-options, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, eval=FALSE)
 library(magrittr)
 library(knitr)
 library(kableExtra)
@@ -99,9 +99,6 @@ include_graphics("images/turkey-women.jpg")
 
 For this tutorial, we will analyze Erik Meyersson’s 2014 [paper](https://onlinelibrary-wiley-com.proxy-ub.rug.nl/doi/abs/10.3982/ECTA9878), "Islamic Rule and the Empowerment of the Poor and Pious." Meyersson asks whether political control by Islamic religious political parties leads to a decrease in women’s rights, particularly female education rates. 
 
-1. Suppose Meyersson were to find that under women's rights are associated with the religious affiliation of the party in control. Why would that finding not suffice to conclude the nature of the causal links? Please be precise and specific when justifying your answer.   
-
-
 Meyersson looks at Turkey in 1994, where an Islamic party gained political control in many municipalities, and a number of the election results were very close. He uses a regression discontinuity analysis of Islamic control on the rate of secondary school completion by girls, focusing on the Local Average Treatment Effect in areas where Islamic parties barely won or lost their elections.
 
 You’ll need to install the 'rdd' package for this tutorial. You can find the dataset [here](https://raw.githubusercontent.com/OferEngel/CausalInference/master/data/islamic.csv), it  contains the following variables:
@@ -116,7 +113,8 @@ You’ll need to install the 'rdd' package for this tutorial. You can find the d
 tribble(
   ~Variable, ~Description, 
   "iwm94", "running/treatment variable: margin of Islamic party win or loss in 1994, pp: 0 indicates an exact tie, A margin of greater than zero means the Islamic party won", 
-'hischshr1520f', "outcome: secondary school completion rates for ages 15-20 females" ,
+'hischshr1520m', "outcome: secondary school completion rates for ages 15-20 females" ,
+'hischshr1520f', "outcome: secondary school completion rates for ages 15-20 males" ,
 "lpop1994" , "log of the locality population in 1994", 
 "sexr", "sex ratio in locality",
 "lareapre", "log of locality area"
@@ -129,19 +127,63 @@ tribble(
 
 <div class="column-full-left" >
 
+1. Suppose Meyersson found that women's level of education is associated with the religious affiliation of the party in control. But such a finding would not suffice to conclude the nature of the causal association. Why is that? What  alternative explanations might explain this association? How would we decide which explanation is the correct one?   
 
-2.	Calculate the difference in means in secondary school completion rates for women between regions where Islamic parties won and lost in 1994. Do you think this is a credible estimate of the causal effect of Islamic party control? Why or why not? (Use the option `na.rm=T` to ignore missing data)
+2.	Calculate the difference in means in secondary school completion rates for females and males, comparing regions where Islamic parties won and lost in 1994. This is equivalent to the `SDO`, the simple difference in means $\mathbb{E}\big[Y|T=1\big]-\mathbb{E}\big[Y|T=0\big]$. Do you think this is a credible estimate of the causal effect of Islamic party control? Why or why not? (Create a treatment variable, `islamicwin`, that indicates whether or not the Islamic party won the 1994 election. Then use the option `na.rm=T` to ignore missing data.)
+
+```{r }
+df <- read_csv("https://raw.githubusercontent.com/OferEngel/CausalInference/master/data/islamic.csv", show_col_types = FALSE) 
+
+df$islamicwin <- ifelse(df$iwm94>0, 1,0)
+df %>% drop_na(islamicwin, hischshr1520f) %>% 
+  group_by(islamicwin) %>% 
+  summarise(mn.f=mean(hischshr1520f))
+
+df %>% drop_na(islamicwin, hischshr1520m) %>% 
+  group_by(islamicwin) %>% 
+  summarise(mn.m=mean(hischshr1520m))
+
+# The answer is -0.0258. A naive interpretation of this would be that Islamic party control leads to lower female education rates. But this is not a very credible estimate of the causal effect, due to selection bias. The treated and untreated regions are likely to have very different potential outcomes; they are imbalanced. For example, it is likely that places that strongly support Islamic parties are less supportive of female education to begin with.
+
+
+```
+
 
 3.	Now we’ll start regression discontinuity analysis. First, select optimal bandwidths for testing female high school completion rates using the Imbens-Kalyanaram procedure. 
 
-    *   Explain what the bandwidth means in this case (Use the IKbandwidth function from the rdd package. Read the help file to see what the function requires). Using this band width, create a new dataset containing only data within the optimal bandwidth.
+    *   Explain what the bandwidth means in this case (Use the IKbandwidth function from the rdd package. Read the help file to see what the function requires). Using this band width, create a new dataset containing only data within the optimal bandwidth. Notice that if the cutoff point is $C_o$ optimal bandwidth is $h$, you want to include regions where the running variable $r\in[C_o-h, C_o+h]$
+
+
+```{r}
+bw <- with(df, IKbandwidth(iwm94, hischshr1520f, cutpoint=0))
+
+```
 
 <br/>
 
-4.	Find the Local Average Treatment Effect of Islamic party control on women’s secondary school education at the threshold, using the dataset you created in (d) and a simple linear regression that includes the treatment and running variable. How credible do you think this result is?
+4.	create a new dataset containing only data within the optimal bandwidth. Then find the Local Average Treatment Effect of Islamic party control on women’s secondary school education at the threshold, using the dataset you created in (d) and a simple linear regression that includes the treatment and running variable. How credible do you think this result is?
 
 
-5.   Use RD estimation to find the Local Average Treatment Effect of Islamic party control on men’s and women’s secondary school education at the threshold, using local linear regression estimated with the RDestimate function from the `rdd` package. Does the estimate differ from your previous estimates? Your code should be of the form `RDestimate(___~___, bw=___, data=___)`
+```{r}
+bw <- with(df, IKbandwidth(iwm94, hischshr1520f, cutpoint=0))
+rdd.df <- df %>% filter(iwm94 >= -bw, iwm94 <= bw) 
+summary(lm(hischshr1520f~iwm94 + islamicwin, data=rdd.df, 
+           na.rm=TRUE))
+
+
+```
+
+5.   Use RD estimation to find the Local Average Treatment Effect of Islamic party control on men’s and women’s secondary school education at the threshold, using local linear regression estimated with the RDestimate function from the `rdd` package. Does the estimate differ from your previous estimates? Your code should be of the form `RDestimate(___~___, cutpoint=___, bw=___, data=___)`
+
+
+```{r}
+rdest <- RDestimate(hischshr1520f~iwm94,cutpoint=0,bw=bw, data=df)
+summary(rdest)
+
+# The plot indicates that the relationship between Y and ~X does seem to be quite linear on either side of the cutoff That explains why (f) and (g) gave similar results: linearity is a reasonable fit to the data here. That will not always be the case, though.
+
+```
+
 
 
 6. Plot the relationship between the running variable and outcome using local linear regressions. Use your plot to explain why your results do or do not differ strongly compared to your previous results. 
@@ -151,11 +193,22 @@ tribble(
 <br/>
 
 7.	Perform placebo tests to check that the relationship between the running variable and out- come is not fundamentally discontinuous, by estimating RD estimates at placebo cutoffs of
--0.1, -0.05, 0.05 and 0.1. What do you conclude?
+-0.1, -0.05, 0.05 and 0.1. What do you conclude? To run placebo cutoffs, use the `RDestimate` as before and but use a different cutoff.
+
+```{r}
+bw <- with(df, IKbandwidth(iwm94, hischshr1520f, cutpoint=0.1))
+rdest <- RDestimate(hischshr1520f~iwm94,cutpoint=0.1,bw=bw, data=df)
+summary(rdest)
+
+
+
+```
+
+
 
 8.	Perform a robustness check for local randomisation at the threshold by performing RD estimates in the same way as in question (6) for the three background covariates `sexr`, `lop1994` and `lareapre`. What do you conclude?
 
-9.	Perform a McCrary test: another way to check for sorting at the theshold. Plot and interpret the results. Code Hints: Use the DCdensity function in the rdd package with the option verbose=TRUE
+9.	Perform a McCrary test: another way to check for sorting at the theshold. Plot and interpret the results. Code Hints: Use the `DCdensity` function in the `rdd` package with the option `verbose=TRUE`
 
 10.	*Bonus:* Examine the sensitivity of the main RD result to the choice of bandwidth by calculating and plotting RD estimates and their associated 95% confidence intervals for a range of bandwidths from 0.05 to 0.6. To what extent do the results depend on the choice of bandwidth?
 Hints: Begin by creating a vector of thresholds such as thresholds <- seq(from=0.05,to=0.6, by=0.005). Then use a for loop. You can extract the estimate and standard error from an RD estimate named `rdest` with the code `rdest$est[1]` and `rdest$se[1]`
