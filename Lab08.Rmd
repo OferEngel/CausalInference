@@ -78,7 +78,7 @@ library(rdd)
 
 <div class="column-full-left" >
 
-* Please submit your lab using [this link](https://docs.google.com/forms/d/e/1FAIpQLSdZJEndcian0_EGO6tbwoYi-f8FalRe2JPmzVc2bcyFsq9hGw/viewform).   
+* Please submit your lab using [this link](https://docs.google.com/forms/d/e/1FAIpQLSfqQbctV4gCQzxa8-Kxxi4TeR9B73N76PrNac3eA1zpAwAa3A/viewform).   
 * If you have questions, please [book a slot](https://bit.ly/OferMeet) during Ofer's office hours!
 
 </div>
