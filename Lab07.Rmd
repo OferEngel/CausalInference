@@ -232,6 +232,7 @@ library(AER)
 
 # b)
   summary(lm(prop_3km ~ avg_pwr_log, data=stokes))
+  # notice that the location could be a confounder here,
   
 # d)
   summary(lm(prop_3km ~ avg_pwr_log + factor(ed_id) + longitude + latitude + mindistlake + mindistlake_sq , data=stokes))

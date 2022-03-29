@@ -30,6 +30,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -360,14 +362,80 @@ $(document).ready(function () {
 <div class="column-full-left">
 <p>For this tutorial, we will analyze Erik Meyersson’s 2014 <a href="https://onlinelibrary-wiley-com.proxy-ub.rug.nl/doi/abs/10.3982/ECTA9878">paper</a>, “Islamic Rule and the Empowerment of the Poor and Pious.” Meyersson asks whether political control by Islamic religious political parties leads to a decrease in women’s rights, particularly female education rates.</p>
 <p>Meyersson looks at Turkey in 1994, where an Islamic party gained political control in many municipalities, and a number of the election results were very close. He uses a regression discontinuity analysis of Islamic control on the rate of secondary school completion by girls, focusing on the Local Average Treatment Effect in areas where Islamic parties barely won or lost their elections.</p>
-<p>You’ll need to install the ‘rdd’ package for this tutorial. You can find the dataset <a href="https://raw.githubusercontent.com/OferEngel/CausalInference/master/data/islamic.csv">here</a>, it contains the following variables:</p>
+<p>You’ll need to install the ‘rdd’ package for this tutorial. You can find the dataset <a href="https://raw.githubusercontent.com/OferEngel/CausalInference/master/data/islamic.csv">here</a>, it contains the variables shown on the right hand side:</p>
+<ol style="list-style-type: decimal">
+<li>Suppose Meyersson found that women’s level of education is associated with the religious affiliation of the party in control. But such a finding would not suffice to conclude the nature of the causal association. Why is that? What alternative explanations might explain this association? How would we decide which explanation is the correct one?</li>
+</ol>
 </div>
 <div class="column-right-large">
-
+<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; ">
+<caption>
+Codebook for Meyersson’s (2014) paper
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variable
+</th>
+<th style="text-align:left;">
+Description
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+iwm94
+</td>
+<td style="text-align:left;">
+running/treatment variable: margin of Islamic party win or loss in 1994, pp: 0 indicates an exact tie, A margin of greater than zero means the Islamic party won
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hischshr1520m
+</td>
+<td style="text-align:left;">
+outcome: secondary school completion rates for ages 15-20 females
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hischshr1520f
+</td>
+<td style="text-align:left;">
+outcome: secondary school completion rates for ages 15-20 males
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lpop1994
+</td>
+<td style="text-align:left;">
+log of the locality population in 1994
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sexr
+</td>
+<td style="text-align:left;">
+sex ratio in locality
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lareapre
+</td>
+<td style="text-align:left;">
+log of locality area
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="column-full-left">
-<ol style="list-style-type: decimal">
-<li><p>Suppose Meyersson found that women’s level of education is associated with the religious affiliation of the party in control. But such a finding would not suffice to conclude the nature of the causal association. Why is that? What alternative explanations might explain this association? How would we decide which explanation is the correct one?</p></li>
+<ol start="2" style="list-style-type: decimal">
 <li><p>Calculate the difference in means in secondary school completion rates for females and males, comparing regions where Islamic parties won and lost in 1994. This is equivalent to the <code>SDO</code>, the simple difference in means <span class="math inline">\(\mathbb{E}\big[Y|T=1\big]-\mathbb{E}\big[Y|T=0\big]\)</span>. Do you think this is a credible estimate of the causal effect of Islamic party control? Why or why not? (Create a treatment variable, <code>islamicwin</code>, that indicates whether or not the Islamic party won the 1994 election. Then use the option <code>na.rm=T</code> to ignore missing data.)</p></li>
 <li><p>Now we’ll start regression discontinuity analysis. First, select optimal bandwidths for testing female high school completion rates using the Imbens-Kalyanaram procedure.</p>
 <ul>

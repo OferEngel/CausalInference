@@ -101,14 +101,18 @@ For this tutorial, we will analyze Erik Meyersson’s 2014 [paper](https://onlin
 
 Meyersson looks at Turkey in 1994, where an Islamic party gained political control in many municipalities, and a number of the election results were very close. He uses a regression discontinuity analysis of Islamic control on the rate of secondary school completion by girls, focusing on the Local Average Treatment Effect in areas where Islamic parties barely won or lost their elections.
 
-You’ll need to install the 'rdd' package for this tutorial. You can find the dataset [here](https://raw.githubusercontent.com/OferEngel/CausalInference/master/data/islamic.csv), it  contains the following variables:
+You’ll need to install the 'rdd' package for this tutorial. You can find the dataset [here](https://raw.githubusercontent.com/OferEngel/CausalInference/master/data/islamic.csv), it  contains the variables shown on the right hand side:
+
+
+1. Suppose Meyersson found that women's level of education is associated with the religious affiliation of the party in control. But such a finding would not suffice to conclude the nature of the causal association. Why is that? What  alternative explanations might explain this association? How would we decide which explanation is the correct one?   
+
 
 
 </div>
 
 <div class="column-right-large">
 
-```{r}
+```{r variables, eval=TRUE}
 
 tribble(
   ~Variable, ~Description, 
@@ -127,7 +131,6 @@ tribble(
 
 <div class="column-full-left" >
 
-1. Suppose Meyersson found that women's level of education is associated with the religious affiliation of the party in control. But such a finding would not suffice to conclude the nature of the causal association. Why is that? What  alternative explanations might explain this association? How would we decide which explanation is the correct one?   
 
 2.	Calculate the difference in means in secondary school completion rates for females and males, comparing regions where Islamic parties won and lost in 1994. This is equivalent to the `SDO`, the simple difference in means $\mathbb{E}\big[Y|T=1\big]-\mathbb{E}\big[Y|T=0\big]$. Do you think this is a credible estimate of the causal effect of Islamic party control? Why or why not? (Create a treatment variable, `islamicwin`, that indicates whether or not the Islamic party won the 1994 election. Then use the option `na.rm=T` to ignore missing data.)
 
