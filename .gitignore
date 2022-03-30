@@ -36,5 +36,6 @@ vignettes/*.pdf
 *.knit.md
 
 # R Environment Variables
-.Renviron
-.Rmdx
+*.Renviron
+*.Rmdx
+
